@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Command\Project\InsertProject;
 use App\Command\Project\InsertProjectHandler;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -65,7 +65,7 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateProjectRequest  $request
+     * @param  \App\Http\Requests\Project\UpdateProjectRequest  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
