@@ -16,6 +16,7 @@ class Project extends Model
         'uuid',
         'description',
         'is_public',
+        'user_id'
     ];
 
     protected $casts = [

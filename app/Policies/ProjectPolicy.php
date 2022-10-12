@@ -30,7 +30,11 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        //
+        if ($project->is_public !== true && $project->user()->id !== $user->id) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

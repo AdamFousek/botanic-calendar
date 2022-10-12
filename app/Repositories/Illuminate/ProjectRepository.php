@@ -27,7 +27,7 @@ class ProjectRepository implements \App\Repositories\ProjectRepository
 
         $search = $query->getQuery();
         if ($search) {
-            $builder->where('name', 'like', "%$search%");
+            $builder->whereRaw("UPPER(name) LIKE '%". strtoupper($search)."%'");
             $builder->where('is_public', true);
         }
 

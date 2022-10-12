@@ -31,6 +31,7 @@ class ProjectController extends Controller
         if ($search && $search !== '') {
             $userId = null;
         }
+
         $projects = $this->viewProjectHandler->handle(new ViewProject(
             $userId,
             $search,
@@ -67,6 +68,8 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
+        $this->authorize('see', $project);
+
         return view('projects.show', ['project' => $project]);
     }
 
