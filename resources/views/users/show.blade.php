@@ -1,35 +1,55 @@
 <x-app-layout>
-    <section class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <x-slot name="header">
+        <div class="flex justify-between">
+            <div class="flex-1">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ $user->fullName }}
+                </h2>
+                <h3 class="text-sm">{{ $user->username }}</h3>
+            </div>
+            @if(Auth::user()->id === $user->id)
+            <div>
+                <x-primary-link :type="'button-outline-sm'" href="{{ route('user.edit', $user) }}" class="text-sm">
+                    Edit profile
+                </x-primary-link>
+            </div>
+            @endif
+        </div>
+    </x-slot>
+
+    <section class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="container mx-auto px-4">
-            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-12">
-                <div class="px-6">
-                    <div class="flex flex-wrap justify-center">
-                        <div class="w-full lg:w-6/12 px-4 lg:order-2 flex justify-start">
-                            <div class="relative">
-                                <img
-                                        alt="..."
-                                        src="https://via.placeholder.com/150"
-                                        class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
-                                        style="max-width: 150px;"
-                                />
-                            </div>
+            <div class="flex-col flex justify-between md:flex-row">
+                <div class="flex-1 flex self-start bg-white shadow-lg rounded-lg my-2">
+                    <div class="mr-4">
+                        <img alt="..." src="https://via.placeholder.com/150" class="h-auto align-middle border-none"
+                            style="max-width: 150px;"/>
+                    </div>
+                    <div class="flex flex-col">
+                        <h2 class="text-3lx">{{ $user->fullName }}</h2>
+                        <h3 class="text-xl">{{ $user->username }}</h3>
+                    </div>
+                </div>
+                <div class="my-2 px-6 md:w-1/4 md:ml-4 bg-white shadow-lg rounded-lg">
+                    <div class="flex flex-col">
+                        <div class="">
+                            <h3 class="text-xl border-b my-2">Groups</h3>
+                            <ul>
+                                <li>Group name asda sdasd asd asd asd asd sdad asd adadasd asd asd asd asda dad</li>
+                            </ul>
                         </div>
-                        <div class="w-full lg:w-6/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                            <div class="py-6 px-3 mt-32 sm:mt-0">
-                                <a class="text-pink-500 border border-pink-500 hover:bg-pink-500 hover:text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" href="{{ route('user.edit', $user) }}">
-                                    {{ __('Edit profile') }}
-                                </a>
-                            </div>
+                        <div class="">
+                            <h3 class="text-xl border-b my-2">Projects</h3>
+                            <ul>
+                                @forelse($user->projects()->get() as $project)
+                                    <li>{{ $project->name }}</li>
+                                @empty
+                                    <li>No projects</li>
+                                @endforelse
+                            </ul>
                         </div>
                     </div>
-                    <div class="text-center mt-12">
-                        <h3 class="text-4xl font-semibold leading-normal mb-2 text-gray-800 mb-2">
-                            {{ $user->fullName }}
-                        </h3>
-                        <div class="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase">
-                            {{ $user->username }}
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

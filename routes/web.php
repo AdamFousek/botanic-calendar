@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/user', 'index')->name('users');
         Route::get('/user/{user}', 'show')->name('user.show');
         Route::get('/user/{user}/edit', 'edit')->name('user.edit');
-        Route::post('/user/{user}/edit', 'update');
+        Route::post('/user/{user}/edit', 'update')->name('user.update');
     });
 });
 

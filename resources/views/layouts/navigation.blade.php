@@ -15,6 +15,12 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                        {{ __('My projects') }}
+                    </x-nav-link>
+                    <x-nav-link :href="'/'" :active="false == true">
+                        {{ __('My Groups') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -23,7 +29,10 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                            <div>{{ Auth::user()->full_name }}</div>
+                            <div class="flex flex-col px-2">
+                                <div class="text-black">{{ Auth::user()->username }}</div>
+                                <div class="text-xs">{{ Auth::user()->email }}</div>
+                            </div>
 
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -34,6 +43,9 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('user.show', Auth::user())">
+                            {{ __('Profile') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -71,8 +83,10 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->fullName }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <x-responsive-nav-link :href="route('user.show', Auth::user())">
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->username }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                </x-responsive-nav-link>
             </div>
 
             <div class="mt-3 space-y-1">
