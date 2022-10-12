@@ -21,6 +21,9 @@
                     <x-nav-link :href="'/'" :active="false == true">
                         {{ __('My Groups') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('projects.all')" :active="false == true">
+                        {{ __('All Public Projects') }}
+                    </x-nav-link>
                 </div>
             </div>
 

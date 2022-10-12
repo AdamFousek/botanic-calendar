@@ -9,6 +9,7 @@ class ViewProjectQuery
     public function __construct(
         private readonly ?int $userId,
         private readonly ?string $query,
+        private readonly ?bool $isPublic,
     ) {
 
     }
@@ -21,5 +22,10 @@ class ViewProjectQuery
     public function getQuery(): ?string
     {
         return $this->query;
+    }
+
+    public function isPublic(): ?bool
+    {
+        return $this->isPublic;
     }
 }

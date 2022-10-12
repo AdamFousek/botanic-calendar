@@ -21,6 +21,7 @@ class ViewProjectHandler
         $query = new ViewProjectQuery(
             $command->getUserId(),
             $command->getSearchQuery(),
+            $command->isPublic()
         );
 
         return $this->projectRepository->getProjects($query);

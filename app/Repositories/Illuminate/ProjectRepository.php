@@ -28,12 +28,16 @@ class ProjectRepository implements \App\Repositories\ProjectRepository
         $search = $query->getQuery();
         if ($search) {
             $builder->whereRaw("UPPER(name) LIKE '%". strtoupper($search)."%'");
-            $builder->where('is_public', true);
         }
 
         $userId = $query->getUserId();
         if ($userId) {
             $builder->where('user_id', $userId);
+        }
+
+        $isPublic = $query->isPublic();
+        if ($isPublic !== null) {
+            $builder->where('is_public', $isPublic);
         }
 
         return $builder->get();

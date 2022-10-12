@@ -13,7 +13,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
 
     Route::controller(ProjectController::class)->group(function() {
-        Route::get('/projects', 'index')->name('projects.index');
+        Route::get('/projects', 'myProjects')->name('projects.index');
+        Route::get('/projects-all', 'allProjects')->name('projects.all');
         Route::post('/projects/create', 'store')->name('projects.store');
         Route::get('/projects/create', 'create')->name('projects.create');
         Route::get('/projects/{project}', 'show')->name('projects.show');

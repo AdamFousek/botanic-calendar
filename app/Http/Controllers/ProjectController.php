@@ -24,17 +24,15 @@ class ProjectController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function myProjects(Request $request)
     {
         $search = $request->query('search', '');
         $userId = Auth::id();
-        if ($search && $search !== '') {
-            $userId = null;
-        }
 
         $projects = $this->viewProjectHandler->handle(new ViewProject(
             $userId,
             $search,
+            null,
         ));
 
         $data = [
@@ -42,7 +40,26 @@ class ProjectController extends Controller
             'searchQuery' => $search,
         ];
 
-        return view('projects.index', $data);
+        return view('projects.myProjects', $data);
+    }
+
+    public function allProjects(Request $request)
+    {
+        $search = $request->query('search', '');
+        $userId = null;
+
+        $projects = $this->viewProjectHandler->handle(new ViewProject(
+            $userId,
+            $search === '' ? $search : null,
+            true,
+        ));
+
+        $data = [
+            'projects' => $projects,
+            'searchQuery' => $search,
+        ];
+
+        return view('projects.allProjects', $data);
     }
 
 
@@ -68,7 +85,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $this->authorize('see', $project);
+        $this->authorize('view', $project);
 
         return view('projects.show', ['project' => $project]);
     }
