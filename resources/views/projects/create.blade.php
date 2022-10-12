@@ -23,7 +23,7 @@
 
                         <div class="block mt-4">
                             <label for="isPublic" class="inline-flex items-center">
-                                <input id="isPublic" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="is_public">
+                                <input id="isPublic" type="checkbox" class="rounded border-gray-300 text-emerald-600 shadow-sm focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50" name="is_public">
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Is project public?') }}</span>
                             </label>
                         </div>

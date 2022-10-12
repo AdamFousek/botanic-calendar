@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Command\Project\InsertProject;
 use App\Command\Project\InsertProjectHandler;
+use App\Command\Project\ViewProject;
+use App\Command\Project\ViewProjectHandler;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -14,15 +17,31 @@ class ProjectController extends Controller
 {
 
     public function __construct(
-        private InsertProjectHandler $insertProjectHandler,
+        private readonly InsertProjectHandler $insertProjectHandler,
+        private readonly ViewProjectHandler $viewProjectHandler,
     )
     {
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query('search', '');
+        $userId = Auth::id();
+        if ($search && $search !== '') {
+            $userId = null;
+        }
+        $projects = $this->viewProjectHandler->handle(new ViewProject(
+            $userId,
+            $search,
+        ));
 
+        $data = [
+            'projects' => $projects,
+            'searchQuery' => $search,
+        ];
+
+        return view('projects.index', $data);
     }
 
 

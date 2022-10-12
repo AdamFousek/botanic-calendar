@@ -6,6 +6,8 @@ namespace App\Repositories\Illuminate;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Queries\Project\ViewProjectQuery;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProjectRepository implements \App\Repositories\ProjectRepository
 {
@@ -17,5 +19,23 @@ class ProjectRepository implements \App\Repositories\ProjectRepository
             'name' => $name,
             'is_public' => $isPublic,
         ]);
+    }
+
+    public function getProjects(ViewProjectQuery $query): Collection
+    {
+        $builder = Project::query();
+
+        $search = $query->getQuery();
+        if ($search) {
+            $builder->where('name', 'like', "%$search%");
+            $builder->where('is_public', true);
+        }
+
+        $userId = $query->getUserId();
+        if ($userId) {
+            $builder->where('user_id', $userId);
+        }
+
+        return $builder->get();
     }
 }
