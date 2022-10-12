@@ -10,13 +10,19 @@ use App\Repositories\ProjectRepository;
 class InsertProjectHandler
 {
     public function __construct(
-        private ProjectRepository $repository,
+        private readonly ProjectRepository $repository,
     ) {
 
     }
 
     public function handle(InsertProject $command): Project
     {
-        return $this->repository->insert($command->user, $command->uuid, $command->name, $command->isPublic);
+        return $this->repository->insert(
+            $command->user,
+            $command->uuid,
+            $command->name,
+            $command->isPublic,
+            $command->description
+        );
     }
 }

@@ -12,12 +12,18 @@ use Illuminate\Database\Eloquent\Collection;
 class ProjectRepository implements \App\Repositories\ProjectRepository
 {
 
-    public function insert(User $user, string $uuid, string $name, bool $isPublic): Project
-    {
+    public function insert(
+        User $user,
+        string $uuid,
+        string $name,
+        bool $isPublic,
+        string $description,
+    ): Project {
         return $user->projects()->create([
             'uuid' => $uuid,
             'name' => $name,
             'is_public' => $isPublic,
+            'description' => $description,
         ]);
     }
 

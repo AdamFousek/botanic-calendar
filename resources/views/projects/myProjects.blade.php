@@ -13,17 +13,23 @@
         </div>
     </x-slot>
 
-    <div class="py-6 md:py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (!$projects->isEmpty())
-            <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-4">
-                @foreach($projects as $project)
-                    <x-projects.card :project="$project"></x-projects.card>
-                @endforeach
-             </div>
-            @else
-                <div class="w-full rounded-lg shadow-sm sm:rounded-lg text-center bg-white py-4">There is no projects found. You can search for public projects</div>
-            @endif
+    <x-slot name="actions">
+        <div class="flex flex-wrap justify-end">
+            <x-primary-link href="{{ route('projects.create') }}" type="button-outline-sm">
+                {{ __('Create project') }}
+            </x-primary-link>
         </div>
+    </x-slot>
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        @if (!$projects->isEmpty())
+        <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-4">
+            @foreach($projects as $project)
+                <x-projects.card :project="$project"></x-projects.card>
+            @endforeach
+         </div>
+        @else
+            <div class="w-full rounded-lg shadow-sm sm:rounded-lg text-center bg-white py-4">There is no projects found. You can search for public projects</div>
+        @endif
     </div>
 </x-app-layout>

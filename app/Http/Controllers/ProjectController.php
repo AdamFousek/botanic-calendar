@@ -77,7 +77,8 @@ class ProjectController extends Controller
             $user,
             Str::uuid(),
             $validated['name'],
-            $validate['is_public'] ?? false
+            $validated['is_public'] ?? false,
+            $validated['description'] ?? ''
         ));
 
         return redirect()->route('projects.show', [$project]);
