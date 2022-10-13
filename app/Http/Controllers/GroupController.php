@@ -2,20 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Command\Group\ViewGroup;
+use App\Command\Group\ViewGroupHandler;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
+use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct(
+        private readonly ViewGroupHandler $viewGroupHandler,
+    ) {
+    }
+
+    public function myGroups()
     {
-        //
+        $userId = Auth::id();
+
+        $groups = $this->viewGroupHandler->handle(new ViewGroup(
+            userId: $userId,
+        ));
+
+        $data = [
+            'groups' => $groups,
+        ];
+
+        return view('groups.myGroups', $data);
     }
 
     /**

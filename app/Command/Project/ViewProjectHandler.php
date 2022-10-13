@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Command\Project;
 
 use App\Queries\Project\ViewProjectQuery;
-use App\Repositories\ProjectRepository;
+use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class ViewProjectHandler
 {
     public function __construct(
-        private readonly ProjectRepository $projectRepository,
+        private readonly ProjectRepositoryInterface $projectRepository,
     ) {
 
     }

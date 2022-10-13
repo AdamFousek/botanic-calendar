@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Queries\Project\ViewProjectQuery;
 use Illuminate\Database\Eloquent\Collection;
 
-interface ProjectRepository
+interface ProjectRepositoryInterface
 {
     public function insert(
         User $user,

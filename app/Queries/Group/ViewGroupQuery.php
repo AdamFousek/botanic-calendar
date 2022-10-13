@@ -2,15 +2,14 @@
 declare(strict_types=1);
 
 
-namespace App\Queries\Project;
+namespace App\Queries\Group;
 
-class ViewProjectQuery
+class ViewGroupQuery
 {
     public function __construct(
         private readonly ?int $userId,
         private readonly ?string $query,
         private readonly ?bool $isPublic,
-        private readonly ?int $groupId,
     ) {
     }
 
@@ -27,10 +26,5 @@ class ViewProjectQuery
     public function isPublic(): ?bool
     {
         return $this->isPublic;
-    }
-
-    public function getGroupId(): ?int
-    {
-        return $this->groupId;
     }
 }

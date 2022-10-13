@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,15 +10,15 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ProjectFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->title,
+            'uuid' => $this->faker->uuid,
+            'description' => $this->faker->sentence,
+            'is_public' => random_int(0,1) === 1,
+            'user_id' => self::factoryForModel(User::class),
+            'group_id' => null,
         ];
     }
 }

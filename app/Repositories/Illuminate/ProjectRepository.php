@@ -7,9 +7,10 @@ namespace App\Repositories\Illuminate;
 use App\Models\Project;
 use App\Models\User;
 use App\Queries\Project\ViewProjectQuery;
+use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class ProjectRepository implements \App\Repositories\ProjectRepository
+class ProjectRepository implements ProjectRepositoryInterface
 {
 
     public function insert(

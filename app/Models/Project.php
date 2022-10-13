@@ -16,12 +16,14 @@ class Project extends Model
         'uuid',
         'description',
         'is_public',
-        'user_id'
+        'user_id',
+        'group_id',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     public function getRouteKeyName(): string
@@ -29,9 +31,14 @@ class Project extends Model
         return 'uuid';
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
     }
 
     public function getCreatedAtAttribute($date): string

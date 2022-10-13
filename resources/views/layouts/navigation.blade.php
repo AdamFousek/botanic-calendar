@@ -84,7 +84,7 @@
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                 {{ __('My projects') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="'/'" :active="false == true">
+            <x-responsive-nav-link :href="route('groups.index')" :active="false == true">
                 {{ __('My Groups') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('projects.all')" :active="request()->routeIs('projects.all')">

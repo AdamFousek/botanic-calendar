@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
-use App\Repositories\ProjectRepository;
+use App\Repositories\GroupRepositoryInterface;
+use App\Repositories\Illuminate\GroupRepository;
+use App\Repositories\Illuminate\ProjectRepository;
+use App\Repositories\ProjectRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public array $bindings = [
-        ProjectRepository::class => \App\Repositories\Illuminate\ProjectRepository::class,
+        ProjectRepositoryInterface::class => ProjectRepository::class,
+        GroupRepositoryInterface::class => GroupRepository::class,
     ];
 
     /**
