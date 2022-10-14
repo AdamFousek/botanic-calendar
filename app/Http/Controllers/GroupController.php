@@ -17,7 +17,7 @@ class GroupController extends Controller
     ) {
     }
 
-    public function myGroups(Request $request)
+    public function index(Request $request)
     {
         $search = $request->query('search', '');
         $userId = Auth::id();
@@ -32,7 +32,7 @@ class GroupController extends Controller
             'searchQuery' => $search,
         ];
 
-        return view('groups.myGroups', $data);
+        return view('groups.index', $data);
     }
 
     /**
@@ -56,15 +56,11 @@ class GroupController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
     public function show(Group $group)
     {
-        //
+        $this->authorize('view', $group);
+
+        return view('projects.show', ['project' => $group]);
     }
 
     /**

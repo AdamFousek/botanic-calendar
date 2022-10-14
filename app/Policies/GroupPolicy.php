@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class GroupPolicy
 {
@@ -21,16 +22,17 @@ class GroupPolicy
         //
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function view(User $user, Group $group)
+    public function view(User $user, Group $group): Response
     {
-        //
+        if ($group->user->id === $user->id) {
+            return Response::allow();
+        }
+
+        if ($group->users->find($user->id)) {
+            return Response::allow();
+        }
+
+        return Response::denyWithStatus(404);
     }
 
     /**

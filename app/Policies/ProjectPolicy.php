@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
 {
@@ -21,24 +22,17 @@ class ProjectPolicy
         //
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
     public function view(User $user, Project $project)
     {
         if ($project->user->id === $user->id) {
-            return true;
+            return Response::allow();
         }
 
         if ($project->is_public) {
-            return true;
+            return Response::allow();
         }
 
-        return false;
+        return Response::denyWithStatus(404);
     }
 
     /**

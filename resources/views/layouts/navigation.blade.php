@@ -21,8 +21,8 @@
                     <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.*')">
                         {{ __('My Groups') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('allProjects.index')" :active="request()->routeIs('allProjects.*')">
-                        {{ __('All Public Projects') }}
+                    <x-nav-link :href="route('search.index')" :active="request()->routeIs('search.*')">
+                        {{ __('Search') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -87,8 +87,8 @@
             <x-responsive-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.*')">
                 {{ __('My Groups') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('allProjects.index')" :active="request()->routeIs('allProjects.*')">
-                {{ __('All Public Projects') }}
+            <x-responsive-nav-link :href="route('search.index')" :active="request()->routeIs('search.*')">
+                {{ __('Search') }}
             </x-responsive-nav-link>
         </div>
 
