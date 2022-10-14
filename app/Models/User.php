@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'username';

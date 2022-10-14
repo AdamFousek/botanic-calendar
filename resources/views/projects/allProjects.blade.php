@@ -5,7 +5,7 @@
                 {{ __('All public Projects') }}
             </h2>
             <div class="">
-                <form action="{{ route('projects.index') }}" method="GET" class="flex flex-wrap">
+                <form action="{{ route('allProjects.index') }}" method="GET" class="flex flex-wrap">
                     <x-text-input name="search" value="{{ $searchQuery }}" type="text" placeholder="{{ __('Search') }}" class="py-1 px-2 mr-2"></x-text-input>
                     <x-primary-button type="submit" class="p-1">{{ __('Search') }}</x-primary-button>
                 </form>
@@ -18,7 +18,7 @@
             @if (!$projects->isEmpty())
                 <div class="w-full grid grid-cols-1 md:grid-cols-4 gap-4">
                     @foreach($projects as $project)
-                        <x-projects.card :project="$project"></x-projects.card>
+                        <x-projects.card :project="$project" :prefix="'allProjects'"></x-projects.card>
                     @endforeach
                 </div>
             @else

@@ -15,13 +15,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
                         {{ __('My projects') }}
                     </x-nav-link>
-                    <x-nav-link :href="'/'" :active="false == true">
+                    <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.*')">
                         {{ __('My Groups') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('projects.all')" :active="request()->routeIs('projects.all')">
+                    <x-nav-link :href="route('allProjects.index')" :active="request()->routeIs('allProjects.*')">
                         {{ __('All Public Projects') }}
                     </x-nav-link>
                 </div>
@@ -81,13 +81,13 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+            <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
                 {{ __('My projects') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('groups.index')" :active="false == true">
+            <x-responsive-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.*')">
                 {{ __('My Groups') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('projects.all')" :active="request()->routeIs('projects.all')">
+            <x-responsive-nav-link :href="route('allProjects.index')" :active="request()->routeIs('allProjects.*')">
                 {{ __('All Public Projects') }}
             </x-responsive-nav-link>
         </div>

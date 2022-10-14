@@ -30,8 +30,7 @@ class ProjectController extends Controller
 
         $projects = $this->viewProjectHandler->handle(new ViewProject(
             $userId,
-            $search,
-            null,
+            $search !== '' ? $search : null,
         ));
 
         $data = [
@@ -45,12 +44,10 @@ class ProjectController extends Controller
     public function allProjects(Request $request)
     {
         $search = $request->query('search', '');
-        $userId = null;
 
         $projects = $this->viewProjectHandler->handle(new ViewProject(
-            $userId,
-            $search === '' ? $search : null,
-            true,
+            searchQuery: $search !== '' ? $search : null,
+            isPublic: true,
         ));
 
         $data = [

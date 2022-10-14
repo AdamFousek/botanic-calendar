@@ -1,4 +1,4 @@
-@props(['project'])
+@props(['project', 'prefix' => 'projects'])
 
 <div class="col-auto p-2 md:p-4 mb-2 md:m-0 rounded-lg bg-white shadow-sm sm:rounded-lg">
     <div class="flex flex-col mb-4">
@@ -14,6 +14,6 @@
         </x-primary-link>
     </div>
     <div class="border-t flex justify-end pt-4">
-        <x-primary-link href="{{ route('projects.show', $project) }}" type="button-outline-sm">{{ __('Show project') }}</x-primary-link>
+        <x-primary-link href="{{ route($prefix.'.show', $project) }}" type="button-outline-sm">{{ __('Show project') }}</x-primary-link>
     </div>
 </div>

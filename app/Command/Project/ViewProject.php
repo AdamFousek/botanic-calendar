@@ -7,9 +7,9 @@ namespace App\Command\Project;
 class ViewProject
 {
     public function __construct(
-        private readonly ?int $userId,
-        private readonly ?string $searchQuery,
-        private readonly ?bool $isPublic,
+        private readonly ?int $userId = null,
+        private readonly ?string $searchQuery = null,
+        private readonly ?bool $isPublic = null,
     ) {
 
     }

@@ -7,6 +7,7 @@ use App\Command\Group\ViewGroupHandler;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
@@ -16,16 +17,19 @@ class GroupController extends Controller
     ) {
     }
 
-    public function myGroups()
+    public function myGroups(Request $request)
     {
+        $search = $request->query('search', '');
         $userId = Auth::id();
 
         $groups = $this->viewGroupHandler->handle(new ViewGroup(
             userId: $userId,
+            query: $search,
         ));
 
         $data = [
             'groups' => $groups,
+            'searchQuery' => $search,
         ];
 
         return view('groups.myGroups', $data);

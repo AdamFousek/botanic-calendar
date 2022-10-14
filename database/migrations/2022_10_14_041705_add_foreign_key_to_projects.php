@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
-            $table->uuid();
-            $table->text('name');
-            $table->longText('description');
-            $table->boolean('is_public');
-            $table->foreignId('user_id')
+        Schema::table('projects', function (Blueprint $table) {
+            $table->foreignId('group_id')
                 ->constrained();
             $table->softDeletes();
-            $table->timestamps();
         });
     }
 
@@ -33,6 +27,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groups');
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropForeign('group_id');
+            $table->dropSoftDeletes();
+        });
     }
 };

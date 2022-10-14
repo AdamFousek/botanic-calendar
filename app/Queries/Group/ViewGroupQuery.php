@@ -7,9 +7,9 @@ namespace App\Queries\Group;
 class ViewGroupQuery
 {
     public function __construct(
-        private readonly ?int $userId,
-        private readonly ?string $query,
-        private readonly ?bool $isPublic,
+        private readonly ?int $userId = null,
+        private readonly ?string $query = null,
+        private readonly ?bool $isPublic = null,
     ) {
     }
 
