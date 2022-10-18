@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Command\Group\ViewGroup;
 use App\Command\Group\ViewGroupHandler;
+use App\Command\Group\ViewGroupMembers;
+use App\Command\Group\ViewGroupMembersHandler;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Models\Group;
@@ -14,6 +16,7 @@ class GroupController extends Controller
 {
     public function __construct(
         private readonly ViewGroupHandler $viewGroupHandler,
+        private readonly ViewGroupMembersHandler $viewGroupMembersHandler,
     ) {
     }
 
@@ -35,22 +38,11 @@ class GroupController extends Controller
         return view('groups.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreGroupRequest  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreGroupRequest $request)
     {
         //
@@ -60,40 +52,33 @@ class GroupController extends Controller
     {
         $this->authorize('view', $group);
 
-        return view('projects.show', ['project' => $group]);
+        $members = $this->viewGroupMembersHandler->handle(new ViewGroupMembers($group->id));
+
+        $data = [
+            'members' => $members,
+            'group' => $group,
+        ];
+
+        return view('groups.show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Group $group)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateGroupRequest  $request
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateGroupRequest $request, Group $group)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Group  $group
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Group $group)
     {
         //
+    }
+
+    public function inviteMember(Group $group)
+    {
+        $this->authorize('inviteMember', $group);
     }
 }

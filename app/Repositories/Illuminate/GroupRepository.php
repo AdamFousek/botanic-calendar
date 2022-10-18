@@ -33,4 +33,12 @@ class GroupRepository implements GroupRepositoryInterface
 
         return $builder->get();
     }
+
+    public function getGroupMembers(int $groupId): Collection
+    {
+        $group = Group::find($groupId);
+        $author = $group->user;
+
+        return $group->users->prepend($author);
+    }
 }

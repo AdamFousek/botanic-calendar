@@ -10,4 +10,6 @@ use Illuminate\Database\Eloquent\Collection;
 interface GroupRepositoryInterface
 {
     public function findGroups(ViewGroupQuery $query): Collection;
+
+    public function getGroupMembers(int $groupId): Collection;
 }

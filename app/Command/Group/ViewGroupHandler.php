@@ -6,6 +6,7 @@ namespace App\Command\Group;
 
 use App\Queries\Group\ViewGroupQuery;
 use App\Repositories\GroupRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ViewGroupHandler
 {
@@ -15,7 +16,7 @@ class ViewGroupHandler
 
     }
 
-    public function handle(ViewGroup $command)
+    public function handle(ViewGroup $command): Collection
     {
         $query = $this->transform($command);
 
