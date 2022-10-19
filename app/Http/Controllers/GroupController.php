@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Command\Group\ViewGroup;
-use App\Command\Group\ViewGroupHandler;
-use App\Command\Group\ViewGroupMembers;
-use App\Command\Group\ViewGroupMembersHandler;
-use App\Http\Requests\StoreGroupRequest;
-use App\Http\Requests\UpdateGroupRequest;
+use App\Http\Requests\Group\InviteMemberRequest;
+use App\Http\Requests\Group\StoreGroupRequest;
+use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
+use App\Queries\Group\ViewGroup;
+use App\Queries\Group\ViewGroupHandler;
+use App\Queries\Group\ViewGroupMembers;
+use App\Queries\Group\ViewGroupMembersHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,8 +78,10 @@ class GroupController extends Controller
         //
     }
 
-    public function inviteMember(Group $group)
+    public function inviteMember(InviteMemberRequest $request, Group $group)
     {
-        $this->authorize('inviteMember', $group);
+        $validated = $request->validated();
+
+        return redirect()->back()->with('success', 'Invitation sent!');
     }
 }

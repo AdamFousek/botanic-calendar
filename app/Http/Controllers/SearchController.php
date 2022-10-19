@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Command\Group\ViewGroup;
-use App\Command\Group\ViewGroupHandler;
-use App\Command\Project\ViewProject;
-use App\Command\Project\ViewProjectHandler;
+use App\Queries\Group\ViewGroup;
+use App\Queries\Group\ViewGroupHandler;
+use App\Queries\Project\ViewProject;
+use App\Queries\Project\ViewProjectHandler;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller

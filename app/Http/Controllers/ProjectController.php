@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Command\Project\InsertProject;
+use App\Command\Project\InsertProjectCommand;
 use App\Command\Project\InsertProjectHandler;
-use App\Command\Project\ViewProject;
-use App\Command\Project\ViewProjectHandler;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
+use App\Queries\Project\ViewProjectHandler;
+use App\Queries\Project\ViewProjectQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -28,7 +28,7 @@ class ProjectController extends Controller
         $search = $request->query('search', '');
         $userId = Auth::id();
 
-        $projects = $this->viewProjectHandler->handle(new ViewProject(
+        $projects = $this->viewProjectHandler->handle(new ViewProjectQuery(
             $userId,
             $search !== '' ? $search : null,
         ));
@@ -50,13 +50,14 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
 
-        $user = Auth::user();
-        $project = $this->insertProjectHandler->handle(new InsertProject(
-            $user,
+        $userId = Auth::id();
+        $project = $this->insertProjectHandler->handle(new InsertProjectCommand(
+            $userId,
             Str::uuid(),
             $validated['name'],
             $validated['is_public'] ?? false,
-            $validated['description'] ?? ''
+            $validated['description'] ?? '',
+            $validated['groupId'] ?? null,
         ));
 
         return redirect()->route('projects.show', [$project]);

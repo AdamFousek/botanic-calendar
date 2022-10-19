@@ -15,14 +15,8 @@ class InsertProjectHandler
 
     }
 
-    public function handle(InsertProject $command): Project
+    public function handle(InsertProjectCommand $command): Project
     {
-        return $this->repository->insert(
-            $command->user,
-            $command->uuid,
-            $command->name,
-            $command->isPublic,
-            $command->description
-        );
+        return $this->repository->insert($command);
     }
 }

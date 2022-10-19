@@ -2,9 +2,8 @@
 declare(strict_types=1);
 
 
-namespace App\Command\Group;
+namespace App\Queries\Group;
 
-use App\Queries\Group\ViewGroupQuery;
 use App\Repositories\GroupRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 

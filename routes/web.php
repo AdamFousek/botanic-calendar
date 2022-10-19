@@ -16,10 +16,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(ProjectController::class)->group(function() {
         Route::get('/projects', 'index')->name('projects.index');
-        Route::get('/project/create', 'create')->name('projects.create');
-        Route::post('/project/create', 'store')->name('projects.store');
-        Route::get('/project/{project}', 'show')->name('projects.show');
-        Route::get('/project/{project}/edit', 'edit')->name('projects.edit');
+        Route::get('/projects/create', 'create')->name('projects.create');
+        Route::post('/projects/create', 'store')->name('projects.store');
+        Route::get('/projects/{project}', 'show')->name('projects.show');
+        Route::get('/projects/{project}/edit', 'edit')->name('projects.edit');
         Route::post('/projects/{project}/edit', 'update')->name('projects.update');
     });
 
@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/groups/{group}', 'show')->name('groups.show');
         Route::get('/groups/create', 'create')->name('groups.create');
         Route::post('/groups/create', 'create')->name('groups.store');
-        Route::post('groups/inviteMember/{group}', 'inviteMember')->name('groups.inviteMember');
+        Route::post('/groups/inviteMember/{group}', 'inviteMember')->name('groups.inviteMember');
     });
 
     Route::controller(SearchController::class)->group(function() {
