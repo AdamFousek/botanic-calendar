@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+echo "Running php-cs-fixer..."
+
+IFS=$'\n'
+
+FILES1=$( git diff --cached --name-status | grep -v "^[DR]" | grep "\.php$" | cut -f 2- )
+FILES2=$( git diff --cached --name-status | grep "^R" | grep "\.php$" | cut -f 3- )
+
+php -r 'version_compare(PHP_VERSION, "8.0", ">=") ? exit(0) : exit(255);'
+
+if [[ "$?" -eq "0" ]]; then
+    INTERPRETER="php"
+    echo "INTERPRETER: local PHP"
+else
+    echo "INTERPRETER: PHP in docker container"
+    INTERPRETER="docker-compose -f ./docker-compose.yml exec -T laravel.test php"
+fi
+
+for file in $FILES1 $FILES2; do
+    eval ${INTERPRETER} /vendor/bin/php-cs-fixer fix --dry-run --diff --config=/.php-cs-fixer.php -vvv \"${file}\"
+    code="$?"
+
+    if [[ "$code" -ne "0" ]] && [[ "$code" -ne "8" ]]; then
+            echo "Please fix the errors shown above!"
+            exit 255
+    fi
+
+    eval ${INTERPRETER} /vendor/bin/php-cs-fixer fix --diff --config=/.php-cs-fixer.php -q \"${file}\"
+
+    git add "${file}"
+done

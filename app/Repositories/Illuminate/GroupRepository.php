@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-
 namespace App\Repositories\Illuminate;
-
 
 use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
@@ -18,7 +17,7 @@ class GroupRepository implements GroupRepositoryInterface
 
         $search = $query->getQuery();
         if ($search) {
-            $builder->whereRaw("UPPER(name) LIKE '%". strtoupper($search)."%'");
+            $builder->whereRaw("UPPER(name) LIKE '%".strtoupper($search)."%'");
         }
 
         $userId = $query->getUserId();

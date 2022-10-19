@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace App\Queries\Group;
 
@@ -12,7 +12,6 @@ class ViewGroupHandler
     public function __construct(
         private readonly GroupRepositoryInterface $groupRepository,
     ) {
-
     }
 
     public function handle(ViewGroup $command): Collection

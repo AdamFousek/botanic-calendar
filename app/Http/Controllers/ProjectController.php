@@ -18,9 +18,7 @@ class ProjectController extends Controller
     public function __construct(
         private readonly InsertProjectHandler $insertProjectHandler,
         private readonly ViewProjectHandler $viewProjectHandler,
-    )
-    {
-
+    ) {
     }
 
     public function index(Request $request)

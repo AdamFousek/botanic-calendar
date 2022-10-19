@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace App\Queries\Project;
 
@@ -12,7 +12,6 @@ class ViewProjectHandler
     public function __construct(
         private readonly ProjectRepositoryInterface $projectRepository,
     ) {
-
     }
 
     public function handle(ViewProjectQuery $query): Collection

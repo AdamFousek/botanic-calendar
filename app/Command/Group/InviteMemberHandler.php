@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace App\Command\Group;
 
@@ -11,11 +11,9 @@ class InviteMemberHandler
     public function __construct(
         private GroupRepositoryInterface $repository,
     ) {
-
     }
 
     public function handle()
     {
-
     }
 }

@@ -1,10 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
-
 namespace App\Command\Project;
-
-use App\Models\User;
 
 class InsertProjectCommand
 {
@@ -16,6 +14,5 @@ class InsertProjectCommand
         public readonly string $description,
         public readonly ?int $groupId,
     ) {
-
     }
 }

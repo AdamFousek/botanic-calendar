@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace App\Command\Group;
 
@@ -12,7 +12,6 @@ class InviteMember
         private readonly Group $group,
         private readonly string $email,
     ) {
-
     }
 
     public function getGroup(): Group

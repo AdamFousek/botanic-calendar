@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace App\Repositories\Illuminate;
 
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
-
     public function insert(InsertProjectCommand $command): Project
     {
         $project = new Project();
@@ -33,7 +32,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         $search = $query->getQuery();
         if ($search) {
-            $builder->whereRaw("UPPER(name) LIKE '%". strtoupper($search)."%'");
+            $builder->whereRaw("UPPER(name) LIKE '%".strtoupper($search)."%'");
         }
 
         $userId = $query->getUserId();
@@ -52,7 +51,6 @@ class ProjectRepository implements ProjectRepositoryInterface
         }
 
         $builder = $this->setSorting($builder, $query);
-
 
         return $builder->get();
     }
