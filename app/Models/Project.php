@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -74,10 +73,5 @@ class Project extends Model
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
-    }
-
-    public function getCreatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('j.n.Y H:i:s');
     }
 }

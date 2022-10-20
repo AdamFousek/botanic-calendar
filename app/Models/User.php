@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -86,13 +85,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value, $attributes) => ucfirst($this->first_name).' '.ucfirst($this->last_name)
-        );
-    }
 
     public function projects(): HasMany
     {

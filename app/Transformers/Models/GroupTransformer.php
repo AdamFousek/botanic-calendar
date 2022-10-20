@@ -9,24 +9,21 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GroupTransformer
 {
-    public function __construct(
-        private readonly UserTransformer $userTransformer,
-    ) {
-    }
-
     /**
      * @param Group $group
      * @return array<string, mixed>
      */
-    public function transform(Group $group)
+    public function transform(Group $group): array
     {
+        $userTransformer = new UserTransformer();
+
         return [
+            'uuid' => $group->uuid,
             'name' => $group->name,
             'description' => $group->description,
-            'uuid' => $group->uuid,
             'isPublic' => $group->is_public,
-            'author' => $this->userTransformer->transform($group->user),
-            'members' => $this->userTransformer->transformMulti($group->users),
+            'createdAt' => $group->created_at->format('j.d.Y'),
+            'author' => $userTransformer->transform($group->user),
         ];
     }
 

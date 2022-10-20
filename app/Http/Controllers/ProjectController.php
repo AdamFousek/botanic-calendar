@@ -9,6 +9,7 @@ use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectHandler;
 use App\Queries\Project\ViewProjectQuery;
+use App\Transformers\Models\ProjectTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -18,6 +19,7 @@ class ProjectController extends Controller
     public function __construct(
         private readonly InsertProjectHandler $insertProjectHandler,
         private readonly ViewProjectHandler $viewProjectHandler,
+        private readonly ProjectTransformer $projectTransformer,
     ) {
     }
 
@@ -32,7 +34,7 @@ class ProjectController extends Controller
         ));
 
         $data = [
-            'projects' => $projects,
+            'projects' => $this->projectTransformer->transformMulti($projects),
             'searchQuery' => $search,
         ];
 

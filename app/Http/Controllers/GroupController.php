@@ -12,6 +12,8 @@ use App\Queries\Group\ViewGroupMembers;
 use App\Queries\Group\ViewGroupMembersHandler;
 use App\Queries\User\ViewUserByEmailHandler;
 use App\Queries\User\ViewUserByEmailQuery;
+use App\Transformers\Models\GroupTransformer;
+use App\Transformers\Models\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +23,8 @@ class GroupController extends Controller
         private readonly ViewGroupHandler $viewGroupHandler,
         private readonly ViewGroupMembersHandler $viewGroupMembersHandler,
         private readonly ViewUserByEmailHandler $viewUserByEmailHandler,
+        private readonly GroupTransformer $groupTransformer,
+        private readonly UserTransformer $userTransformer,
     ) {
     }
 
@@ -35,7 +39,7 @@ class GroupController extends Controller
         ));
 
         $data = [
-            'groups' => $groups,
+            'groups' => $this->groupTransformer->transformMulti($groups),
             'searchQuery' => $search,
         ];
 
@@ -59,8 +63,8 @@ class GroupController extends Controller
         $members = $this->viewGroupMembersHandler->handle(new ViewGroupMembers($group->id));
 
         $data = [
-            'members' => $members,
-            'group' => $group,
+            'group' => $this->groupTransformer->transform($group),
+            'members' => $this->userTransformer->transformMulti($members),
         ];
 
         return view('groups.show', $data);

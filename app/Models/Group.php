@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -74,11 +73,6 @@ class Group extends Model
     public function getRouteKeyName(): string
     {
         return 'uuid';
-    }
-
-    public function getCreatedAtAttribute($date): string
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('j.n.Y H:i:s');
     }
 
     public function users(): BelongsToMany

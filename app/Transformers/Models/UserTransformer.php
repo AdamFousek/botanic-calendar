@@ -9,12 +9,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserTransformer
 {
-    public function __construct(
-        private readonly GroupTransformer $groupTransformer,
-        private readonly ProjectTransformer $projectTransformer,
-    ) {
-    }
-
     /**
      * @param User $user
      * @return array<string, mixed>
@@ -23,12 +17,11 @@ class UserTransformer
     {
         return [
             'username' => $user->username,
-            'fullName' => $user->fullName(),
+            'fullName' => ucfirst($user->first_name).' '.ucfirst($user->last_name),
+            'firstName' => $user->first_name,
+            'lastName' => $user->last_name,
             'email' => $user->email,
             'createdAt' => $user->created_at->format('j.n.Y'),
-            'projects' => $this->projectTransformer->transformMulti($user->projects),
-            'myGroups' => $this->groupTransformer->transformMulti($user->groups),
-            'memberGroups' => $this->groupTransformer->transformMulti($user->memberGroups),
         ];
     }
 

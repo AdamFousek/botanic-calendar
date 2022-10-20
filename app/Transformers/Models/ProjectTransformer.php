@@ -9,25 +9,28 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProjectTransformer
 {
-    public function __construct(
-        private readonly GroupTransformer $groupTransformer,
-        private readonly UserTransformer $userTransformer,
-    ) {
-    }
-
     /**
      * @param Project $project
      * @return array<string, mixed>
      */
     public function transform(Project $project): array
     {
+        $userTransformer = new UserTransformer();
+
         return [
             'uuid' => $project->uuid,
             'name' => $project->name,
             'description' => $project->description,
             'isPublic' => $project->is_public,
-            'author' =>  $this->userTransformer->transform($project->user),
-            'group' => $this->groupTransformer->transform($project->group),
+            'author' =>  $userTransformer->transform($project->user),
+            'createdAt' => $project->created_at->format('j.n.Y'),
+            'group' => [
+                'uuid' => $project->group?->uuid,
+                'name' => $project->group?->name,
+                'description' => $project->group?->description,
+                'authorId' => $project->group?->user->id,
+                'authorUsername' => $project->group?->user->username,
+            ],
         ];
     }
 
