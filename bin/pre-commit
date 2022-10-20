@@ -18,7 +18,7 @@ else
 fi
 
 for file in $FILES1 $FILES2; do
-    eval ${INTERPRETER} /vendor/bin/php-cs-fixer fix --dry-run --diff --config=/.php-cs-fixer.php -vvv \"${file}\"
+    eval ${INTERPRETER} ./vendor/bin/php-cs-fixer fix --dry-run --diff --config=./.php-cs-fixer.php -vvv \"${file}\"
     code="$?"
 
     if [[ "$code" -ne "0" ]] && [[ "$code" -ne "8" ]]; then
@@ -26,7 +26,7 @@ for file in $FILES1 $FILES2; do
             exit 255
     fi
 
-    eval ${INTERPRETER} /vendor/bin/php-cs-fixer fix --diff --config=/.php-cs-fixer.php -q \"${file}\"
+    eval ${INTERPRETER} ./vendor/bin/php-cs-fixer fix --diff --config=./.php-cs-fixer.php -q \"${file}\"
 
     git add "${file}"
 done

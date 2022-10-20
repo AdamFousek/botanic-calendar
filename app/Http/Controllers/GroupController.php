@@ -10,6 +10,8 @@ use App\Queries\Group\ViewGroup;
 use App\Queries\Group\ViewGroupHandler;
 use App\Queries\Group\ViewGroupMembers;
 use App\Queries\Group\ViewGroupMembersHandler;
+use App\Queries\User\ViewUserByEmailHandler;
+use App\Queries\User\ViewUserByEmailQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +20,7 @@ class GroupController extends Controller
     public function __construct(
         private readonly ViewGroupHandler $viewGroupHandler,
         private readonly ViewGroupMembersHandler $viewGroupMembersHandler,
+        private readonly ViewUserByEmailHandler $viewUserByEmailHandler,
     ) {
     }
 
@@ -82,6 +85,11 @@ class GroupController extends Controller
     {
         $validated = $request->validated();
 
-        return redirect()->back()->with('success', 'Invitation sent!');
+        $user = $this->viewUserByEmailHandler->handle(new ViewUserByEmailQuery($validated['email'] ?? ''));
+        if ($user === null) {
+            redirect()->back()->with('error', trans('user_doesnt_exists_in_application'));
+        }
+
+        return redirect()->back()->with('success', trans('invitation_send_successfully'));
     }
 }
