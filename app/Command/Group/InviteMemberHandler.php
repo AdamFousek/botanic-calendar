@@ -9,11 +9,12 @@ use App\Repositories\GroupRepositoryInterface;
 class InviteMemberHandler
 {
     public function __construct(
-        private GroupRepositoryInterface $repository,
+        private readonly GroupRepositoryInterface $repository,
     ) {
     }
 
-    public function handle()
+    public function handle(InviteMember $command): void
     {
+        $this->repository->inviteMember($command->getGroupId(), $command->getEmail());
     }
 }

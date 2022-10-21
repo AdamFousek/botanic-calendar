@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -104,5 +107,12 @@ class User extends Authenticatable
     public function getRouteKeyName(): string
     {
         return 'username';
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => ucfirst($attributes['first_name']).' '.ucfirst($attributes['last_name']),
+        );
     }
 }

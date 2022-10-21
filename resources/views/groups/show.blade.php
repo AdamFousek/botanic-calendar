@@ -14,11 +14,11 @@
                     </div>
                 </div>
                 <div class="bg-white md:col-span-2 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
-                    <x-groups.members :members="$members" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
+                    <x-groups.members :members="$group['members']" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
                 </div>
             </div>
         </div>
     </div>
 
-    <x-groups.invite-member :group="$group" />
+    <x-groups.invite-member :group="$group['uuid']" />
 </x-app-layout>

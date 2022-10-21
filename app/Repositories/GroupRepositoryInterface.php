@@ -12,4 +12,6 @@ interface GroupRepositoryInterface
     public function findGroups(ViewGroupQuery $query): Collection;
 
     public function getGroupMembers(int $groupId): Collection;
+
+    public function inviteMember(int $groupId, string $email): void;
 }

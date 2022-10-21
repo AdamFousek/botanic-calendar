@@ -15,21 +15,23 @@ class ProjectTransformer
      */
     public function transform(Project $project): array
     {
-        $userTransformer = new UserTransformer();
+        $group = $project->group;
+        $user = $project->user;
 
         return [
             'uuid' => $project->uuid,
             'name' => $project->name,
             'description' => $project->description,
             'isPublic' => $project->is_public,
-            'author' =>  $userTransformer->transform($project->user),
+            'author' => [
+                'username' => $user->username,
+                'fullName' => $user->full_name,
+                'email' => $user->email,
+            ],
             'createdAt' => $project->created_at->format('j.n.Y'),
             'group' => [
-                'uuid' => $project->group?->uuid,
-                'name' => $project->group?->name,
-                'description' => $project->group?->description,
-                'authorId' => $project->group?->user->id,
-                'authorUsername' => $project->group?->user->username,
+                'uuid' => $group?->uuid,
+                'name' => $group?->name,
             ],
         ];
     }

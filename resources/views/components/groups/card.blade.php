@@ -1,6 +1,6 @@
 @props(['group'])
 
-<div class="col-auto p-2 md:p-4 mb-2 md:m-0 rounded-lg bg-white shadow-sm sm:rounded-lg">
+<div class="col-auto p-2 md:p-4 mb-2 md:m-0 self-start rounded-lg bg-white shadow-sm sm:rounded-lg">
     <div class="flex flex-col mb-2">
         <span class="text-lg md:text-xl">{{ $group['name'] }}</span>
         <span class="text-gray-500 text-xs"> {{ $group['createdAt'] }}</span>

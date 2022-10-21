@@ -35,9 +35,14 @@ class GroupRepository implements GroupRepositoryInterface
 
     public function getGroupMembers(int $groupId): Collection
     {
-        $group = Group::find($groupId);
+        $group = Group::with(['user', 'users'])->find($groupId);
         $author = $group->user;
 
         return $group->users->prepend($author);
+    }
+
+    public function inviteMember(int $groupId, string $email): void
+    {
+        // TODO: Implement inviteMember() method.
     }
 }

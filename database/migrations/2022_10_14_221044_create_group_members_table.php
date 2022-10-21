@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,7 +16,9 @@ return new class extends Migration
             $table->primary(['group_id', 'user_id']);
             $table->foreignId('group_id');
             $table->foreignId('user_id');
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -77,6 +79,9 @@ class Group extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'group_members', 'group_id', 'user_id');
+        return $this
+            ->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')
+            ->withPivot('is_admin')
+            ->withTimestamps();
     }
 }
