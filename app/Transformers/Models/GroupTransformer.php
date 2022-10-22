@@ -34,6 +34,7 @@ class GroupTransformer
             'members' => $this->resolveMembers($members),
             'membersCount' => count($members),
             'projects' => $this->resolveProjects($projects),
+            'projectsCount' => count($projects),
         ];
     }
 

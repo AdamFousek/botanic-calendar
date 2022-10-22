@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Queries\Group\ViewGroup;
 use App\Queries\Group\ViewGroupHandler;
-use App\Queries\Project\ViewProject;
+use App\Queries\Group\ViewGroupQuery;
 use App\Queries\Project\ViewProjectHandler;
+use App\Queries\Project\ViewProjectQuery;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -22,11 +22,11 @@ class SearchController extends Controller
     {
         $search = $request->query('search', '');
 
-        $projects = $this->viewProjectHandler->handle(new ViewProject(
-            searchQuery: $search !== '' ? $search : null,
+        $projects = $this->viewProjectHandler->handle(new ViewProjectQuery(
+            query: $search !== '' ? $search : null,
         ));
 
-        $groups = $this->viewGroupHandler->handle(new ViewGroup(
+        $groups = $this->viewGroupHandler->handle(new ViewGroupQuery(
             query: $search !== '' ? $search : null,
         ));
 

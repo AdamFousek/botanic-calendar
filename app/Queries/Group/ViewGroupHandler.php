@@ -14,19 +14,8 @@ class ViewGroupHandler
     ) {
     }
 
-    public function handle(ViewGroup $command): Collection
+    public function handle(ViewGroupQuery $query): Collection
     {
-        $query = $this->transform($command);
-
         return $this->groupRepository->findGroups($query);
-    }
-
-    private function transform(ViewGroup $command): ViewGroupQuery
-    {
-        return new ViewGroupQuery(
-            $command->getUserId(),
-            $command->getQuery(),
-            $command->isPublic(),
-        );
     }
 }

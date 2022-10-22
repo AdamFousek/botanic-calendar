@@ -8,8 +8,8 @@ use App\Http\Requests\Group\InviteMemberRequest;
 use App\Http\Requests\Group\StoreGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
-use App\Queries\Group\ViewGroup;
 use App\Queries\Group\ViewGroupHandler;
+use App\Queries\Group\ViewGroupQuery;
 use App\Queries\User\ViewUserByEmailHandler;
 use App\Queries\User\ViewUserByEmailQuery;
 use App\Transformers\Models\GroupTransformer;
@@ -30,7 +30,7 @@ class GroupController extends Controller
         $search = $request->query('search', '');
         $userId = Auth::id();
 
-        $groups = $this->viewGroupHandler->handle(new ViewGroup(
+        $groups = $this->viewGroupHandler->handle(new ViewGroupQuery(
             userId: $userId,
             query: $search,
         ));
@@ -45,7 +45,7 @@ class GroupController extends Controller
 
     public function create()
     {
-        //
+        return view('groups.create');
     }
 
     public function store(StoreGroupRequest $request)

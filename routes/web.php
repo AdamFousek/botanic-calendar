@@ -33,10 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::controller(GroupController::class)->group(function () {
         Route::get('/groups', 'index')->name('groups.index');
-        Route::get('/groups/{group}', 'show')->name('groups.show');
         Route::get('/groups/create', 'create')->name('groups.create');
-        Route::post('/groups/create', 'create')->name('groups.store');
         Route::post('/groups/inviteMember/{group}', 'inviteMember')->name('groups.inviteMember');
+        Route::get('/groups/{group}', 'show')->name('groups.show');
     });
 
     Route::controller(SearchController::class)->group(function () {

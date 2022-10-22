@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Command\Group\InsertGroupCommand;
+use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
 use Illuminate\Database\Eloquent\Collection;
 
 interface GroupRepositoryInterface
 {
+    public function insertGroup(InsertGroupCommand $command): Group;
+
     public function findGroups(ViewGroupQuery $query): Collection;
 
     public function getGroupMembers(int $groupId): Collection;

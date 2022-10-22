@@ -4,13 +4,31 @@ declare(strict_types=1);
 
 namespace App\Repositories\Illuminate;
 
+use App\Command\Group\InsertGroupCommand;
 use App\Models\Group;
+use App\Models\User;
 use App\Queries\Group\ViewGroupQuery;
 use App\Repositories\GroupRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class GroupRepository implements GroupRepositoryInterface
 {
+    public function insertGroup(InsertGroupCommand $command): Group
+    {
+        $group = new Group();
+        $group->uuid = $command->getUuid();
+        $group->name = $command->getName();
+        $group->description = $command->getDescription();
+        $group->user_id = $command->getAuthorId();
+        $group->is_public = $command->isPublic();
+        $group->save();
+
+        $user = User::find($command->getAuthorId());
+        $group->users()->save($user);
+
+        return $group;
+    }
+
     public function findGroups(ViewGroupQuery $query): Collection
     {
         $builder = Group::query();
