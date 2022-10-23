@@ -10,7 +10,7 @@ class CreateProjectTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_create_project()
+    public function test_create_project(): void
     {
         $user = User::factory()->create();
 

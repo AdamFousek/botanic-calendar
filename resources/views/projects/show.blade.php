@@ -5,6 +5,14 @@
         </h2>
     </x-slot>
 
+    <x-slot name="actions">
+        <div class="flex flex-wrap justify-end">
+            <x-primary-link href="{{ route('projects.edit') }}" type="button-outline-sm">
+                {{ __('Edit project') }}
+            </x-primary-link>
+        </div>
+    </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
