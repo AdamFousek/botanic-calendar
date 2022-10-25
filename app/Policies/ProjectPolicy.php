@@ -48,16 +48,13 @@ class ProjectPolicy
         //
     }
 
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
     public function update(User $user, Project $project)
     {
-        //
+        if ($project->user->id === $user->id) {
+            return Response::allow();
+        }
+
+        return Response::denyWithStatus(404);
     }
 
     /**

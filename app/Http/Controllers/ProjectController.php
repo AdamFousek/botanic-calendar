@@ -7,7 +7,6 @@ namespace App\Http\Controllers;
 use App\Command\Project\InsertProjectCommand;
 use App\Command\Project\InsertProjectHandler;
 use App\Http\Requests\Project\StoreProjectRequest;
-use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectHandler;
 use App\Queries\Project\ViewProjectQuery;
@@ -55,7 +54,7 @@ class ProjectController extends Controller
         $userId = Auth::id();
         $project = $this->insertProjectHandler->handle(new InsertProjectCommand(
             $userId,
-            Str::uuid(),
+            (string) Str::uuid(),
             $validated['name'],
             $validated['is_public'] ?? false,
             $validated['description'] ?? '',
@@ -69,30 +68,22 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        return view('projects.show', ['project' => $project]);
+        $data = [
+            'project' => $this->projectTransformer->transform($project),
+        ];
+
+        return view('projects.show', $data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Project $project)
     {
-        //
-    }
+        $this->authorize('update', $project);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Project\UpdateProjectRequest  $request
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateProjectRequest $request, Project $project)
-    {
-        //
+        $data = [
+            'project' => $this->projectTransformer->transform($project),
+        ];
+
+        return view('projects.edit', $data);
     }
 
     /**

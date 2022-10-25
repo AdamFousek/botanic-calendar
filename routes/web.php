@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/projects/{project}', 'show')->name('projects.show');
         Route::get('/projects/{project}/edit', 'edit')->name('projects.edit');
         Route::post('/projects/{project}/edit', 'update')->name('projects.update');
+        Route::post('/projects/{project}/delete', 'destroy')->name('projects.delete');
     });
 
     Route::controller(UserController::class)->group(function () {
