@@ -7,10 +7,13 @@ use App\Command\Project\DeleteProjectHandler;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectByUuidHandler;
 use App\Queries\Project\ViewProjectByUuidQuery;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class DeleteProject extends Component
 {
+    use AuthorizesRequests;
+
     public string $uuid;
 
     public Project $project;
@@ -22,6 +25,8 @@ class DeleteProject extends Component
         if ($project === null) {
             redirect()->back();
         }
+
+        $this->project = $project;
     }
 
     public function delete(DeleteProjectHandler $deleteProjectHandler)

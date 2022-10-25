@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\Group\GroupController;
+use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;

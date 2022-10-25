@@ -61,6 +61,8 @@ class EditProject extends Component
             $validatedData['isPublic'],
         ));
 
-        return redirect()->route('projects.show', [$project]);
+        return redirect()
+            ->route('projects.show', [$project])
+            ->with('success', trans('Project was edited successfully!'));
     }
 }

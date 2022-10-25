@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Project;
 
 use App\Command\Project\InsertProjectCommand;
 use App\Command\Project\InsertProjectHandler;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectHandler;
@@ -39,12 +40,12 @@ class ProjectController extends Controller
             'searchQuery' => $search,
         ];
 
-        return view('projects.index', $data);
+        return view('pages.projects.index', $data);
     }
 
     public function create()
     {
-        return view('projects.create');
+        return view('pages.projects.create');
     }
 
     public function store(StoreProjectRequest $request)
@@ -61,7 +62,7 @@ class ProjectController extends Controller
             $validated['groupId'] ?? null,
         ));
 
-        return redirect()->route('projects.show', [$project]);
+        return redirect()->route('pages.projects.show', [$project]);
     }
 
     public function show(Project $project)
@@ -72,7 +73,7 @@ class ProjectController extends Controller
             'project' => $this->projectTransformer->transform($project),
         ];
 
-        return view('projects.show', $data);
+        return view('pages.projects.show', $data);
     }
 
     public function edit(Project $project)
@@ -83,17 +84,6 @@ class ProjectController extends Controller
             'project' => $this->projectTransformer->transform($project),
         ];
 
-        return view('projects.edit', $data);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Project $project)
-    {
-        //
+        return view('pages.projects.edit', $data);
     }
 }

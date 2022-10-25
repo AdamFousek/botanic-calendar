@@ -4,7 +4,6 @@ export default class Search {
   }
 
   init() {
-    console.log('test');
     this.initTabs();
   }
 

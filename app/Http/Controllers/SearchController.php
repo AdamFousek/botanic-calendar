@@ -36,6 +36,6 @@ class SearchController extends Controller
             'searchQuery' => $search,
         ];
 
-        return view('search.index', $data);
+        return view('pages.search.index', $data);
     }
 }

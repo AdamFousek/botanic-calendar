@@ -87,6 +87,6 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function delete(string $uuid): void
     {
-        // TODO: Implement delete() method.
+        Project::where('uuid', $uuid)->delete();
     }
 }

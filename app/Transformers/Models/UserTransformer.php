@@ -18,7 +18,7 @@ class UserTransformer
     public function transform(User $user): array
     {
         $projects = $user->projects;
-        $groups = $user->groups;
+        $groups = $user->memberGroups;
 
         return [
             'id' => $user->id,
@@ -31,7 +31,7 @@ class UserTransformer
             'projects' => $this->resolveProjects($projects),
             'projectsCount' => count($projects),
             'groups' => $this->resolveGroups($groups),
-            'groupsCount' => count($projects),
+            'groupsCount' => count($groups),
         ];
     }
 

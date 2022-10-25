@@ -10,7 +10,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/403.css',
                 'resources/js/app.js',
-                'resources/pages/*',
+                'resources/js/pages/*',
+                'resources/js/components/*',
             ],
         }),
 

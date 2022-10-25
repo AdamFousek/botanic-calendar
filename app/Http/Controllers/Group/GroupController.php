@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Group;
 
-use App\Http\Requests\Group\InviteMemberRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Group\StoreGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupHandler;
 use App\Queries\Group\ViewGroupQuery;
 use App\Queries\User\ViewUserByEmailHandler;
-use App\Queries\User\ViewUserByEmailQuery;
 use App\Transformers\Models\GroupTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,12 +39,12 @@ class GroupController extends Controller
             'searchQuery' => $search,
         ];
 
-        return view('groups.index', $data);
+        return view('pages.groups.index', $data);
     }
 
     public function create()
     {
-        return view('groups.create');
+        return view('pages.groups.create');
     }
 
     public function store(StoreGroupRequest $request)
@@ -61,7 +60,7 @@ class GroupController extends Controller
             'group' => $this->groupTransformer->transform($group),
         ];
 
-        return view('groups.show', $data);
+        return view('pages.groups.show', $data);
     }
 
     public function edit(Group $group)
@@ -77,17 +76,5 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
-    }
-
-    public function inviteMember(InviteMemberRequest $request, Group $group)
-    {
-        $validated = $request->validated();
-
-        $user = $this->viewUserByEmailHandler->handle(new ViewUserByEmailQuery($validated['email'] ?? ''));
-        if ($user === null) {
-            redirect()->back()->with('error', trans('user_doesnt_exists_in_application'));
-        }
-
-        return redirect()->back()->with('success', trans('invitation_send_successfully'));
     }
 }
