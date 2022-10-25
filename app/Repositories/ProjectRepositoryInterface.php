@@ -19,4 +19,6 @@ interface ProjectRepositoryInterface
     public function getProjects(ViewProjectQuery $query): Collection;
 
     public function update(UpdateProjectCommand $command): Project;
+
+    public function delete(string $uuid): void;
 }

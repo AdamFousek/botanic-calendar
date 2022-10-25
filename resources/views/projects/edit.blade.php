@@ -6,11 +6,7 @@
     </x-slot>
 
     <x-slot name="actions">
-        <div class="flex flex-wrap justify-end">
-            <x-danger-link href="{{ route('projects.delete', $project['uuid']) }}" type="button-outline-sm">
-                {{ __('Delete project') }}
-            </x-danger-link>
-        </div>
+
     </x-slot>
 
     <div class="py-0">

@@ -84,4 +84,9 @@ class ProjectRepository implements ProjectRepositoryInterface
 
         return $project;
     }
+
+    public function delete(string $uuid): void
+    {
+        // TODO: Implement delete() method.
+    }
 }
