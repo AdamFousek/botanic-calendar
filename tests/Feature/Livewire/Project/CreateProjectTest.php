@@ -32,13 +32,16 @@ class CreateProjectTest extends TestCase
             ->assertHasErrors(['name' => 'required']);
     }
 
-    public function test_is_redirected_to_posts_page_after_creation(): void
+    public function test_is_redirected_to_projects_page_after_creation(): void
     {
         $this->actingAs(User::factory()->create());
 
-        Livewire::test(CreateProject::class)
-            ->set('title', 'foo')
-            ->call('create')
-            ->assertRedirect('/posts');
+        $response = Livewire::test(CreateProject::class)
+            ->set('name', 'foo')
+            ->call('create');
+
+        $project = Project::latest('id')->first();
+
+        $response->assertRedirect(route('projects.show', $project->uuid));
     }
 }

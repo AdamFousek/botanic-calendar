@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\GroupRepositoryInterface;
 use App\Repositories\Illuminate\GroupRepository;
+use App\Repositories\Illuminate\InvitationRepository;
 use App\Repositories\Illuminate\ProjectRepository;
 use App\Repositories\Illuminate\UserRepository;
+use App\Repositories\InvitationRepositoryInterface;
 use App\Repositories\ProjectRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         ProjectRepositoryInterface::class => ProjectRepository::class,
         GroupRepositoryInterface::class => GroupRepository::class,
         UserRepositoryInterface::class => UserRepository::class,
+        InvitationRepositoryInterface::class => InvitationRepository::class,
     ];
 
     /**

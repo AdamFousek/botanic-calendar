@@ -48,6 +48,7 @@ class GroupController extends Controller
 
         $data = [
             'group' => $this->groupTransformer->transform($group),
+            'canInviteMember' => $this->authorize('inviteMember', $group)->allowed(),
         ];
 
         return view('pages.groups.show', $data);

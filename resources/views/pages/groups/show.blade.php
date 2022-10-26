@@ -22,12 +22,12 @@
                     </div>
                 </div>
                 <div class="bg-white md:col-span-2 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
-                    <x-groups.members :members="$group['members']" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
+                    <x-groups.members :members="$group['members']" :canInviteMember="$canInviteMember" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
                 </div>
             </div>
             <x-groups.projects :projects="$group['projects']"></x-groups.projects>
         </div>
     </div>
-    <x-groups.invite-member :group="$group['uuid']"></x-groups.invite-member>
+    <x-groups.invite-member :uuid="$group['uuid']"></x-groups.invite-member>
     <x-groups.create-project :group="$group"></x-groups.create-project>
 </x-app-layout>

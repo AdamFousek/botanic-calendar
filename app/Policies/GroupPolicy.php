@@ -13,28 +13,17 @@ class GroupPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
     public function view(User $user, Group $group): Response
     {
         if ($group->user->id === $user->id) {
             return Response::allow();
         }
 
-        if ($group->users->find($user->id)) {
+        if ($group->members->contains($user->id)) {
             return Response::allow();
         }
 
-        return Response::denyWithStatus(404);
+        return Response::denyWithStatus(403);
     }
 
     public function create(User $user)
@@ -42,9 +31,13 @@ class GroupPolicy
         //
     }
 
-    public function update(User $user, Group $group)
+    public function edit(User $user, Group $group)
     {
-        //
+        if ($group->user->id === $user->id) {
+            return Response::allow();
+        }
+
+        return Response::denyWithStatus(403);
     }
 
     public function delete(User $user, Group $group)
@@ -52,22 +45,20 @@ class GroupPolicy
         //
     }
 
-    public function restore(User $user, Group $group)
-    {
-        //
-    }
-
-    public function forceDelete(User $user, Group $group)
-    {
-        //
-    }
-
     public function inviteMember(User $user, Group $group)
     {
-        if ($user->id === $group->user->id) {
-            return true;
+        if ($group->is_public) {
+            if ($group->members->contains($user->id)) {
+                return Response::allow();
+            }
+
+            return Response::denyWithStatus(403);
         }
 
-        return false;
+        if ($user->id === $group->user->id) {
+            return Response::allow();
+        }
+
+        return Response::denyWithStatus(403);
     }
 }
