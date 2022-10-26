@@ -16,6 +16,6 @@ class InsertGroupHandler
 
     public function handle(InsertGroupCommand $command): Group
     {
-        return $this->repository->insertGroup($command);
+        return $this->repository->insert($command);
     }
 }

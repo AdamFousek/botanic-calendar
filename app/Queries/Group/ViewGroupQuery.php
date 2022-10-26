@@ -6,16 +6,13 @@ namespace App\Queries\Group;
 
 class ViewGroupQuery
 {
+    public const SORT_METHOD_NEWEST = 1;
+
     public function __construct(
-        private readonly ?int $userId = null,
         private readonly ?string $query = null,
         private readonly ?bool $isPublic = null,
+        private readonly int $sort = self::SORT_METHOD_NEWEST,
     ) {
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
     }
 
     public function getQuery(): ?string
@@ -26,5 +23,10 @@ class ViewGroupQuery
     public function isPublic(): ?bool
     {
         return $this->isPublic;
+    }
+
+    public function getSort(): int
+    {
+        return $this->sort;
     }
 }

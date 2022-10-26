@@ -7,15 +7,13 @@ namespace App\Repositories;
 use App\Command\Group\InsertGroupCommand;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 interface GroupRepositoryInterface
 {
-    public function insertGroup(InsertGroupCommand $command): Group;
+    public function insert(InsertGroupCommand $command): Group;
 
-    public function findGroups(ViewGroupQuery $query): Collection;
-
-    public function getGroupMembers(int $groupId): Collection;
+    public function find(ViewGroupQuery $query): Collection;
 
     public function inviteMember(int $groupId, string $email): void;
 }

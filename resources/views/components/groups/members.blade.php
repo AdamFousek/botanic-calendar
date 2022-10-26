@@ -7,8 +7,9 @@
     </div>
     <ul>
         @foreach($members as $member)
-            <li>
+            <li class="flex flex-wrap justify-between">
                 <x-primary-link :href="route('user.show', $member['username'])" type="link">{{ $member['fullName'] ?: $member['username'] }}</x-primary-link>
+                @if($member['isAdmin']) <x-badge color="orange">{{ __('Admin') }}</x-badge> @endif
             </li>
         @endforeach
     </ul>

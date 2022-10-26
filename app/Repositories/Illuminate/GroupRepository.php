@@ -6,14 +6,14 @@ namespace App\Repositories\Illuminate;
 
 use App\Command\Group\InsertGroupCommand;
 use App\Models\Group;
-use App\Models\User;
 use App\Queries\Group\ViewGroupQuery;
 use App\Repositories\GroupRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 
 class GroupRepository implements GroupRepositoryInterface
 {
-    public function insertGroup(InsertGroupCommand $command): Group
+    public function insert(InsertGroupCommand $command): Group
     {
         $group = new Group();
         $group->uuid = $command->getUuid();
@@ -23,40 +23,35 @@ class GroupRepository implements GroupRepositoryInterface
         $group->is_public = $command->isPublic();
         $group->save();
 
-        $user = User::find($command->getAuthorId());
-        $group->users()->save($user);
+        $group->members()->attach($command->getAuthorId(), ['is_admin' => 1]);
 
         return $group;
     }
 
-    public function findGroups(ViewGroupQuery $query): Collection
+    public function find(ViewGroupQuery $query): Collection
     {
         $builder = Group::query();
 
         $search = $query->getQuery();
         if ($search) {
-            $builder->whereRaw("UPPER(name) LIKE '%".strtoupper($search)."%'");
-        }
-
-        $userId = $query->getUserId();
-        if ($userId) {
-            $builder->where('user_id', $userId);
+            $builder->whereRaw("UPPER(g.name) LIKE '%".strtoupper($search)."%'");
         }
 
         $isPublic = $query->isPublic();
         if ($isPublic !== null) {
-            $builder->where('is_public', $isPublic);
+            $builder->where('g.is_public', $isPublic);
         }
+
+        $builder = $this->setSorting($builder, $query);
 
         return $builder->get();
     }
 
-    public function getGroupMembers(int $groupId): Collection
+    private function setSorting(Builder $builder, ViewGroupQuery $query): Builder
     {
-        $group = Group::with(['user', 'users'])->find($groupId);
-        $author = $group->user;
-
-        return $group->users->prepend($author);
+        return match ($query->getSort()) {
+            ViewGroupQuery::SORT_METHOD_NEWEST => $builder->orderBy('g.created_at', 'DESC'),
+        };
     }
 
     public function inviteMember(int $groupId, string $email): void

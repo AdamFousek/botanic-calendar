@@ -77,7 +77,7 @@ class Group extends Model
         return 'uuid';
     }
 
-    public function users(): BelongsToMany
+    public function members(): BelongsToMany
     {
         return $this
             ->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')

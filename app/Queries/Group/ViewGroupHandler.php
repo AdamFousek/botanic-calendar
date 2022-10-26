@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Queries\Group;
 
 use App\Repositories\GroupRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class ViewGroupHandler
 {
@@ -16,6 +16,6 @@ class ViewGroupHandler
 
     public function handle(ViewGroupQuery $query): Collection
     {
-        return $this->groupRepository->findGroups($query);
+        return $this->groupRepository->find($query);
     }
 }

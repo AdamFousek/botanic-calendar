@@ -16,6 +16,8 @@ class CreateProject extends Component
 
     public string $description = '';
 
+    public ?int $groupId = null;
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'isPublic' => 'nullable',
@@ -33,7 +35,7 @@ class CreateProject extends Component
             $validatedData['name'],
             $validatedData['isPublic'] ?? false,
             $validatedData['description'] ?? '',
-            null,
+            $this->groupId,
         ));
 
         return redirect()->route('projects.show', [$project]);

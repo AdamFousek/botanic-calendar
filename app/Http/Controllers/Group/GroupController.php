@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Group\StoreGroupRequest;
-use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
-use App\Queries\Group\ViewGroupHandler;
-use App\Queries\Group\ViewGroupQuery;
-use App\Queries\User\ViewUserByEmailHandler;
+use App\Queries\User\ViewGroupsHandler;
+use App\Queries\User\ViewGroupsQuery;
 use App\Transformers\Models\GroupTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class GroupController extends Controller
 {
     public function __construct(
-        private readonly ViewGroupHandler $viewGroupHandler,
-        private readonly ViewUserByEmailHandler $viewUserByEmailHandler,
+        private readonly ViewGroupsHandler $viewGroupsHandler,
         private readonly GroupTransformer $groupTransformer,
     ) {
     }
@@ -29,9 +25,8 @@ class GroupController extends Controller
         $search = $request->query('search', '');
         $userId = Auth::id();
 
-        $groups = $this->viewGroupHandler->handle(new ViewGroupQuery(
-            userId: $userId,
-            query: $search,
+        $groups = $this->viewGroupsHandler->handle(new ViewGroupsQuery(
+            $userId,
         ));
 
         $data = [
@@ -47,11 +42,6 @@ class GroupController extends Controller
         return view('pages.groups.create');
     }
 
-    public function store(StoreGroupRequest $request)
-    {
-        //
-    }
-
     public function show(Group $group)
     {
         $this->authorize('view', $group);
@@ -65,16 +55,12 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
-        //
-    }
+        $this->authorize('edit', $group);
 
-    public function update(UpdateGroupRequest $request, Group $group)
-    {
-        //
-    }
+        $data = [
+            'group' => $this->groupTransformer->transform($group),
+        ];
 
-    public function destroy(Group $group)
-    {
-        //
+        return view('pages.groups.edit', $data);
     }
 }

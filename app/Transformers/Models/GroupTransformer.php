@@ -7,7 +7,7 @@ namespace App\Transformers\Models;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 class GroupTransformer
 {
@@ -17,10 +17,11 @@ class GroupTransformer
      */
     public function transform(Group $group): array
     {
-        $members = $group->users;
+        $members = $group->members;
         $projects = $group->projects;
 
         return [
+            'id' => $group->id,
             'uuid' => $group->uuid,
             'name' => $group->name,
             'description' => $group->description,
@@ -65,7 +66,7 @@ class GroupTransformer
                 'firstname' => $user->first_name,
                 'lastName' => $user->last_name,
                 'fullName' => $user->full_name,
-                'isAdmin' => false,
+                'isAdmin' => $user->pivot->is_admin,
             ];
         }
 

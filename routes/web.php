@@ -21,7 +21,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/projects/create', 'store')->name('projects.store');
         Route::get('/projects/{project}', 'show')->name('projects.show');
         Route::get('/projects/{project}/edit', 'edit')->name('projects.edit');
-        Route::post('/projects/{project}/edit', 'update')->name('projects.update');
         Route::post('/projects/{project}/delete', 'destroy')->name('projects.delete');
     });
 
@@ -37,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/groups/create', 'create')->name('groups.create');
         Route::post('/groups/inviteMember/{group}', 'inviteMember')->name('groups.inviteMember');
         Route::get('/groups/{group}', 'show')->name('groups.show');
+        Route::get('/groups/{group}/edit', 'edit')->name('groups.edit');
     });
 
     Route::controller(SearchController::class)->group(function () {
