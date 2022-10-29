@@ -26,7 +26,7 @@ class GroupTransformer
             'name' => $group->name,
             'description' => $group->description,
             'isPublic' => $group->is_public,
-            'createdAt' => $group->created_at->format('j.d.Y'),
+            'createdAt' => $group->created_at->format('j.n.Y'),
             'author' => [
                 'username' => $group->user->username,
                 'fullName' => $group->user->full_name,

@@ -20,6 +20,6 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::find($query->getUserId());
 
-        return $user->memberGroups()->orderBy('is_admin', 'desc')->get();
+        return $user->memberGroups()->orderBy('is_admin', 'desc')->orderBy('created_at', 'desc')->get();
     }
 }

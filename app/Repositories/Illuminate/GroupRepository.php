@@ -36,12 +36,12 @@ class GroupRepository implements GroupRepositoryInterface
 
         $search = $query->getQuery();
         if ($search) {
-            $builder->whereRaw("UPPER(g.name) LIKE '%".strtoupper($search)."%'");
+            $builder->whereRaw("UPPER(name) LIKE '%".strtoupper($search)."%'");
         }
 
         $isPublic = $query->isPublic();
         if ($isPublic !== null) {
-            $builder->where('g.is_public', $isPublic);
+            $builder->where('is_public', $isPublic);
         }
 
         $builder = $this->setSorting($builder, $query);
@@ -52,14 +52,14 @@ class GroupRepository implements GroupRepositoryInterface
     private function setSorting(Builder $builder, ViewGroupQuery $query): Builder
     {
         return match ($query->getSort()) {
-            ViewGroupQuery::SORT_METHOD_NEWEST => $builder->orderBy('g.created_at', 'DESC'),
+            ViewGroupQuery::SORT_METHOD_NEWEST => $builder->orderBy('created_at', 'DESC'),
         };
     }
 
     public function inviteMember(InviteMemberCommand $command): void
     {
         $query = DB::table('invitations')->insert([
-            'group_id' => $groupId,
+            'group_id' => $command->getGroup()->id,
 
         ]);
     }

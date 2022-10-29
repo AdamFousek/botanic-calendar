@@ -76,4 +76,9 @@ class Project extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function experiments()
+    {
+        return $this->hasMany(Experiment::class);
+    }
 }
