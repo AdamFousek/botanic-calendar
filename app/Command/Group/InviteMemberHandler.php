@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\Group;
 
+use App\Events\Group\InviteMemberEvent;
 use App\Repositories\GroupRepositoryInterface;
 use App\Repositories\InvitationRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
@@ -30,6 +31,10 @@ class InviteMemberHandler
             return;
         }
 
-        $this->repository->inviteMember($command);
+        $this->invitationRepository->expireInvitation($user, $group);
+
+        $invitation = $this->invitationRepository->create($user, $group);
+
+        InviteMemberEvent::dispatch($invitation);
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Listeners\Group;
 
-use App\Events\Group\InviteMember;
+use App\Events\Group\InviteMemberEvent;
+use App\Mail\InviteMemberMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
 
-class SendInvitation implements ShouldQueue
+class SendInvitationListener implements ShouldQueue
 {
     public string $queue = 'invitation';
 
@@ -22,13 +24,14 @@ class SendInvitation implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\Group\InviteMember  $event
+     * @param  \App\Events\Group\InviteMemberEvent  $event
      * @return void
      */
-    public function handle(InviteMember $event)
+    public function handle(InviteMemberEvent $event)
     {
         $invitation = $event->getInvitation();
 
-        send_email();
+        Mail::to($invitation->user)
+            ->send(new InviteMemberMail($invitation));
     }
 }
