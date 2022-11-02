@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,9 +28,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Invitation whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invitation whereUuid($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|Invitation onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Invitation withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Invitation withoutTrashed()
  */
 class Invitation extends Model
 {
+    public const INVITATION_EXPIRATION_IN_DAYS = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -38,7 +44,7 @@ class Invitation extends Model
     protected $fillable = [
         'user_id',
         'group_id',
-        'hash',
+        'uuid',
         'used',
     ];
 
@@ -50,5 +56,16 @@ class Invitation extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function isValid()
+    {
+        return $this->used === 0 &&
+            $this->created_at->timestamp > Carbon::now()->subDays(self::INVITATION_EXPIRATION_IN_DAYS)->timestamp;
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 }

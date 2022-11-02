@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Illuminate;
 
+use App\Command\Invitation\AcceptInvitationCommand;
 use App\Models\Group;
 use App\Models\Invitation;
 use App\Models\User;
@@ -14,11 +15,9 @@ use Illuminate\Support\Str;
 
 class InvitationRepository implements InvitationRepositoryInterface
 {
-    private const INVITATION_EXPIRATION_IN_DAYS = 1;
-
     public function invitationExists(User $user, Group $group): bool
     {
-        $pastSevenDays = (new Carbon())->days(-self::INVITATION_EXPIRATION_IN_DAYS);
+        $pastSevenDays = (new Carbon())->days(-Invitation::INVITATION_EXPIRATION_IN_DAYS);
 
         return DB::table('invitations')
             ->where([
@@ -57,5 +56,18 @@ class InvitationRepository implements InvitationRepositoryInterface
         $invitation->save();
 
         return $invitation;
+    }
+
+    public function accept(AcceptInvitationCommand $command): bool
+    {
+        $invitation = $command->getInvitation();
+        $group = $command->getGroup();
+        $user = $command->getUser();
+
+        $group->members()->attach($user->id, ['is_admin' => 0]);
+        $invitation->used = true;
+        $invitation->save();
+
+        return true;
     }
 }

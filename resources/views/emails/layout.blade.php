@@ -1,297 +1,70 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
-<head>
-    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
-    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
-    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
-    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
-
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,300,400,500,600,700" rel="stylesheet">
-
-    <!-- CSS Reset : BEGIN -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
     <style>
+        @media only screen and (max-width: 600px) {
+            .inner-body {
+                width: 100% !important;
+            }
 
-        /* What it does: Remove spaces around the email design added by some email clients. */
-        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
-        html,
-        body {
-            margin: 0 auto !important;
-            padding: 0 !important;
-            height: 100% !important;
-            width: 100% !important;
-            background: #f1f1f1;
-        }
-
-        /* What it does: Stops email clients resizing small text. */
-        * {
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        /* What it does: Centers email on Android 4.4 */
-        div[style*="margin: 16px 0"] {
-            margin: 0 !important;
-        }
-
-        /* What it does: Stops Outlook from adding extra spacing to tables. */
-        table,
-        td {
-            mso-table-lspace: 0pt !important;
-            mso-table-rspace: 0pt !important;
-        }
-
-        /* What it does: Fixes webkit padding issue. */
-        table {
-            border-spacing: 0 !important;
-            border-collapse: collapse !important;
-            table-layout: fixed !important;
-            margin: 0 auto !important;
-        }
-
-        /* What it does: Uses a better rendering method when resizing images in IE. */
-        img {
-            -ms-interpolation-mode:bicubic;
-        }
-
-        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
-        a {
-            text-decoration: none;
-        }
-
-        /* What it does: A work-around for email clients meddling in triggered links. */
-        *[x-apple-data-detectors],  /* iOS */
-        .unstyle-auto-detected-links *,
-        .aBn {
-            border-bottom: 0 !important;
-            cursor: default !important;
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important;
-        }
-
-        /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
-        .a6S {
-            display: none !important;
-            opacity: 0.01 !important;
-        }
-
-        /* What it does: Prevents Gmail from changing the text color in conversation threads. */
-        .im {
-            color: inherit !important;
-        }
-
-        /* If the above doesn't work, add a .g-img class to any image in question. */
-        img.g-img + div {
-            display: none !important;
-        }
-
-        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
-        /* Create one of these media queries for each additional viewport size you'd like to fix */
-
-        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
-        @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
-            u ~ div .email-container {
-                min-width: 320px !important;
+            .footer {
+                width: 100% !important;
             }
         }
-        /* iPhone 6, 6S, 7, 8, and X */
-        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
-            u ~ div .email-container {
-                min-width: 375px !important;
-            }
-        }
-        /* iPhone 6+, 7+, and 8+ */
-        @media only screen and (min-device-width: 414px) {
-            u ~ div .email-container {
-                min-width: 414px !important;
+        @media only screen and (max-width: 500px) {
+            .button {
+                width: 100% !important;
             }
         }
     </style>
-
-    <!-- CSS Reset : END -->
-
-    <!-- Progressive Enhancements : BEGIN -->
-    <style>
-
-        .primary{
-            background: #17bebb;
-        }
-        .bg_white{
-            background: #ffffff;
-        }
-        .bg_light{
-            background: #f7fafa;
-        }
-        .bg_black{
-            background: #000000;
-        }
-        .bg_dark{
-            background: rgba(0,0,0,.8);
-        }
-        .email-section{
-            padding:2.5em;
-        }
-
-        /*BUTTON*/
-        .btn{
-            padding: 10px 15px;
-            display: inline-block;
-        }
-        .btn.btn-primary{
-            border-radius: 5px;
-            background: #17bebb;
-            color: #ffffff;
-        }
-        .btn.btn-white{
-            border-radius: 5px;
-            background: #ffffff;
-            color: #000000;
-        }
-        .btn.btn-white-outline{
-            border-radius: 5px;
-            background: transparent;
-            border: 1px solid #fff;
-            color: #fff;
-        }
-        .btn.btn-black-outline{
-            border-radius: 0px;
-            background: transparent;
-            border: 2px solid #000;
-            color: #000;
-            font-weight: 700;
-        }
-        .btn-custom{
-            color: rgba(0,0,0,.3);
-            text-decoration: underline;
-        }
-
-        h1,h2,h3,h4,h5,h6{
-            font-family: 'Work Sans', sans-serif;
-            color: #000000;
-            margin-top: 0;
-            font-weight: 400;
-        }
-
-        body{
-            font-family: 'Work Sans', sans-serif;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 1.8;
-            color: rgba(0,0,0,.4);
-        }
-
-        a{
-            color: #17bebb;
-        }
-
-        table{
-        }
-        /*LOGO*/
-
-        .logo h1{
-            margin: 0;
-        }
-        .logo h1 a{
-            color: #17bebb;
-            font-size: 24px;
-            font-weight: 700;
-            font-family: 'Work Sans', sans-serif;
-        }
-
-        /*HERO*/
-        .hero{
-            position: relative;
-            z-index: 0;
-        }
-
-        .hero .text{
-            color: rgba(0,0,0,.3);
-        }
-        .hero .text h2{
-            color: #000;
-            font-size: 34px;
-            margin-bottom: 15px;
-            font-weight: 300;
-            line-height: 1.2;
-        }
-        .hero .text h3{
-            font-size: 24px;
-            font-weight: 200;
-        }
-        .hero .text h2 span{
-            font-weight: 600;
-            color: #000;
-        }
-
-
-        /*PRODUCT*/
-        .product-entry{
-            display: block;
-            position: relative;
-            float: left;
-            padding-top: 20px;
-        }
-        .product-entry .text{
-            width: calc(100% - 125px);
-            padding-left: 20px;
-        }
-        .product-entry .text h3{
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .product-entry .text p{
-            margin-top: 0;
-        }
-        .product-entry img, .product-entry .text{
-            float: left;
-        }
-
-        ul.social{
-            padding: 0;
-        }
-        ul.social li{
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        /*FOOTER*/
-
-        .footer{
-            border-top: 1px solid rgba(0,0,0,.05);
-            color: rgba(0,0,0,.5);
-        }
-        .footer .heading{
-            color: #000;
-            font-size: 20px;
-        }
-        .footer ul{
-            margin: 0;
-            padding: 0;
-        }
-        .footer ul li{
-            list-style: none;
-            margin-bottom: 10px;
-        }
-        .footer ul li a{
-            color: rgba(0,0,0,1);
-        }
-
-
-        @media screen and (max-width: 500px) {
-
-
-        }
-
-    </style>
-
-
 </head>
+<body style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size-adjust: none; background-color: #ffffff; color: #718096; height: 100%; line-height: 1.4; margin: 0; padding: 0; width: 100% !important;">
 
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f1f1f1;">
-    @yield('content')
+    <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #edf2f7; margin: 0; padding: 0; width: 100%;">
+        <tbody>
+            <tr>
+                <td align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+                    <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td class="header" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; padding: 25px 0; text-align: center;">
+                                    <a href="http://localhost" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 19px; font-weight: bold; text-decoration: none; display: inline-block;" target="_blank">
+                                        <img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100%; border: none; height: 75px; max-height: 75px; width: 75px;">
+                                    </a>
+                                </td></tr>
+
+                            <!-- Email Body -->
+                            <tr>
+                                <td class="body" width="100%" cellpadding="0" cellspacing="0" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: #edf2f7; border-bottom: 1px solid #edf2f7; border-top: 1px solid #edf2f7; margin: 0; padding: 0; width: 100%;">
+                                    <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e8e5ef; border-radius: 2px; border-width: 1px; box-shadow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015); margin: 0 auto; padding: 0; width: 570px;">
+                                        <!-- Body content -->
+                                        @yield('content')
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+                                    <table class="footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; width: 570px;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="content-cell" align="center" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width: 100vw; padding: 32px;">
+                                                    <p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;">
+                                                        © 2022 Adam Fousek.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

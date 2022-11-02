@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Group;
 
+use App\Command\Invitation\AcceptInvitationCommand;
+use App\Command\Invitation\AcceptInvitationHandler;
 use App\Http\Controllers\Controller;
+use App\Http\Exceptions\Invitation\ForbiddenInvitationException;
+use App\Http\Exceptions\Invitation\InvalidInvitationException;
 use App\Models\Group;
+use App\Models\Invitation;
 use App\Queries\User\ViewGroupsHandler;
 use App\Queries\User\ViewGroupsQuery;
 use App\Transformers\Models\GroupTransformer;
@@ -17,6 +22,7 @@ class GroupController extends Controller
     public function __construct(
         private readonly ViewGroupsHandler $viewGroupsHandler,
         private readonly GroupTransformer $groupTransformer,
+        private readonly AcceptInvitationHandler $acceptInvitationHandler,
     ) {
     }
 
@@ -46,9 +52,11 @@ class GroupController extends Controller
     {
         $this->authorize('view', $group);
 
+        $user = Auth::user();
+
         $data = [
             'group' => $this->groupTransformer->transform($group),
-            'canInviteMember' => $this->authorize('inviteMember', $group)->allowed(),
+            'canInviteMember' => $user?->can('inviteMember', $group) ?? false,
         ];
 
         return view('pages.groups.show', $data);
@@ -63,5 +71,23 @@ class GroupController extends Controller
         ];
 
         return view('pages.groups.edit', $data);
+    }
+
+    public function acceptInvitation(Group $group, Invitation $invitation)
+    {
+        $user = Auth::user();
+        try {
+            $this->acceptInvitationHandler->handle(new AcceptInvitationCommand(
+                $user,
+                $group,
+                $invitation,
+            ));
+        } catch (InvalidInvitationException) {
+            return redirect(route('groups.index'))->with('error', trans('Invitation expired. Please ask for new one.'));
+        } catch (ForbiddenInvitationException) {
+            abort(404);
+        }
+
+        return redirect(route('groups.show', $group));
     }
 }

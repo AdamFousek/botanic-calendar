@@ -29,9 +29,12 @@ class InviteMemberMail extends Mailable
      */
     public function build()
     {
+        $link = route('groups.acceptInvitation', ['group' => $this->invitation->group, 'invitation' => $this->invitation->uuid]);
+
         return $this->view('emails.group.invitation-email', [
             'groupUuid' => $this->invitation->group->uuid,
             'hash' => $this->invitation->uuid,
+            'link' => $link,
         ]);
     }
 }

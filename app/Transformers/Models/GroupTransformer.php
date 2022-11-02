@@ -65,7 +65,7 @@ class GroupTransformer
                 'username' => $user->username,
                 'firstname' => $user->first_name,
                 'lastName' => $user->last_name,
-                'fullName' => $user->full_name,
+                'fullName' => trim($user->full_name),
                 'isAdmin' => $user->pivot->is_admin,
             ];
         }

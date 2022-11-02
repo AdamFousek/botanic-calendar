@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories\Illuminate;
 
 use App\Command\Group\InsertGroupCommand;
-use App\Command\Group\InviteMemberCommand;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
 use App\Repositories\GroupRepositoryInterface;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class GroupRepository implements GroupRepositoryInterface
 {
@@ -54,14 +52,6 @@ class GroupRepository implements GroupRepositoryInterface
         return match ($query->getSort()) {
             ViewGroupQuery::SORT_METHOD_NEWEST => $builder->orderBy('created_at', 'DESC'),
         };
-    }
-
-    public function inviteMember(InviteMemberCommand $command): void
-    {
-        $query = DB::table('invitations')->insert([
-            'group_id' => $command->getGroup()->id,
-
-        ]);
     }
 
     public function viewByUuid(string $uuid): ?Group

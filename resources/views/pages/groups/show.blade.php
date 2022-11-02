@@ -28,6 +28,8 @@
             <x-groups.projects :projects="$group['projects']"></x-groups.projects>
         </div>
     </div>
-    <x-groups.invite-member :uuid="$group['uuid']"></x-groups.invite-member>
+    @if($canInviteMember)
+        <x-groups.invite-member :uuid="$group['uuid']"></x-groups.invite-member>
+    @endif
     <x-groups.create-project :group="$group"></x-groups.create-project>
 </x-app-layout>
