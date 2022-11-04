@@ -9,7 +9,6 @@ services:
       - '8080:80'
     volumes:
       - '.:/var/www/html'
-    network_mode: host
     networks:
       - botanic
     depends_on:

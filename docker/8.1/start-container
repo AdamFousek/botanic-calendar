@@ -1,17 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-if [ ! -z "$WWWUSER" ]; then
-    usermod -u $WWWUSER sail
-fi
+cd /var/www
 
-if [ ! -d /.composer ]; then
-    mkdir /.composer
-fi
+# php artisan migrate:fresh --seed
+php artisan cache:clear
+php artisan route:cache
 
-chmod -R ugo+rw /.composer
-
-if [ $# -gt 0 ]; then
-    exec gosu $WWWUSER "$@"
-else
-    exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-fi
+/usr/bin/supervisord -c /etc/supervisord.conf
