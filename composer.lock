@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d99a96e3295415e400bdbdefb99c3b3b",
+    "content-hash": "216b7bb067060de922ba734cb719c596",
     "packages": [
         {
             "name": "brick/math",
@@ -7813,12 +7813,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "cfab26195dd00f1a6a58fe1600e9cdaf3e0ad7bb"
+                "reference": "a8821628082da2912e58e5db6ed486f2a44d6fa8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/cfab26195dd00f1a6a58fe1600e9cdaf3e0ad7bb",
-                "reference": "cfab26195dd00f1a6a58fe1600e9cdaf3e0ad7bb",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a8821628082da2912e58e5db6ed486f2a44d6fa8",
+                "reference": "a8821628082da2912e58e5db6ed486f2a44d6fa8",
                 "shasum": ""
             },
             "conflict": {
@@ -8229,6 +8229,7 @@
                 "thorsten/phpmyfaq": "<3.1.8",
                 "tinymce/tinymce": "<5.10",
                 "titon/framework": ">=0,<9.9.99",
+                "tobiasbg/tablepress": "<= 2.0-RC1",
                 "topthink/framework": "<=6.0.13",
                 "topthink/think": "<=6.0.9",
                 "topthink/thinkphp": "<=3.2.3",
@@ -8339,7 +8340,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-02T17:13:38+00:00"
+            "time": "2022-11-02T19:04:33+00:00"
         },
         {
             "name": "sebastian/cli-parser",
