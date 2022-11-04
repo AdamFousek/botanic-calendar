@@ -9,6 +9,7 @@ services:
       - '8080:80'
     volumes:
       - '.:/var/www/html'
+    network_mode: host
     networks:
       - botanic
     depends_on:
@@ -78,7 +79,7 @@ services:
       - botanic
 networks:
   botanic:
-    driver: host
+    driver: bridge
 volumes:
   sail-mysql:
     driver: local
