@@ -1,14 +1,19 @@
-@props(['projects', 'projectsCount'])
+@props(['projects', 'projectsCount', 'canEditUser'])
 
-<div class="">
-    <h3 class="text-xl border-b my-2">Projects <span class="text-base text-gray-500">({{ $projectsCount }})</span></h3>
+<div>
+    <h3 class="text-xl border-b mb-2">Projects <span class="text-base text-gray-500">({{ $projectsCount }})</span></h3>
     <ul>
         @forelse($projects as $project)
             <li>
                 <x-primary-link :href="route('projects.show', $project['uuid'])" type="link">{{ $project['name'] }}</x-primary-link>
             </li>
         @empty
-            <li>No projects yet! <x-primary-link href="{{ route('projects.create') }}" type="link">Create one!</x-primary-link></li>
+            <li>
+                {{ __('No projects yet!') }}
+                @if($canEditUser)
+                    <x-primary-link href="{{ route('projects.create') }}" type="link">Create one!</x-primary-link>
+                @endif
+            </li>
         @endforelse
     </ul>
 </div>

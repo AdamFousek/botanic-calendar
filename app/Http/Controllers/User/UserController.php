@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use App\Transformers\Models\UserTransformer;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -21,8 +22,11 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $loggedUser = Auth::user();
+
         $data = [
             'user' => $this->userTransformer->transform($user),
+            'canEditUser' => $loggedUser?->can('update', $user) ?? false,
         ];
 
         return view('pages.users.show', $data);
