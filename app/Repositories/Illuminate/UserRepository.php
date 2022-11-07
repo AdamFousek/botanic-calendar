@@ -6,6 +6,7 @@ namespace App\Repositories\Illuminate;
 
 use App\Models\User;
 use App\Queries\User\ViewGroupsQuery;
+use App\Queries\User\ViewUserByIdQuery;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,5 +22,10 @@ class UserRepository implements UserRepositoryInterface
         $user = User::find($query->getUserId());
 
         return $user->memberGroups()->orderBy('is_admin', 'desc')->orderBy('created_at', 'desc')->get();
+    }
+
+    public function getById(ViewUserByIdQuery $query): ?User
+    {
+        return User::whereId($query->getId())->first();
     }
 }

@@ -36,7 +36,11 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        return view('pages.users.edit', ['user' => $user]);
+        $data = [
+            'user' => $this->userTransformer->transform($user),
+        ];
+
+        return view('pages.users.edit', $data);
     }
 
     public function update(UpdateUserRequest $request, User $user)

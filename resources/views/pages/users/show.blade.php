@@ -2,7 +2,7 @@
     <x-slot name="actions">
         @if($canEditUser)
             <div class="flex flex-wrap justify-end">
-                <x-primary-link :type="'button-outline-sm'" href="{{ route('user.edit', $user['id']) }}" class="text-sm">
+                <x-primary-link :type="'button-outline-sm'" href="{{ route('user.edit', $user['username']) }}" class="text-sm">
                     {{ __('Edit profile') }}
                 </x-primary-link>
             </div>
