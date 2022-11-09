@@ -17,7 +17,7 @@
                     <h3 class="text-xl">{{ $user['username'] }}</h3>
                 </div>
                 <div class="m-0">
-                    <img alt="..." src="https://via.placeholder.com/150" class="h-auto align-middle border-none"
+                    <img alt="..." src="{{ asset($user['image']) }}" class="h-auto align-middle border-none"
                          style="max-width: 150px;"/>
                 </div>
             </div>

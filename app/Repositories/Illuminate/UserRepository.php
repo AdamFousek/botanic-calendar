@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Illuminate;
 
+use App\Command\User\UpdateUserCommand;
 use App\Models\User;
 use App\Queries\User\ViewGroupsQuery;
 use App\Queries\User\ViewUserByIdQuery;
@@ -27,5 +28,18 @@ class UserRepository implements UserRepositoryInterface
     public function getById(ViewUserByIdQuery $query): ?User
     {
         return User::whereId($query->getId())->first();
+    }
+
+    public function update(UpdateUserCommand $command): User
+    {
+        $user = $command->getUser();
+
+        $user->first_name = $command->getFirstName();
+        $user->last_name = $command->getLastName();
+        $user->image_path = $command->getPhoto();
+
+        $user->save();
+
+        return $user;
     }
 }

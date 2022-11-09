@@ -2,9 +2,14 @@
 
 namespace App\Http\Livewire\User\Forms;
 
+use App\Command\User\UpdateUserCommand;
+use App\Command\User\UpdateUserHandler;
 use App\Models\User;
 use App\Queries\User\ViewUserByIdHandler;
 use App\Queries\User\ViewUserByIdQuery;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
@@ -12,6 +17,9 @@ use Livewire\WithFileUploads;
 class EditUser extends Component
 {
     use WithFileUploads;
+    use AuthorizesRequests;
+
+    private const PHOTO_PATH = '/photo/';
 
     public int $userId;
 
@@ -27,7 +35,7 @@ class EditUser extends Component
     protected array $rules = [
         'firstName' => 'string|max:255',
         'lastName' => 'string|max:255',
-        'photo' => 'nullable|image|max:1024',
+        'photo' => 'nullable|image',
     ];
 
     public function mount(ViewUserByIdHandler $viewUserByIdHandler): void
@@ -43,8 +51,39 @@ class EditUser extends Component
         $this->lastName = $user->last_name;
     }
 
-    public function update()
+    public function update(UpdateUserHandler $updateUserHandler)
     {
-        $this->photo->storeAs('photos', '');
+        $this->authorize('update', $this->user);
+
+        $validatedData = $this->validate();
+
+        $user = $updateUserHandler->handle(new UpdateUserCommand(
+            $this->user,
+            $validatedData['firstName'],
+            $validatedData['lastName'],
+            $this->resolvePhoto($validatedData['photo']),
+        ));
+
+        return redirect()
+            ->route('user.show', [$user])
+            ->with('success', trans('User updated!'));
+    }
+
+    private function resolvePhoto(mixed $photo): string
+    {
+        if (! $photo instanceof TemporaryUploadedFile) {
+            return '';
+        }
+
+        $resizedPhoto = Image::make($photo);
+        $resizedPhoto->fit(User::IMAGE_WIDTH, User::IMAGE_HEIGHT, function ($constraint) {
+            $constraint->upsize();
+        });
+        $path = self::PHOTO_PATH.$this->user->username.'.'.$photo->extension();
+
+        $photo->delete();
+        Storage::disk('public')->put($path, $resizedPhoto->encode(), 'public');
+
+        return Storage::disk('public')->url($path);
     }
 }

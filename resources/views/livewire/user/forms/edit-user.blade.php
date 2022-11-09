@@ -23,11 +23,6 @@
         <x-input-label for="photo" :value="__('Photo')" />
 
         <input type="file" wire:model="photo">
-        @if ($photo)
-            <div class="my-4 flex justify-center border" style="width: 150px; height: 150px;">
-                <img class="align-middle border-none" src="{{ $photo->temporaryUrl() }}">
-            </div>
-        @endif
         @error('photo')
             <x-input-error :messages="$message" class="mt-2" />
         @enderror

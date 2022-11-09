@@ -57,6 +57,10 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
+    public const IMAGE_WIDTH = 150;
+
+    public const IMAGE_HEIGHT = 150;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -68,6 +72,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'image_path',
     ];
 
     /**

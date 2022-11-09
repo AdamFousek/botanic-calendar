@@ -27,6 +27,7 @@ class UserTransformer
             'firstName' => $user->first_name,
             'lastName' => $user->last_name,
             'email' => $user->email,
+            'image' => $user->image_path,
             'createdAt' => $user->created_at->format('j.n.Y'),
             'projects' => $this->resolveProjects($projects),
             'projectsCount' => count($projects),
