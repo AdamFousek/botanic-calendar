@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories\Illuminate;
 
+use App\Command\Group\DeleteGroupCommand;
 use App\Command\Group\InsertGroupCommand;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
@@ -57,5 +58,10 @@ class GroupRepository implements GroupRepositoryInterface
     public function viewByUuid(string $uuid): ?Group
     {
         return Group::where('uuid', $uuid)->first();
+    }
+
+    public function delete(DeleteGroupCommand $command): void
+    {
+        Group::where('uuid', $command->getUuid())->delete();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Command\Group\DeleteGroupCommand;
 use App\Command\Group\InsertGroupCommand;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupQuery;
@@ -16,4 +17,6 @@ interface GroupRepositoryInterface
     public function find(ViewGroupQuery $query): Collection;
 
     public function viewByUuid(string $uuid): ?Group;
+
+    public function delete(DeleteGroupCommand $command): void;
 }

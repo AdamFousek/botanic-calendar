@@ -33,7 +33,7 @@ class GroupPolicy
 
     public function edit(User $user, Group $group)
     {
-        if ($group->user->id === $user->id) {
+        if ($group->user_id === $user->id) {
             return Response::allow();
         }
 
@@ -42,7 +42,19 @@ class GroupPolicy
 
     public function delete(User $user, Group $group)
     {
-        //
+        if ($group->members->count() === 0) {
+            return Response::denyWithStatus(403, trans('Group still has members'));
+        }
+
+        if ($group->projects->count() === 0) {
+            return Response::denyWithStatus(403, trans('Group still has projects'));
+        }
+
+        if ($user->id === $group->user_id) {
+            return Response::allow();
+        }
+
+        return Response::denyWithStatus(403);
     }
 
     public function inviteMember(User $user, Group $group)
