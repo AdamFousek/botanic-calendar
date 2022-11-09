@@ -10,7 +10,7 @@
     </div>
     <div class="border-t flex justify-between pt-4">
         <x-primary-link href="{{route('user.show', $project['author']['username']) }}" type="link" class="flex flex-wrap items-center">
-            <img alt="{{ $project['author']['username'] }}" src="https://via.placeholder.com/30" class="h-8 w-8 rounded-full"/>
+            <img alt="{{ $project['author']['username'] }}" src="{{ $project['author']['imagePath'] }}" class="h-8 w-8 rounded-full"/>
         </x-primary-link>
         <x-primary-link href="{{ route('projects.show', $project['uuid']) }}" type="button-outline-sm">{{ __('Show project') }}</x-primary-link>
     </div>

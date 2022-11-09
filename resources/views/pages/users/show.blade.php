@@ -1,4 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <div class="flex flex-wrap justify-center items-center md:justify-between">
+        </div>
+    </x-slot>
+
     <x-slot name="actions">
         @if($canEditUser)
             <div class="flex flex-wrap justify-end">

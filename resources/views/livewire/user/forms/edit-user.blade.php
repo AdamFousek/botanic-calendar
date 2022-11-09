@@ -26,6 +26,9 @@
         @error('photo')
             <x-input-error :messages="$message" class="mt-2" />
         @enderror
+        <label class="flex my-4">
+            <input class="mx-2" type="checkbox" name="removePhoto" id="removePhoto" wire:model.lazy="removePhoto" /> {{ __('Remove actual photo') }}
+        </label>
     </div>
     <div class="flex items-center justify-end mt-4">
         <x-primary-button class="ml-4">

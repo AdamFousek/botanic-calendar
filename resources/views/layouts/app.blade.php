@@ -19,24 +19,21 @@
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between">
+                    @if (isset($header))
                         {{ $header }}
-                    </div>
-                </header>
-            @endif
+                    @endif
+                    @if (isset($actions))
+                        {{ $actions }}
+                    @endif
+                </div>
+            </header>
 
             <x-alert />
 
-            @if (isset($actions))
-                <section class="max-w-7xl mx-auto py-2 md:py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $actions }}
-                </section>
-            @endif
-
             <!-- Page Content -->
-            <main class="py-0">
+            <main class="py-2 md:py-6">
                 {{ $slot }}
             </main>
         </div>

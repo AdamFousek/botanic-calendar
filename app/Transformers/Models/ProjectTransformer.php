@@ -19,6 +19,7 @@ class ProjectTransformer
         $user = $project->user;
 
         return [
+            'id' => $project->id,
             'uuid' => $project->uuid,
             'name' => $project->name,
             'description' => $project->description,
@@ -27,6 +28,7 @@ class ProjectTransformer
                 'username' => $user->username,
                 'fullName' => $user->full_name,
                 'email' => $user->email,
+                'imagePath' => $user->image_path,
             ],
             'createdAt' => $project->created_at->format('j.n.Y'),
             'group' => [

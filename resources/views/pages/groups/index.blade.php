@@ -4,12 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4 md:mb-0">
                 {{ __('All public Projects') }}
             </h2>
-            <div class="">
-                <form action="{{ route('groups.index') }}" method="GET" class="flex flex-wrap">
-                    <x-text-input name="search" value="{{ $searchQuery }}" type="text" placeholder="{{ __('Search') }}" class="py-1 px-2 mr-2"></x-text-input>
-                    <x-primary-button type="submit" class="p-1">{{ __('Search') }}</x-primary-button>
-                </form>
-            </div>
         </div>
     </x-slot>
 

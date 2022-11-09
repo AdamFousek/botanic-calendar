@@ -32,10 +32,13 @@ class EditUser extends Component
 
     public User $user;
 
+    public bool $removePhoto = false;
+
     protected array $rules = [
         'firstName' => 'string|max:255',
         'lastName' => 'string|max:255',
         'photo' => 'nullable|image',
+        'removePhoto' => 'nullable',
     ];
 
     public function mount(ViewUserByIdHandler $viewUserByIdHandler): void
@@ -61,7 +64,7 @@ class EditUser extends Component
             $this->user,
             $validatedData['firstName'],
             $validatedData['lastName'],
-            $this->resolvePhoto($validatedData['photo']),
+            $validatedData['removePhoto'] ? null : $this->resolvePhoto($validatedData['photo']),
         ));
 
         return redirect()
@@ -69,10 +72,10 @@ class EditUser extends Component
             ->with('success', trans('User updated!'));
     }
 
-    private function resolvePhoto(mixed $photo): string
+    private function resolvePhoto(mixed $photo): ?string
     {
         if (! $photo instanceof TemporaryUploadedFile) {
-            return '';
+            return $this->user->image_path;
         }
 
         $resizedPhoto = Image::make($photo);
