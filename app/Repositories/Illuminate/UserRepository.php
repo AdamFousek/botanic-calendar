@@ -68,6 +68,8 @@ class UserRepository implements UserRepositoryInterface
             });
         }
 
-        return $projects;
+        return $projects->sortByDesc(function (Project $project) {
+            return $project->created_at;
+        });
     }
 }

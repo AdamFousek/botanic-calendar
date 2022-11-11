@@ -8,7 +8,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div wire:loading.class="opacity-50 pointer-events-none">
         @if ($filteredProjects !== [])
-            <div class="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach($filteredProjects as $project)
                     <x-projects.card :project="$project" :wire:key="$project['id']"></x-projects.card>
                 @endforeach

@@ -17,7 +17,7 @@ class GroupTransformer
      */
     public function transform(Group $group): array
     {
-        $members = $group->members;
+        $members = $group->members()->orderByPivot('is_admin', 'desc')->get();
         $projects = $group->projects;
 
         return [

@@ -34,6 +34,10 @@ class ProjectPolicy
             return Response::allow();
         }
 
+        if ($project->group->members->has($user->id)) {
+            return Response::allow();
+        }
+
         return Response::denyWithStatus(404);
     }
 

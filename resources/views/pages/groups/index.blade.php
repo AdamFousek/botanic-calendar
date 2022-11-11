@@ -17,7 +17,7 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         @if ($groups !== [])
-            <div class="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                 @foreach($groups as $group)
                     <x-groups.card :group="$group"></x-groups.card>
                 @endforeach

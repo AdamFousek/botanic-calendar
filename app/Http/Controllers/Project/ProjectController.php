@@ -11,6 +11,7 @@ use App\Http\Requests\Project\StoreProjectRequest;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectHandler;
 use App\Queries\Project\ViewProjectQuery;
+use App\Transformers\Models\GroupTransformer;
 use App\Transformers\Models\ProjectTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class ProjectController extends Controller
         private readonly InsertProjectHandler $insertProjectHandler,
         private readonly ViewProjectHandler $viewProjectHandler,
         private readonly ProjectTransformer $projectTransformer,
+        private readonly GroupTransformer $groupTransformer,
     ) {
     }
 
@@ -69,8 +71,14 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
+        $group = [];
+        if ($project->group !== null) {
+            $group = $this->groupTransformer->transform($project->group);
+        }
+
         $data = [
             'project' => $this->projectTransformer->transform($project),
+            'group' => $group,
         ];
 
         return view('pages.projects.show', $data);
