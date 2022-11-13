@@ -31,7 +31,7 @@ class GroupTransformer
                 'username' => $group->user->username,
                 'fullName' => $group->user->full_name,
                 'email' => $group->user->email,
-                'imagePath' => $group->user->image_path,
+                'imagePath' => $group->user->image,
             ],
             'members' => $this->resolveMembers($members),
             'membersCount' => count($members),
@@ -93,7 +93,7 @@ class GroupTransformer
                     'username' => $user->username,
                     'fullName' => $user->full_name,
                     'email' => $user->email,
-                    'imagePath' => $user->image_path,
+                    'imagePath' => $user->image,
                 ],
                 'createdAt' => $project->created_at->format('j.n.Y'),
             ];

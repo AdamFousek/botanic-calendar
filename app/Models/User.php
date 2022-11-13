@@ -117,7 +117,14 @@ class User extends Authenticatable
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => ucfirst($attributes['first_name'] ?? '').' '.ucfirst($attributes['last_name'] ?? ''),
+            get: fn ($value, $attributes) => trim(ucfirst($attributes['first_name'] ?? '').' '.ucfirst($attributes['last_name'] ?? '')),
+        );
+    }
+
+    protected function image(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => trim($attributes['image_path']) ?: 'images/blank.webp',
         );
     }
 }

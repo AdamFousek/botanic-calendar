@@ -22,14 +22,14 @@
                     <h3 class="text-xl">{{ $user['username'] }}</h3>
                 </div>
                 <div class="m-0">
-                    <img alt="..." src="{{ asset($user['image']) }}" class="h-auto align-middle border-none"
-                         style="max-width: 150px;"/>
+                    <img alt="{{ $user['fullName'] ?: $user['username'] }}" src="{{ asset($user['image']) }}" class="h-auto align-middle border-none"
+                         style="width: 150px; height: 150px"/>
                 </div>
             </div>
         </div>
 
 
-        <div class="flex flex-wrap justify-between">
+        <div class="flex flex-wrap justify-between items-start">
             <div class="flex-1 mb-4 p-4 bg-white shadow-lg rounded-lg mr-2">
                 <x-user.projects
                     :projects="$user['projects']"

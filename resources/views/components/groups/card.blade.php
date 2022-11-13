@@ -10,7 +10,10 @@
     </div>
     <div class="border-t flex justify-between pt-4 items-center">
         <x-primary-link href="{{ route('user.show', $group['author']['username']) }}" type="link" class="flex flex-wrap items-center">
-            <img alt="{{ $group['author']['username'] }}" src="https://via.placeholder.com/30" class="h-8 w-8 rounded-full"/>
+            @if ($group['author']['imagePath'] !== '')
+                <img alt="{{ $group['author']['fullName'] ?: $group['author']['username'] }}" src="{{ $group['author']['imagePath'] }}" class="h-8 w-8 rounded-full"/>
+            @endif
+            <span class="ml-2">{{ $group['author']['fullName'] ?: $group['author']['username'] }}</span>
         </x-primary-link>
         <x-primary-link href="{{ route('groups.show', $group['uuid']) }}" type="button-outline-sm">{{ __('Show group') }}</x-primary-link>
     </div>

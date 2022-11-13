@@ -25,10 +25,11 @@ class ProjectTransformer
             'description' => $project->description,
             'isPublic' => $project->is_public,
             'author' => [
+                'id' => $user->id,
                 'username' => $user->username,
                 'fullName' => $user->full_name,
                 'email' => $user->email,
-                'imagePath' => $user->image_path,
+                'imagePath' => $user->image,
             ],
             'createdAt' => $project->created_at->format('j.n.Y'),
             'group' => [

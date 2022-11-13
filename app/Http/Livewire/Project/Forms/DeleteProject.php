@@ -8,7 +8,6 @@ use App\Models\Project;
 use App\Queries\Project\ViewProjectByUuidHandler;
 use App\Queries\Project\ViewProjectByUuidQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
 
 class DeleteProject extends Component
@@ -30,7 +29,7 @@ class DeleteProject extends Component
         $this->project = $project;
     }
 
-    public function delete(DeleteProjectHandler $deleteProjectHandler): RedirectResponse
+    public function delete(DeleteProjectHandler $deleteProjectHandler): void
     {
         $this->authorize('delete', $this->project);
 
@@ -38,6 +37,6 @@ class DeleteProject extends Component
             $this->uuid,
         ));
 
-        return redirect()->route('projects.index');
+        redirect()->route('projects.index');
     }
 }
