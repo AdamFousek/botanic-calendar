@@ -22,7 +22,7 @@
             @if ($project['author']['imagePath'] !== '')
             <img alt="{{ $project['author']['username'] }}" src="{{ $project['author']['imagePath'] }}" class="h-8 w-8 rounded-full"/>
             @endif
-            <span class="ml-2">{{ $project['author']['username'] }}</span>
+            <span class="ml-2">{{ $project['author']['fullName'] ?: $project['author']['username'] }}</span>
         </x-primary-link>
         <x-primary-link href="{{ route('projects.show', $project['uuid']) }}" type="button-outline-sm">{{ __('Show project') }}</x-primary-link>
         </div>

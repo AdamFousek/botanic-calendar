@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex flex-wrap justify-center items-center md:justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4 md:mb-0">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
                 {{ __('All public Projects') }}
             </h2>
         </div>
