@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace App\Command\Group;
 
 use App\Models\Group;
-use App\Repositories\GroupRepositoryInterface;
 
 class InsertGroupHandler
 {
-    public function __construct(
-        private readonly GroupRepositoryInterface $repository,
-    ) {
-    }
-
     public function handle(InsertGroupCommand $command): Group
     {
-        return $this->repository->insert($command);
+        $group = new Group();
+        $group->uuid = $command->getUuid();
+        $group->name = $command->getName();
+        $group->description = $command->getDescription();
+        $group->user_id = $command->getAuthorId();
+        $group->is_public = $command->isPublic();
+        $group->save();
+
+        $group->members()->attach($command->getAuthorId(), ['is_admin' => 1]);
+
+        return $group;
     }
 }

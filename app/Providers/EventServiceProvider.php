@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Events\Group\InviteMemberEvent;
 use App\Listeners\Group\SendInvitationListener;
+use App\Models\Group;
+use App\Observers\GroupObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,10 @@ class EventServiceProvider extends ServiceProvider
         InviteMemberEvent::class => [
             SendInvitationListener::class,
         ],
+    ];
+
+    protected $observers = [
+        Group::class => [GroupObserver::class],
     ];
 
     /**

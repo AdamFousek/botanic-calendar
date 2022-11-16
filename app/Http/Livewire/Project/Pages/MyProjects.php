@@ -10,8 +10,6 @@ use Livewire\Component;
 
 class MyProjects extends Component
 {
-    public int $userId;
-
     public string $searchText = '';
 
     public function render(
@@ -26,7 +24,7 @@ class MyProjects extends Component
         ));
 
         return view('livewire.project.pages.my-projects', [
-            'filteredProjects' => $projectTransformer->transformMulti($projects),
+            'projects' => $projectTransformer->transformMulti($projects),
         ]);
     }
 }

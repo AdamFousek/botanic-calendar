@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,5 +38,10 @@ class Experiment extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function users(): Collection|array
+    {
+        return $this->project->users();
     }
 }

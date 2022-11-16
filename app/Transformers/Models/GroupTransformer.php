@@ -6,7 +6,6 @@ namespace App\Transformers\Models;
 
 use App\Models\Group;
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Support\Collection;
 
 class GroupTransformer
@@ -17,9 +16,6 @@ class GroupTransformer
      */
     public function transform(Group $group): array
     {
-        $members = $group->members()->orderByPivot('is_admin', 'desc')->get();
-        $projects = $group->projects;
-
         return [
             'id' => $group->id,
             'uuid' => $group->uuid,
@@ -33,10 +29,6 @@ class GroupTransformer
                 'email' => $group->user->email,
                 'imagePath' => $group->user->image,
             ],
-            'members' => $this->resolveMembers($members),
-            'membersCount' => count($members),
-            'projects' => $this->resolveProjects($projects),
-            'projectsCount' => count($projects),
         ];
     }
 
@@ -52,26 +44,6 @@ class GroupTransformer
         }
 
         return $groups;
-    }
-
-    /**
-     * @param Collection|array<User> $users
-     * @return array<array<string, mixed>
-     */
-    private function resolveMembers(Collection|array $users): array
-    {
-        $result = [];
-        foreach ($users as $user) {
-            $result[] = [
-                'username' => $user->username,
-                'firstname' => $user->first_name,
-                'lastName' => $user->last_name,
-                'fullName' => trim($user->full_name),
-                'isAdmin' => $user->pivot->is_admin,
-            ];
-        }
-
-        return $result;
     }
 
     /**

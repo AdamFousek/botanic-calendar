@@ -8,7 +8,6 @@ use App\Models\Group;
 use App\Queries\Group\ViewGroupByUuidHandler;
 use App\Queries\Group\ViewGroupByUuidQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\RedirectResponse;
 use Livewire\Component;
 
 class DeleteGroup extends Component
@@ -30,7 +29,7 @@ class DeleteGroup extends Component
         $this->group = $group;
     }
 
-    public function delete(DeleteGroupHandler $deleteGroupHandler): RedirectResponse
+    public function delete(DeleteGroupHandler $deleteGroupHandler)
     {
         $this->authorize('delete', $this->group);
 
@@ -38,6 +37,6 @@ class DeleteGroup extends Component
             $this->uuid,
         ));
 
-        return redirect()->route('projects.index');
+        redirect()->route('projects.index');
     }
 }

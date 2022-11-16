@@ -13,17 +13,6 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
-    {
-        //
-    }
-
     public function view(User $user, Project $project): Response
     {
         if ($project->user->id === $user->id) {
@@ -34,22 +23,11 @@ class ProjectPolicy
             return Response::allow();
         }
 
-        if ($project->group->members->has($user->id)) {
+        if ($project->users()->has($user->id)) {
             return Response::allow();
         }
 
         return Response::denyWithStatus(404);
-    }
-
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        //
     }
 
     public function update(User $user, Project $project): Response
@@ -58,7 +36,7 @@ class ProjectPolicy
             return Response::allow();
         }
 
-        return Response::denyWithStatus(404);
+        return Response::denyWithStatus(403);
     }
 
     public function delete(User $user, Project $project): Response
@@ -67,30 +45,6 @@ class ProjectPolicy
             return Response::allow();
         }
 
-        return Response::denyWithStatus(404);
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Project $project)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Project $project)
-    {
-        //
+        return Response::denyWithStatus(403);
     }
 }

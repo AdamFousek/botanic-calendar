@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </div>
-            <x-projects.show.informations :project="$project" :group="$group"></x-projects.show.informations>
+            <x-projects.show.informations :project="$project" :group="$group" :members="$members"></x-projects.show.informations>
         </div>
     </div>
 </x-app-layout>

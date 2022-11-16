@@ -1,4 +1,4 @@
-<form wire:submit.prevent="save">
+<form wire:submit.prevent="create">
     @csrf
 
     <!-- Name -->

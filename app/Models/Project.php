@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Queries\Project\ViewProjectQuery;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 
 /**
  * App\Models\Project.
@@ -42,7 +46,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Project withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Project withoutTrashed()
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Experiment[] $experiments
+ * @property-read Collection|\App\Models\Experiment[] $experiments
  * @property-read int|null $experiments_count
  */
 class Project extends Model
@@ -79,8 +83,22 @@ class Project extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function experiments()
+    public function users(): Collection|array
+    {
+        return $this->group?->members ?? new Collection();
+    }
+
+    public function experiments(): HasMany
     {
         return $this->hasMany(Experiment::class);
+    }
+
+    public function scopeOrderByQuery(Builder $builder, ViewProjectQuery $query): Builder
+    {
+        return match ($query->getSort()) {
+            ViewProjectQuery::SORT_METHOD_NEWEST => $builder->orderBy('created_at', 'DESC'),
+            ViewProjectQuery::SORT_METHOD_ALPHABETIC_ASC => $builder->orderBy('name', 'ASC'),
+            ViewProjectQuery::SORT_METHOD_ALPHABETIC_DESC => $builder->orderBy('name', 'DESC'),
+        };
     }
 }

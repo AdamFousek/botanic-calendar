@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace App\Command\Group;
 
 use App\Models\Group;
-use App\Models\User;
 
 class InviteMemberCommand
 {
     public function __construct(
         private readonly Group $group,
-        private readonly User $user,
+        private readonly string $email,
     ) {
     }
 
@@ -20,8 +19,8 @@ class InviteMemberCommand
         return $this->group;
     }
 
-    public function getUser(): User
+    public function getEmail(): string
     {
-        return $this->user;
+        return $this->email;
     }
 }

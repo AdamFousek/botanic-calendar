@@ -22,11 +22,11 @@
                     {{ $group['description'] }}
                 </div>
                 <div class="w-full">
-                    <x-groups.projects :projects="$group['projects']"></x-groups.projects>
+                    <x-groups.projects :projects="$projects"></x-groups.projects>
                 </div>
             </div>
             <div class="bg-white md:col-span-1 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
-                <x-groups.members :members="$group['members']" :canInviteMember="$canInviteMember" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
+                <x-groups.members :members="$members" :canInviteMember="$canInviteMember" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
             </div>
         </div>
     </div>

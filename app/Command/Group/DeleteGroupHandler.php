@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command\Group;
 
-use App\Repositories\GroupRepositoryInterface;
+use App\Models\Group;
 
 class DeleteGroupHandler
 {
-    public function __construct(
-        private readonly GroupRepositoryInterface $repository,
-    ) {
-    }
-
     public function handle(DeleteGroupCommand $command): void
     {
-        $this->repository->delete($command);
+        Group::where('uuid', $command->getUuid())->delete();
     }
 }

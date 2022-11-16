@@ -5,36 +5,77 @@ declare(strict_types=1);
 namespace App\Command\Group;
 
 use App\Events\Group\InviteMemberEvent;
-use App\Repositories\GroupRepositoryInterface;
-use App\Repositories\InvitationRepositoryInterface;
-use App\Repositories\UserRepositoryInterface;
+use App\Models\Group;
+use App\Models\Invitation;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use RuntimeException;
 
 class InviteMemberHandler
 {
-    public function __construct(
-        private readonly GroupRepositoryInterface $repository,
-        private readonly InvitationRepositoryInterface $invitationRepository,
-        private readonly UserRepositoryInterface $userRepository,
-    ) {
-    }
-
-    public function handle(InviteMember $command): void
+    public function handle(InviteMemberCommand $command): void
     {
-        $user = $this->userRepository->getByEmail($command->getEmail());
-        $group = $this->repository->viewByUuid($command->getGroupUuid());
-
-        if ($user === null || $group === null) {
-            throw new \RuntimeException('User or group not found');
+        $user = User::where(['email' => $command->getEmail()])->first();
+        if ($user === null) {
+            throw new RuntimeException(trans('User not found'));
+        }
+        $group = $command->getGroup();
+        if ($this->invitationExists($user, $group)) {
+            throw new RuntimeException(trans('Invitation already exists'));
         }
 
-        if ($this->invitationRepository->invitationExists($user, $group)) {
-            return;
-        }
+        $this->expireInvitation($user, $group);
 
-        $this->invitationRepository->expireInvitation($user, $group);
-
-        $invitation = $this->invitationRepository->create($user, $group);
+        $invitation = $this->createNewInvitation($user, $group);
 
         InviteMemberEvent::dispatch($invitation);
+    }
+
+    private function invitationExists(User $user, Group $group): bool
+    {
+        $pastInterval = (new Carbon())->days(-Invitation::INVITATION_EXPIRATION_IN_DAYS);
+
+        return DB::table('invitations')
+            ->where([
+                'user_id' => $user->id,
+                'group_id' => $group->id,
+                'used' => false,
+            ])
+            ->whereDate('created_at', '>', $pastInterval)
+            ->exists();
+    }
+
+    /**
+     * Make invitation expire.
+     * @param User $user
+     * @param Group $group
+     * @return void
+     */
+    private function expireInvitation(User $user, Group $group): void
+    {
+        $unusedInvitation = DB::table('invitations')
+            ->where([
+                'user_id' => $user->id,
+                'group_id' => $group->id,
+                'used' => false,
+            ]);
+
+        if ($unusedInvitation !== null) {
+            $unusedInvitation->delete();
+        }
+    }
+
+    private function createNewInvitation(User $user, Group $group): Invitation
+    {
+        $invitation = new Invitation();
+        $invitation->uuid = Str::uuid();
+        $invitation->group_id = $group->id;
+        $invitation->user_id = $user->id;
+        $invitation->used = false;
+        $invitation->save();
+
+        return $invitation;
     }
 }

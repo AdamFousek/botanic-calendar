@@ -4,26 +4,21 @@ html { box-sizing: border-box; }
 *::before,
 *::after { box-sizing: inherit; }
 
-body * {
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font: normal 100%/1.15 "Merriweather", serif;
-    background: #fff url("../images/texture.jpeg?v=1") repeat 0 0;
-    color: #fff;
 }
 
-.wrapper {
+.wrapper-403 {
     position: relative;
-    max-width: 1298px;
     height: auto;
-    margin: 2em auto 0 auto;
+    background: #fff url("../images/texture.jpeg?v=1") repeat 0 0;
+}
+
+.wrapper-403 .wrapper {
     background: transparent url("../images/wood-fence.png?v=1") no-repeat center top 24em;
 }
 
-.box {
+.box-403 {
     max-width: 70%;
     min-height: 600px;
     margin: 0 auto;

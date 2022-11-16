@@ -11,36 +11,24 @@ use App\Http\Exceptions\Invitation\ForbiddenInvitationException;
 use App\Http\Exceptions\Invitation\InvalidInvitationException;
 use App\Models\Group;
 use App\Models\Invitation;
-use App\Queries\User\ViewGroupsHandler;
-use App\Queries\User\ViewGroupsQuery;
+use App\Transformers\Helpers\MembersTransformer;
 use App\Transformers\Models\GroupTransformer;
-use Illuminate\Http\Request;
+use App\Transformers\Models\ProjectTransformer;
 use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
     public function __construct(
-        private readonly ViewGroupsHandler $viewGroupsHandler,
         private readonly GroupTransformer $groupTransformer,
         private readonly AcceptInvitationHandler $acceptInvitationHandler,
+        private readonly MembersTransformer $membersTransformer,
+        private readonly ProjectTransformer $projectTransformer,
     ) {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->query('search', '');
-        $userId = Auth::id();
-
-        $groups = $this->viewGroupsHandler->handle(new ViewGroupsQuery(
-            $userId,
-        ));
-
-        $data = [
-            'groups' => $this->groupTransformer->transformMulti($groups),
-            'searchQuery' => $search,
-        ];
-
-        return view('pages.groups.index', $data);
+        return view('pages.groups.index');
     }
 
     public function create()
@@ -54,8 +42,13 @@ class GroupController extends Controller
 
         $user = Auth::user();
 
+        $members = $group->members;
+        $projects = $group->projects()->with(['group', 'user'])->get();
+
         $data = [
             'group' => $this->groupTransformer->transform($group),
+            'members' => $this->membersTransformer->transform($members),
+            'projects' => $this->projectTransformer->transformMulti($projects),
             'canInviteMember' => $user?->can('inviteMember', $group) ?? false,
         ];
 

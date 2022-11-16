@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Group\Forms;
 
+use App\Command\Group\InviteMemberCommand;
 use App\Command\Group\InviteMemberHandler;
 use App\Models\Group;
 use App\Queries\Group\ViewGroupByUuidHandler;
@@ -36,11 +37,6 @@ class InviteMember extends Component
         $this->group = $group;
     }
 
-    public function updated($propertyName): void
-    {
-        $this->validateOnly($propertyName);
-    }
-
     public function invite(InviteMemberHandler $inviteMemberHandler)
     {
         $this->authorize('inviteMember', $this->group);
@@ -53,11 +49,15 @@ class InviteMember extends Component
             ['email' => 'Email Address']
         );
 
-        $inviteMemberHandler->handle(new \App\Command\Group\InviteMember(
-            $this->group->uuid,
-            $validatedData['email'],
-        ));
+        try {
+            $inviteMemberHandler->handle(new InviteMemberCommand(
+                $this->group,
+                $validatedData['email'],
+            ));
 
-        redirect()->route('groups.show', $this->group)->with('success', trans('Invitation send!'));
+            redirect()->route('groups.show', $this->group)->with('success', trans('Invitation send!'));
+        } catch (\Exception $exception) {
+            redirect()->route('groups.show', $this->group)->with('error', $exception->getMessage());
+        }
     }
 }

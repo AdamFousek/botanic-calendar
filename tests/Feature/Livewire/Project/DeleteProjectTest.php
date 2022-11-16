@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Livewire\Project;
 
 use App\Http\Livewire\Project\Forms\DeleteProject;
@@ -34,7 +36,7 @@ class DeleteProjectTest extends TestCase
         $this->actingAs($user2);
         Livewire::test(DeleteProject::class, ['uuid' => $project->uuid])
             ->call('delete')
-            ->assertNotFound();
+            ->assertForbidden();
 
         $deletedProject = Project::withTrashed()->where('uuid', $project->uuid)->first();
 

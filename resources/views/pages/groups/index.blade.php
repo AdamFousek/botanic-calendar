@@ -15,15 +15,5 @@
         </div>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        @if ($groups !== [])
-            <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
-                @foreach($groups as $group)
-                    <x-groups.card :group="$group"></x-groups.card>
-                @endforeach
-            </div>
-        @else
-            <div class="w-full rounded-lg shadow-sm sm:rounded-lg text-center bg-white py-4">There is no projects found. You can search for public projects</div>
-        @endif
-    </div>
+    <livewire:group.pages.my-groups />
 </x-app-layout>

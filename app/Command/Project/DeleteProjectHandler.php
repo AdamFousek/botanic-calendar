@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command\Project;
 
-use App\Repositories\ProjectRepositoryInterface;
+use App\Models\Project;
 
 class DeleteProjectHandler
 {
-    public function __construct(
-        private readonly ProjectRepositoryInterface $repository,
-    ) {
-    }
-
-    public function handle(DeleteProjectCommand $command)
+    public function handle(DeleteProjectCommand $command): void
     {
-        $this->repository->delete($command->getUuid());
+        Project::where('uuid', $command->getUuid())->delete();
     }
 }

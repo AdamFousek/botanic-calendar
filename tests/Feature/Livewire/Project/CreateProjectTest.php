@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Livewire\Project;
 
 use App\Http\Livewire\Project\Forms\CreateProject;

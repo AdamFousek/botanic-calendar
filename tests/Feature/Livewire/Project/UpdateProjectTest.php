@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Livewire\Project;
 
 use App\Http\Livewire\Project\Forms\EditProject;
@@ -42,7 +44,7 @@ class UpdateProjectTest extends TestCase
             ->set('description', 'description 2')
             ->set('isPublic', true)
             ->call('update')
-            ->assertNotFound();
+            ->assertForbidden();
     }
 
     private function createProject(User $user): Project

@@ -9,11 +9,9 @@ use App\Command\Project\InsertProjectHandler;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Models\Project;
-use App\Queries\Project\ViewProjectHandler;
-use App\Queries\Project\ViewProjectQuery;
+use App\Transformers\Helpers\MembersTransformer;
 use App\Transformers\Models\GroupTransformer;
 use App\Transformers\Models\ProjectTransformer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -21,28 +19,15 @@ class ProjectController extends Controller
 {
     public function __construct(
         private readonly InsertProjectHandler $insertProjectHandler,
-        private readonly ViewProjectHandler $viewProjectHandler,
+        private readonly MembersTransformer $membersTransformer,
         private readonly ProjectTransformer $projectTransformer,
         private readonly GroupTransformer $groupTransformer,
     ) {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->query('search', '');
-        $userId = Auth::id();
-
-        $projects = $this->viewProjectHandler->handle(new ViewProjectQuery(
-            $userId,
-            $search !== '' ? $search : null,
-        ));
-
-        $data = [
-            'projects' => $this->projectTransformer->transformMulti($projects),
-            'searchQuery' => $search,
-        ];
-
-        return view('pages.projects.index', $data);
+        return view('pages.projects.index');
     }
 
     public function create()
@@ -76,8 +61,11 @@ class ProjectController extends Controller
             $group = $this->groupTransformer->transform($project->group);
         }
 
+        $members = $project->users();
+
         $data = [
             'project' => $this->projectTransformer->transform($project),
+            'members' => $this->membersTransformer->transform($members),
             'group' => $group,
         ];
 

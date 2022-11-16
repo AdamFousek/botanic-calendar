@@ -22,14 +22,14 @@ class CreateGroup extends Component
         'description' => 'nullable|string',
     ];
 
-    public function save(InsertGroupHandler $insertGroupHandler)
+    public function create(InsertGroupHandler $insertGroupHandler)
     {
         $validatedData = $this->validate();
 
         $userId = Auth::id();
         $group = $insertGroupHandler->handle(new InsertGroupCommand(
             $validatedData['name'],
-            Str::uuid(),
+            (string) Str::uuid(),
             $validatedData['isPublic'] ?? false,
             $validatedData['description'] ?? '',
             $userId,

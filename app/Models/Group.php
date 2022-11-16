@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Queries\Group\ViewGroupQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
 
 /**
  * App\Models\Group.
@@ -85,5 +87,12 @@ class Group extends Model
             ->belongsToMany(User::class, 'group_members', 'group_id', 'user_id')
             ->withPivot('is_admin')
             ->withTimestamps();
+    }
+
+    public function scopeOrderByQuery(Builder $builder, ViewGroupQuery $query): Builder
+    {
+        return match ($query->getSort()) {
+            ViewGroupQuery::SORT_METHOD_NEWEST => $builder->orderBy('created_at', 'DESC'),
+        };
     }
 }

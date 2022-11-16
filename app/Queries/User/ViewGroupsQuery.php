@@ -8,7 +8,13 @@ class ViewGroupsQuery
 {
     public function __construct(
         private readonly int $userId,
+        private readonly ?string $search,
     ) {
+    }
+
+    public function getSearch(): ?string
+    {
+        return $this->search;
     }
 
     public function getUserId(): int

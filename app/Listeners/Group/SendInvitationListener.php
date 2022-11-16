@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 
 class SendInvitationListener implements ShouldQueue
 {
-    public string $queue = 'invitation';
+    public string $queue = 'mail';
 
     /**
      * Create the event listener.

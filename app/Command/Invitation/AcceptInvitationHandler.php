@@ -6,15 +6,9 @@ namespace App\Command\Invitation;
 
 use App\Http\Exceptions\Invitation\ForbiddenInvitationException;
 use App\Http\Exceptions\Invitation\InvalidInvitationException;
-use App\Repositories\InvitationRepositoryInterface;
 
 class AcceptInvitationHandler
 {
-    public function __construct(
-        private readonly InvitationRepositoryInterface $repository,
-    ) {
-    }
-
     public function handle(AcceptInvitationCommand $command): bool
     {
         if (! $command->getInvitation()->isValid()) {
@@ -25,6 +19,14 @@ class AcceptInvitationHandler
             throw new ForbiddenInvitationException('You have no rights for this invitation');
         }
 
-        return $this->repository->accept($command);
+        $invitation = $command->getInvitation();
+        $group = $command->getGroup();
+        $user = $command->getUser();
+
+        $group->members()->attach($user->id, ['is_admin' => 0]);
+        $invitation->used = true;
+        $invitation->save();
+
+        return true;
     }
 }

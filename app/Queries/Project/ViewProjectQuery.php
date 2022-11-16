@@ -8,6 +8,10 @@ class ViewProjectQuery
 {
     public const SORT_METHOD_NEWEST = 1;
 
+    public const SORT_METHOD_ALPHABETIC_ASC = 2;
+
+    public const SORT_METHOD_ALPHABETIC_DESC = 3;
+
     public function __construct(
         private readonly ?int $userId = null,
         private readonly ?string $query = null,

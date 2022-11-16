@@ -23,15 +23,10 @@ class GroupPolicy
             return Response::allow();
         }
 
-        return Response::denyWithStatus(403);
+        return Response::denyWithStatus(404);
     }
 
-    public function create(User $user)
-    {
-        //
-    }
-
-    public function edit(User $user, Group $group)
+    public function update(User $user, Group $group): Response
     {
         if ($group->user_id === $user->id) {
             return Response::allow();
@@ -40,16 +35,8 @@ class GroupPolicy
         return Response::denyWithStatus(403);
     }
 
-    public function delete(User $user, Group $group)
+    public function delete(User $user, Group $group): Response
     {
-        if ($group->members->count() === 0) {
-            return Response::denyWithStatus(403, trans('Group still has members'));
-        }
-
-        if ($group->projects->count() === 0) {
-            return Response::denyWithStatus(403, trans('Group still has projects'));
-        }
-
         if ($user->id === $group->user_id) {
             return Response::allow();
         }
@@ -57,17 +44,13 @@ class GroupPolicy
         return Response::denyWithStatus(403);
     }
 
-    public function inviteMember(User $user, Group $group)
+    public function inviteMember(User $user, Group $group): Response
     {
-        if ($group->is_public) {
-            if ($group->members->contains($user->id)) {
-                return Response::allow();
-            }
-
-            return Response::denyWithStatus(403);
+        if ($user->id === $group->user->id) {
+            return Response::allow();
         }
 
-        if ($user->id === $group->user->id) {
+        if ($group->is_public && $group->members->contains($user->id)) {
             return Response::allow();
         }
 
