@@ -7,6 +7,7 @@
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
+            <livewire:project.favourite-project :uuid="$project['uuid']"/>
             <x-primary-link href="{{ route('projects.edit', $project['uuid']) }}" type="button-outline-sm">
                 {{ __('Edit project') }}
             </x-primary-link>

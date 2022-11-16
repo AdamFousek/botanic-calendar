@@ -48,6 +48,7 @@ use Illuminate\Database\Query\Builder;
  * @mixin \Eloquent
  * @property-read Collection|\App\Models\Experiment[] $experiments
  * @property-read int|null $experiments_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Project orderByQuery(\App\Queries\Project\ViewProjectQuery $query)
  */
 class Project extends Model
 {

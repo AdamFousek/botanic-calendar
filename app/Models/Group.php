@@ -47,6 +47,7 @@ use Illuminate\Database\Query\Builder;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $members
  * @property-read int|null $members_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Group orderByQuery(\App\Queries\Group\ViewGroupQuery $query)
  */
 class Group extends Model
 {

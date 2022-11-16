@@ -50,6 +50,10 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
+ * @property string $image_path
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $favouriteProjects
+ * @property-read int|null $favourite_projects_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereImagePath($value)
  */
 class User extends Authenticatable
 {
@@ -97,6 +101,11 @@ class User extends Authenticatable
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function favouriteProjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'favourite_projects');
     }
 
     public function groups(): HasMany
