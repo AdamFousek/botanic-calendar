@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExperimentController;
 use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\SearchController;
@@ -12,7 +13,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('pages.dashboard.index');
     })->name('dashboard');
 
     Route::controller(ProjectController::class)->group(function () {
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/groups/{group}', 'show')->name('groups.show');
         Route::get('/groups/{group}/edit', 'edit')->name('groups.edit');
         Route::get('/groups/{group}/inviteMember/{invitation}', 'acceptInvitation')->name('groups.acceptInvitation');
+    });
+
+    Route::controller(ExperimentController::class)->group(function () {
+        Route::get('/experiment/{experiment}', 'show')->name('experiment.show');
     });
 
     Route::controller(SearchController::class)->group(function () {

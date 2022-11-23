@@ -1,7 +1,9 @@
-<x-primary-link wire:click="toggleFavourite" type="button-sm">
-    @if ($isFavourite)
+@if (!$isFavourite)
+    <x-primary-button wire:click="toggleFavourite" color="primary-outline" class="mb-0">
         {{ __('Mark as favourite') }}
-    @else
+    </x-primary-button>
+@else
+    <x-primary-button wire:click="toggleFavourite" color="red-outline" class="mb-0">
         {{ __('Remove from favourite') }}
-    @endif
-</x-primary-link>
+    </x-primary-button>
+@endif

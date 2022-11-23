@@ -21,7 +21,7 @@
                     {{ $project['description'] }}
                 </div>
                 <div class="w-full">
-                    <div class="flex flex-wrap justify-between border-b mb-4">
+                    <div class="flex flex-wrap justify-between border-b mb-2 p-4 md:p-0">
                         <h2 id="projects" class="font-semibold text-xl text-gray-800 leading-tight mb-4">
                             {{ __('Experiments') }}
                         </h2>
@@ -29,9 +29,22 @@
                             {{ __('Create experiments') }}
                         </x-primary-link>
                     </div>
+                    <div>
+                        @if ($experiments !== [])
+                            <x-projects.show.experiments :experiments="$experiments"></x-projects.show.experiments>
+                        @else
+                        <div class="bg-white p-4 my-2">
+                            {{ __('No experiments yet!') }}
+                            <x-primary-link type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createExperiment">
+                                {{ __('Create one!') }}
+                            </x-primary-link>
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
             <x-projects.show.informations :project="$project" :group="$group" :members="$members"></x-projects.show.informations>
         </div>
+        <livewire:experiment.forms.create-experiment :projectId="$project['id']" />
     </div>
 </x-app-layout>

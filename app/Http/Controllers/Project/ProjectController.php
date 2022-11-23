@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Models\Project;
 use App\Transformers\Helpers\MembersTransformer;
+use App\Transformers\Models\ExperimentTransformer;
 use App\Transformers\Models\GroupTransformer;
 use App\Transformers\Models\ProjectTransformer;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class ProjectController extends Controller
         private readonly MembersTransformer $membersTransformer,
         private readonly ProjectTransformer $projectTransformer,
         private readonly GroupTransformer $groupTransformer,
+        private readonly ExperimentTransformer $experimentTransformer,
     ) {
     }
 
@@ -67,6 +69,7 @@ class ProjectController extends Controller
             'project' => $this->projectTransformer->transform($project),
             'members' => $this->membersTransformer->transform($members),
             'group' => $group,
+            'experiments' => $this->experimentTransformer->transformMulti($project->experiments),
         ];
 
         return view('pages.projects.show', $data);

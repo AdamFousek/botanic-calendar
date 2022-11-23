@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -33,6 +36,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereProjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereUuid($value)
+ * @property int $user_id
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereUserId($value)
  */
 class Experiment extends Model
 {
@@ -42,6 +48,7 @@ class Experiment extends Model
     protected $fillable = [
         'name',
         'uuid',
+        'user_id',
     ];
 
     protected $casts = [
@@ -49,13 +56,30 @@ class Experiment extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function users(): Collection|array
     {
         return $this->project->users();
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attributes) => (new Carbon($attributes['created_at']))->format('j.n.Y')
+        );
     }
 }

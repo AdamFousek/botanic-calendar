@@ -2,12 +2,35 @@
 
 namespace App\Http\Livewire\Experiment\Forms;
 
+use App\Command\Experiment\InsertExperimentCommand;
+use App\Command\Experiment\InsertExperimentHandler;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CreateExperiment extends Component
 {
-    public function render()
+    public int $projectId;
+
+    public string $name = '';
+
+    protected $rules = [
+        'name' => 'required|string|max:255',
+        'projectId' => 'required|integer',
+    ];
+
+    public function create(InsertExperimentHandler $insertExperimentHandler)
     {
-        return view('livewire.experiment.forms.create-experiment');
+        $validatedData = $this->validate();
+
+        $userId = Auth::id();
+        $experiment = $insertExperimentHandler->handle(new InsertExperimentCommand(
+            $userId,
+            Str::uuid(),
+            $validatedData['name'],
+            $validatedData['projectId'],
+        ));
+
+        return redirect()->route('experiments.show', [$experiment]);
     }
 }

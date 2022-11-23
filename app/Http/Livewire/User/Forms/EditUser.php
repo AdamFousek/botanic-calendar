@@ -41,6 +41,17 @@ class EditUser extends Component
         'removePhoto' => 'nullable',
     ];
 
+    public function updatedPhoto(): void
+    {
+        $photo = Image::make($this->photo);
+        $photo->fit(User::IMAGE_WIDTH, User::IMAGE_HEIGHT, function ($constraint) {
+            $constraint->upsize();
+        });
+
+        $path = implode('/', [$this->photo->getPath(), $this->photo->getFilename()]);
+        $photo->save($path);
+    }
+
     public function mount(ViewUserByIdHandler $viewUserByIdHandler): void
     {
         $user = $viewUserByIdHandler->handle(new ViewUserByIdQuery($this->userId));

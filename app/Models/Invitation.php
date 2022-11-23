@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|Invitation onlyTrashed()
  * @method static \Illuminate\Database\Query\Builder|Invitation withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Invitation withoutTrashed()
+ * @property string $hash
+ * @method static \Illuminate\Database\Eloquent\Builder|Invitation whereHash($value)
  */
 class Invitation extends Model
 {

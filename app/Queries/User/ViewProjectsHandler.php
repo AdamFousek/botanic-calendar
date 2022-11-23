@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ViewProjectsHandler
 {
+    /**
+     * @param ViewProjectsQuery $query
+     * @return Collection<Project>
+     */
     public function handle(ViewProjectsQuery $query): Collection
     {
         $user = User::find($query->getUserId());

@@ -25,12 +25,12 @@ class FavouriteProject extends Component
     {
         $this->user = Auth::user();
         $this->project = $viewProjectByUuidHandler->handle(new ViewProjectByUuidQuery($this->uuid));
-        $this->isFavourite = ! $this->user->favouriteProjects->contains($this->project->id);
+        $this->isFavourite = $this->user->favouriteProjects->contains($this->project->id);
     }
 
     public function toggleFavourite(
         MarkProjectAsFavouriteByUserHandler $favouriteByUserHandler
-    ) {
+    ): void {
         $favouriteByUserHandler->handle(new MarkProjectFavouriteByUserCommand(
             $this->user,
             $this->project,
