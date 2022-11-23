@@ -19,7 +19,7 @@
 
                     <!-- Name -->
                     <div class="mt-4">
-                        <x-input-label for="name" :value="__('Project name')" />
+                        <x-input-label for="name" :value="__('Experiment name')" />
 
                         <x-text-input wire:model.lazy="name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autofocus />
 

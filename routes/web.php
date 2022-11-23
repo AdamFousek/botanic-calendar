@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ExperimentController;
+use App\Http\Controllers\Experiment\ExperimentController;
 use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\SearchController;
@@ -25,7 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/{project}/delete', 'destroy')->name('projects.delete');
 
         Route::controller(ExperimentController::class)->group(function () {
-            Route::get('{project}/experiment/{experiment}', 'show')->name('experiment.show');
+            Route::get('{project}/experiment/{experiment}', 'show')->name('projects.experiment.show');
+            Route::get('{project}/experiment/{experiment}/settings', 'edit')->name('projects.experiment.edit');
         });
     });
 

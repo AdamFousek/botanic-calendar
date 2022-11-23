@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Experiment;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreExperimentSettingsRequest;
 use App\Http\Requests\UpdateExperimentSettingsRequest;
 use App\Models\ExperimentSettings;

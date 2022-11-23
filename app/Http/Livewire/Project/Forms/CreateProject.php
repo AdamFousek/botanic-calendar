@@ -10,18 +10,18 @@ use Str;
 
 class CreateProject extends Component
 {
-    public string $name = '';
+    public string $projectName = '';
 
     public bool $isPublic = false;
 
-    public string $description = '';
+    public string $projectDescription = '';
 
     public ?int $groupId = null;
 
     protected $rules = [
-        'name' => 'required|string|max:255',
+        'projectName' => 'required|string|max:255',
         'isPublic' => 'nullable',
-        'description' => 'nullable|string',
+        'projectDescription' => 'nullable|string',
     ];
 
     public function create(InsertProjectHandler $insertProjectHandler)
@@ -32,9 +32,9 @@ class CreateProject extends Component
         $project = $insertProjectHandler->handle(new InsertProjectCommand(
             $userId,
             Str::uuid(),
-            $validatedData['name'],
+            $validatedData['projectName'],
             $validatedData['isPublic'] ?? false,
-            $validatedData['description'] ?? '',
+            $validatedData['projectDescription'] ?? '',
             $this->groupId,
         ));
 
