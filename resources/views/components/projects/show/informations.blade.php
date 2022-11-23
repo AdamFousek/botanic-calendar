@@ -14,10 +14,12 @@
             </x-primary-link>
         </div>
         <div class="mb-2">
+            @if ($group)
             <span class="font-bold mr-2">{{ __('Group') }}: </span>
             <x-primary-link href="{{ route('groups.show', $group['uuid']) }}" type="link">
                 {{ $group['name'] }}
             </x-primary-link>
+            @endif
         </div>
         <div class="mb-2">
             <span class="font-bold mr-2">{{ __('Members') }}: </span>

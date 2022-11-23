@@ -11,7 +11,6 @@ return new class() extends Migration {
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('project_id');
-            $table->uuid();
             $table->string('name');
             $table->timestamps();
             $table->softDeletes();

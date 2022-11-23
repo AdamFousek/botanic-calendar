@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Group;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class GroupSeeder extends Seeder
 {
@@ -14,6 +16,35 @@ class GroupSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $users = User::all();
+
+        /** @var User $user */
+        foreach ($users as $user) {
+            $groups = Group::factory()->count(random_int(1, 5))->create([
+                'user_id' => $user->id,
+            ]);
+
+            /** @var Group $group */
+            foreach ($groups as $group) {
+                DB::table('group_members')->insert([
+                    'group_id' => $group->id,
+                    'user_id' => $user->id,
+                    'is_admin' => true,
+                    'is_favourite' => false,
+                ]);
+            }
+
+            $groups = Group::all()->random(random_int(1, Group::all()->count()));
+            foreach ($groups as $group) {
+                if (! $user->groups->contains($group->id)) {
+                    DB::table('group_members')->insert([
+                        'group_id' => $group->id,
+                        'user_id' => $user->id,
+                        'is_admin' => false,
+                        'is_favourite' => (bool) random_int(0, 1),
+                    ]);
+                }
+            }
+        }
     }
 }

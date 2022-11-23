@@ -31,7 +31,7 @@
                     </div>
                     <div>
                         @if ($experiments !== [])
-                            <x-projects.show.experiments :experiments="$experiments"></x-projects.show.experiments>
+                            <x-projects.show.experiments :project="$project" :experiments="$experiments"></x-projects.show.experiments>
                         @else
                         <div class="bg-white p-4 my-2">
                             {{ __('No experiments yet!') }}

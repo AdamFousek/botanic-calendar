@@ -11,7 +11,6 @@ class InsertExperimentHandler
     public function handle(InsertExperimentCommand $command): Experiment
     {
         $experiment = new Experiment();
-        $experiment->uuid = $command->uuid;
         $experiment->name = $command->name;
         $experiment->user_id = $command->userId;
         $experiment->project_id = $command->projectId;

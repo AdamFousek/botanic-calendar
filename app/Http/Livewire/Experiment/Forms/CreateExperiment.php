@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Experiment\Forms;
 use App\Command\Experiment\InsertExperimentCommand;
 use App\Command\Experiment\InsertExperimentHandler;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CreateExperiment extends Component
@@ -26,7 +25,6 @@ class CreateExperiment extends Component
         $userId = Auth::id();
         $experiment = $insertExperimentHandler->handle(new InsertExperimentCommand(
             $userId,
-            Str::uuid(),
             $validatedData['name'],
             $validatedData['projectId'],
         ));

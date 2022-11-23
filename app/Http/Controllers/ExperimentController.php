@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreExperimentRequest;
 use App\Http\Requests\UpdateExperimentRequest;
 use App\Models\Experiment;
+use App\Models\Project;
 
 class ExperimentController extends Controller
 {
@@ -45,9 +46,11 @@ class ExperimentController extends Controller
      * @param  \App\Models\Experiment  $experiment
      * @return \Illuminate\Http\Response
      */
-    public function show(Experiment $experiment)
+    public function show(Project $project, Experiment $experiment)
     {
-        //
+        dump($project);
+        dump($experiment);
+        die;
     }
 
     /**

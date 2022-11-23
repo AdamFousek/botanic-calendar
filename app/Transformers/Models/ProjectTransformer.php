@@ -18,12 +18,13 @@ class ProjectTransformer
         $group = $project->group;
         $user = $project->user;
 
-        return [
+        $data = [
             'id' => $project->id,
             'uuid' => $project->uuid,
             'name' => $project->name,
             'description' => $project->description,
             'isPublic' => $project->is_public,
+            'createdAt' => $project->created_at->format('j.n.Y'),
             'author' => [
                 'id' => $user->id,
                 'username' => $user->username,
@@ -31,12 +32,16 @@ class ProjectTransformer
                 'email' => $user->email,
                 'imagePath' => $user->image,
             ],
-            'createdAt' => $project->created_at->format('j.n.Y'),
-            'group' => [
-                'uuid' => $group?->uuid,
-                'name' => $group?->name,
-            ],
         ];
+
+        if ($group) {
+            $data['group'] = [
+                'uuid' => $group->uuid,
+                'name' => $group->name,
+            ];
+        }
+
+        return $data;
     }
 
     /**

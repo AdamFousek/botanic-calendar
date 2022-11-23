@@ -47,7 +47,6 @@ class Experiment extends Model
 
     protected $fillable = [
         'name',
-        'uuid',
         'user_id',
     ];
 
@@ -69,11 +68,6 @@ class Experiment extends Model
     public function users(): Collection|array
     {
         return $this->project->users();
-    }
-
-    public function getRouteKeyName(): string
-    {
-        return 'uuid';
     }
 
     protected function createdAt(): Attribute

@@ -16,13 +16,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('pages.dashboard.index');
     })->name('dashboard');
 
-    Route::controller(ProjectController::class)->group(function () {
-        Route::get('/projects', 'index')->name('projects.index');
-        Route::get('/projects/create', 'create')->name('projects.create');
-        Route::post('/projects/create', 'store')->name('projects.store');
-        Route::get('/projects/{project}', 'show')->name('projects.show');
-        Route::get('/projects/{project}/edit', 'edit')->name('projects.edit');
-        Route::post('/projects/{project}/delete', 'destroy')->name('projects.delete');
+    Route::controller(ProjectController::class)->prefix('/projects')->group(function () {
+        Route::get('/', 'index')->name('projects.index');
+        Route::get('/create', 'create')->name('projects.create');
+        Route::post('/create', 'store')->name('projects.store');
+        Route::get('/{project}', 'show')->name('projects.show');
+        Route::get('/{project}/edit', 'edit')->name('projects.edit');
+        Route::post('/{project}/delete', 'destroy')->name('projects.delete');
+
+        Route::controller(ExperimentController::class)->group(function () {
+            Route::get('{project}/experiment/{experiment}', 'show')->name('experiment.show');
+        });
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -37,10 +41,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/groups/{group}', 'show')->name('groups.show');
         Route::get('/groups/{group}/edit', 'edit')->name('groups.edit');
         Route::get('/groups/{group}/inviteMember/{invitation}', 'acceptInvitation')->name('groups.acceptInvitation');
-    });
-
-    Route::controller(ExperimentController::class)->group(function () {
-        Route::get('/experiment/{experiment}', 'show')->name('experiment.show');
     });
 
     Route::controller(SearchController::class)->group(function () {
