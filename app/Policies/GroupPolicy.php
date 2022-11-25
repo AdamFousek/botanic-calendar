@@ -15,7 +15,7 @@ class GroupPolicy
 
     public function view(User $user, Group $group): Response
     {
-        if ($group->user->id === $user->id) {
+        if ($group->is_public) {
             return Response::allow();
         }
 

@@ -17,7 +17,7 @@ class CreateProjectTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         Livewire::test(CreateProject::class)
-            ->set('name', 'Lorem project')
+            ->set('projectName', 'Lorem project')
             ->set('description', 'Lorem ipsum')
             ->call('create');
 
@@ -29,7 +29,7 @@ class CreateProjectTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         Livewire::test(CreateProject::class)
-            ->set('name', '')
+            ->set('projectName', '')
             ->call('create')
             ->assertHasErrors(['name' => 'required']);
     }
@@ -39,7 +39,7 @@ class CreateProjectTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         $response = Livewire::test(CreateProject::class)
-            ->set('name', 'foo')
+            ->set('projectName', 'foo')
             ->call('create');
 
         $project = Project::latest('id')->first();

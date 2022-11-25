@@ -57,7 +57,7 @@ class EditUser extends Component
         $user = $viewUserByIdHandler->handle(new ViewUserByIdQuery($this->userId));
 
         if ($user === null) {
-            redirect()->route('dashboard');
+            redirect()->route('welcome');
         }
 
         $this->user = $user;

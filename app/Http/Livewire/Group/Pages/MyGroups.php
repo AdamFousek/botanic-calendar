@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Group\Pages;
 
+use App\Models\User;
 use App\Queries\User\ViewGroupsHandler;
 use App\Queries\User\ViewGroupsQuery;
 use App\Transformers\Models\GroupTransformer;
@@ -16,11 +17,15 @@ class MyGroups extends Component
         GroupTransformer $groupTransformer,
         ViewGroupsHandler $viewGroupsHandler,
     ) {
-        $userId = Auth::id();
+        $user = Auth::user();
+        if (! $user instanceof User) {
+            return redirect()->route('welcome');
+        }
+
         $search = trim($this->searchText);
 
         $groups = $viewGroupsHandler->handle(new ViewGroupsQuery(
-            $userId,
+            $user->id,
             $search !== '' ? $search : null,
         ));
 

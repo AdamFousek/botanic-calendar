@@ -13,7 +13,7 @@
                         data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-footer p-4 border-t border-gray-200 rounded-b-md">
-                <livewire:project.forms.create-project :groupId="$group['id']"/>
+                <livewire:project.forms.create-project :groupUuid="$group['uuid']"/>
             </div>
         </div>
     </div>

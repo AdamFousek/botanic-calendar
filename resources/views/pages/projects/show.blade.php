@@ -45,6 +45,6 @@
             </div>
             <x-projects.show.informations :project="$project" :group="$group" :members="$members"></x-projects.show.informations>
         </div>
-        <livewire:experiment.forms.create-experiment :projectId="$project['id']" />
+        <livewire:experiment.forms.create-experiment :projectUuid="$project['uuid']" />
     </div>
 </x-app-layout>

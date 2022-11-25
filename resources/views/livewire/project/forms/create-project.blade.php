@@ -3,7 +3,7 @@
 
     <!-- Name -->
     <div class="mt-4">
-        <x-input-label for="name" :value="__('Project name')" />
+        <x-input-label for="projectName" :value="__('Project name')" />
 
         <x-text-input wire:model.lazy="projectName" id="name" class="block mt-1 w-full" type="text" name="projectName" :value="old('projectName')" autofocus />
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="mt-4">
-        <x-input-label for="description" :value="__('Project description')" />
+        <x-input-label for="projectDescription" :value="__('Project description')" />
 
         <textarea wire:model.lazy="projectDescription" name="projectDescription" id="description" class="w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">{{ old('description') }}</textarea>
 

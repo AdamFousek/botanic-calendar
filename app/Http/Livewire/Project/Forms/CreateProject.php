@@ -4,7 +4,12 @@ namespace App\Http\Livewire\Project\Forms;
 
 use App\Command\Project\InsertProjectCommand;
 use App\Command\Project\InsertProjectHandler;
-use Auth;
+use App\Models\Group;
+use App\Models\Project;
+use App\Models\User;
+use App\Queries\Group\ViewGroupByUuidHandler;
+use App\Queries\Group\ViewGroupByUuidQuery;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Str;
 
@@ -16,7 +21,9 @@ class CreateProject extends Component
 
     public string $projectDescription = '';
 
-    public ?int $groupId = null;
+    public ?string $groupUuid = null;
+
+    public ?Group $group = null;
 
     protected $rules = [
         'projectName' => 'required|string|max:255',
@@ -24,18 +31,31 @@ class CreateProject extends Component
         'projectDescription' => 'nullable|string',
     ];
 
+    public function mount(ViewGroupByUuidHandler $viewGroupByUuidHandler): void
+    {
+        if ($this->groupUuid) {
+            $this->group = $viewGroupByUuidHandler->handle(new ViewGroupByUuidQuery($this->groupUuid));
+        }
+    }
+
     public function create(InsertProjectHandler $insertProjectHandler)
     {
+        $this->authorize('create', [Project::class, $this->group]);
+
         $validatedData = $this->validate();
 
-        $userId = Auth::id();
+        $user = Auth::user();
+        if (! $user instanceof User) {
+            return redirect()->route('welcome');
+        }
+
         $project = $insertProjectHandler->handle(new InsertProjectCommand(
-            $userId,
+            $user->id,
             Str::uuid(),
             $validatedData['projectName'],
             $validatedData['isPublic'] ?? false,
             $validatedData['projectDescription'] ?? '',
-            $this->groupId,
+            $this->group?->id,
         ));
 
         return redirect()->route('projects.show', [$project]);

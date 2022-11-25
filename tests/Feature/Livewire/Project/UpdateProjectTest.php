@@ -20,8 +20,8 @@ class UpdateProjectTest extends TestCase
 
         $this->actingAs($user);
         Livewire::test(EditProject::class, ['uuid' => $project->uuid])
-            ->set('name', 'second name')
-            ->set('description', 'description 2')
+            ->set('projectName', 'second name')
+            ->set('projectDescription', 'description 2')
             ->set('isPublic', true)
             ->call('update');
 
@@ -40,8 +40,8 @@ class UpdateProjectTest extends TestCase
         $user2 = User::factory()->create();
         $this->actingAs($user2);
         Livewire::test(EditProject::class, ['uuid' => $project->uuid])
-            ->set('name', 'second name')
-            ->set('description', 'description 2')
+            ->set('projectName', 'second name')
+            ->set('projectDescription', 'description 2')
             ->set('isPublic', true)
             ->call('update')
             ->assertForbidden();

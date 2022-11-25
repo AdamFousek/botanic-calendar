@@ -16,20 +16,20 @@ class EditProject extends Component
 
     public string $uuid;
 
-    public string $name;
+    public string $projectName;
 
     public bool $isPublic;
 
     public ?int $groupId;
 
-    public string $description;
+    public string $projectDescription;
 
     public Project $project;
 
     protected array $rules = [
-        'name' => 'required|string|max:255',
+        'projectName' => 'required|string|max:255',
         'isPublic' => 'nullable',
-        'description' => 'nullable|string',
+        'projectDescription' => 'nullable|string',
     ];
 
     public function mount(ViewProjectByUuidHandler $viewProjectHandler): void
@@ -41,11 +41,11 @@ class EditProject extends Component
         }
 
         $this->project = $project;
-        $this->name = $project->name;
+        $this->projectName = $project->name;
         $this->uuid = $project->uuid;
         $this->isPublic = $project->is_public;
         $this->groupId = $project->group_id;
-        $this->description = $project->description;
+        $this->projectDescription = $project->description;
     }
 
     public function update(UpdateProjectHandler $updateProjectHandler)
@@ -56,8 +56,8 @@ class EditProject extends Component
 
         $project = $updateProjectHandler->handle(new UpdateProjectCommand(
             $this->project->id,
-            $validatedData['name'],
-            $validatedData['description'],
+            $validatedData['projectName'],
+            $validatedData['projectDescription'],
             $validatedData['isPublic'],
         ));
 

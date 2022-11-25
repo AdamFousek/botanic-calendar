@@ -19,7 +19,7 @@ class MyProjects extends Component
     ) {
         $user = Auth::user();
         if ($user === null) {
-            return redirect('projects.index');
+            return redirect('welcome');
         }
 
         $search = trim($this->searchText);

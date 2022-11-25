@@ -15,15 +15,13 @@
             <div class="modal-footer p-4 border-t border-gray-200 rounded-b-md">
                 <form wire:submit.prevent="create">
                     @csrf
-                    <x-text-input wire:model="projectId" id="name" class="block mt-1 w-full" type="hidden" name="projectId" :value="$projectId" autofocus />
-
                     <!-- Name -->
                     <div class="mt-4">
-                        <x-input-label for="name" :value="__('Experiment name')" />
+                        <x-input-label for="experimentName" :value="__('Experiment name')" />
 
-                        <x-text-input wire:model.lazy="name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" autofocus />
+                        <x-text-input wire:model.lazy="experimentName" id="experimentName" class="block mt-1 w-full" type="text" name="experimentName" :value="old('experimentName')" autofocus />
 
-                        @error('name')
+                        @error('experimentName')
                         <x-input-error :messages="$message" class="mt-2" />
                         @enderror
                     </div>

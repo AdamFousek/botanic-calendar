@@ -9,9 +9,11 @@
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
+            @if($canEditGroup)
             <x-primary-link href="{{ route('groups.edit', $group['uuid']) }}" type="button-outline-sm">
                 {{ __('Edit group') }}
             </x-primary-link>
+            @endif
         </div>
     </x-slot>
 
@@ -22,7 +24,7 @@
                     {{ $group['description'] }}
                 </div>
                 <div class="w-full">
-                    <x-groups.projects :projects="$projects"></x-groups.projects>
+                    <x-groups.projects :projects="$projects" :canCreateProject="$canCreateProject"></x-groups.projects>
                 </div>
             </div>
             <div class="bg-white md:col-span-1 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
@@ -33,5 +35,7 @@
     @if($canInviteMember)
         <x-groups.invite-member :uuid="$group['uuid']"></x-groups.invite-member>
     @endif
-    <x-groups.create-project :group="$group"></x-groups.create-project>
+    @if($canCreateProject)
+        <x-groups.create-project :group="$group"></x-groups.create-project>
+    @endif
 </x-app-layout>

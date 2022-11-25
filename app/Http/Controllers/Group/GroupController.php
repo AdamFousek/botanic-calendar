@@ -11,6 +11,7 @@ use App\Http\Exceptions\Invitation\ForbiddenInvitationException;
 use App\Http\Exceptions\Invitation\InvalidInvitationException;
 use App\Models\Group;
 use App\Models\Invitation;
+use App\Models\Project;
 use App\Transformers\Helpers\MembersTransformer;
 use App\Transformers\Models\GroupTransformer;
 use App\Transformers\Models\ProjectTransformer;
@@ -50,6 +51,8 @@ class GroupController extends Controller
             'members' => $this->membersTransformer->transform($members),
             'projects' => $this->projectTransformer->transformMulti($projects),
             'canInviteMember' => $user?->can('inviteMember', $group) ?? false,
+            'canEditGroup' => $user?->can('update', $group) ?? false,
+            'canCreateProject' => $user?->can('create', [Project::class, $group]) ?? false,
         ];
 
         return view('pages.groups.show', $data);

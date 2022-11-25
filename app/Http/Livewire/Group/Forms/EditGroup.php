@@ -16,18 +16,18 @@ class EditGroup extends Component
 
     public string $uuid;
 
-    public string $name = '';
+    public string $groupName = '';
 
     public bool $isPublic = false;
 
-    public string $description = '';
+    public string $groupDescription = '';
 
     public Group $group;
 
     protected array $rules = [
-        'name' => 'required|string|max:255',
+        'groupName' => 'required|string|max:255',
         'isPublic' => 'nullable',
-        'description' => 'nullable|string',
+        'groupDescription' => 'nullable|string',
     ];
 
     public function mount(ViewGroupByUuidHandler $viewGroupByUuidHandler): void
@@ -47,14 +47,14 @@ class EditGroup extends Component
     public function update(
         UpdateGroupHandler $updateGroupHandler,
     ) {
-        $this->authorize('edit', $this->group);
+        $this->authorize('update', $this->group);
 
         $validatedData = $this->validate();
 
         $group = $updateGroupHandler->handle(new UpdateGroupCommand(
             $this->group->id,
-            $validatedData['name'],
-            $validatedData['description'],
+            $validatedData['groupName'],
+            $validatedData['groupDescription'],
             $validatedData['isPublic'],
         ));
 

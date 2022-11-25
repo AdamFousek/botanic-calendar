@@ -18,8 +18,8 @@ class CreateGroupTest extends TestCase
 
         $name = 'Lorem project';
         Livewire::test(CreateGroup::class)
-            ->set('name', $name)
-            ->set('description', 'Lorem ipsum')
+            ->set('groupName', $name)
+            ->set('groupDescription', 'Lorem ipsum')
             ->call('create');
 
         $this->assertTrue(Group::whereName($name)->exists());

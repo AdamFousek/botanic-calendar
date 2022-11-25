@@ -12,7 +12,7 @@ class FavouriteProjects extends Component
         $user = Auth::user();
 
         if ($user === null) {
-            return redirect('login');
+            return redirect('welcome');
         }
 
         $data = [
