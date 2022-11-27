@@ -22,7 +22,7 @@ class ExperimentSeeder extends Seeder
             $experiments = Experiment::factory()
                 ->count(random_int(3, 10))
                 ->create([
-                    'user_id' => $project->users()->count() === 0 ? $project->user_id : $project->users()->random()->value('id'),
+                    'user_id' => $project->members->count() === 0 ? $project->user_id : $project->members->random()->value('id'),
                     'project_id' => $project->id,
                 ]);
         }

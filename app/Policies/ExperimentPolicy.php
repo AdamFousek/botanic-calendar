@@ -18,7 +18,7 @@ class ExperimentPolicy
             return Response::allow();
         }
 
-        if ($project->users()->contains($user->id)) {
+        if ($project->members->contains($user->id)) {
             return Response::allow();
         }
 

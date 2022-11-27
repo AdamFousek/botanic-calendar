@@ -9,9 +9,9 @@ class MarkProjectAsFavouriteByUserHandler
     public function handle(MarkProjectFavouriteByUserCommand $command)
     {
         if ($command->isFavourite) {
-            $command->user->favouriteProjects()->detach($command->project->id);
+            $command->user->memberProjects()->updateExistingPivot($command->project->id, ['is_favourite' => false]);
         } else {
-            $command->user->favouriteProjects()->attach($command->project->id);
+            $command->user->memberProjects()->updateExistingPivot($command->project->id, ['is_favourite' => true]);
         }
     }
 }

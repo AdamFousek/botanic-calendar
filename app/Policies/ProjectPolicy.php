@@ -37,7 +37,7 @@ class ProjectPolicy
             return Response::allow();
         }
 
-        if ($project->users()->has($user->id)) {
+        if ($project->members->contains($user->id)) {
             return Response::allow();
         }
 

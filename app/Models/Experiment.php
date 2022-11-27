@@ -67,7 +67,7 @@ class Experiment extends Model
 
     public function users(): Collection|array
     {
-        return $this->project->users();
+        return $this->project->members;
     }
 
     protected function createdAt(): Attribute

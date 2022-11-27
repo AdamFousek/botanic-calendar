@@ -12,11 +12,12 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::create('favourite_projects', function (Blueprint $table) {
+        Schema::create('project_members', function (Blueprint $table) {
             $table->foreignId('user_id')
                 ->constrained();
             $table->foreignId('project_id')
                 ->constrained();
+            $table->boolean('is_favourite')->default(false);
             $table->timestamps();
         });
     }

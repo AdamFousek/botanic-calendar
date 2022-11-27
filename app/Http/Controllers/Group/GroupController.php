@@ -46,7 +46,7 @@ class GroupController extends Controller
 
         $user = Auth::user();
 
-        $members = $group->members;
+        $members = $group->members()->orderByPivot('is_admin', 'desc')->orderBy('last_name')->get();
         $projects = $group->projects()->with(['group', 'user'])->get();
 
         $data = [

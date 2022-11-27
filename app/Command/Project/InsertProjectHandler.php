@@ -18,6 +18,8 @@ class InsertProjectHandler
         $project->group_id = $command->groupId;
         $project->save();
 
+        $project->members()->attach($command->userId);
+
         return $project;
     }
 }

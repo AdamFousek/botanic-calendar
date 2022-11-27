@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -49,6 +50,8 @@ use Illuminate\Database\Query\Builder;
  * @property-read Collection|\App\Models\Experiment[] $experiments
  * @property-read int|null $experiments_count
  * @method static \Illuminate\Database\Eloquent\Builder|Project orderByQuery(\App\Queries\Project\ViewProjectQuery $query)
+ * @property-read Collection|\App\Models\User[] $members
+ * @property-read int|null $members_count
  */
 class Project extends Model
 {
@@ -84,9 +87,11 @@ class Project extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function users(): Collection|array
+    public function members(): BelongsToMany
     {
-        return $this->group?->members ?? new Collection();
+        return $this
+            ->belongsToMany(User::class, 'project_members', 'project_id', 'user_id')
+            ->withTimestamps();
     }
 
     public function experiments(): HasMany

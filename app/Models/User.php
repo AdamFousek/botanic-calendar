@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -51,9 +52,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
  * @property string $image_path
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $favouriteProjects
- * @property-read int|null $favourite_projects_count
  * @method static \Illuminate\Database\Eloquent\Builder|User whereImagePath($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $memberProjects
+ * @property-read int|null $member_projects_count
  */
 class User extends Authenticatable
 {
@@ -103,11 +104,6 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
-    public function favouriteProjects(): BelongsToMany
-    {
-        return $this->belongsToMany(Project::class, 'favourite_projects');
-    }
-
     public function groups(): HasMany
     {
         return $this->hasMany(Group::class);
@@ -115,7 +111,20 @@ class User extends Authenticatable
 
     public function memberGroups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
+        return $this
+            ->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id')
+            ->withPivot(['is_admin', 'is_favourite']);
+    }
+
+    public function memberProjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_members', 'user_id', 'project_id')
+            ->withPivot(['is_favourite']);
+    }
+
+    public function favouriteProjects(): Collection
+    {
+        return $this->memberProjects()->withPivotValue('is_favourite', true)->get();
     }
 
     public function getRouteKeyName(): string
@@ -126,7 +135,7 @@ class User extends Authenticatable
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => trim(ucfirst($attributes['first_name'] ?? '').' '.ucfirst($attributes['last_name'] ?? '')),
+            get: fn ($value, $attributes) => trim(ucfirst($attributes['last_name'] ?? '').' '.ucfirst($attributes['first_name'] ?? '')),
         );
     }
 

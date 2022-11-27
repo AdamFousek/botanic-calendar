@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class GroupSeeder extends Seeder
 {
@@ -26,20 +25,19 @@ class GroupSeeder extends Seeder
 
             /** @var Group $group */
             foreach ($groups as $group) {
-                DB::table('group_members')->insert([
-                    'group_id' => $group->id,
-                    'user_id' => $user->id,
+                $group->members()->attach($user->id, [
                     'is_admin' => true,
                     'is_favourite' => false,
                 ]);
             }
+        }
 
+        // Random groups
+        foreach ($users as $user) {
             $groups = Group::all()->random(random_int(1, Group::all()->count()));
             foreach ($groups as $group) {
                 if (! $user->groups->contains($group->id)) {
-                    DB::table('group_members')->insert([
-                        'group_id' => $group->id,
-                        'user_id' => $user->id,
+                    $group->members()->attach($user->id, [
                         'is_admin' => false,
                         'is_favourite' => (bool) random_int(0, 1),
                     ]);

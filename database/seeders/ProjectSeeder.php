@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProjectSeeder extends Seeder
 {
@@ -16,30 +15,28 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::all()->random(random_int(30, 50));
+        $users = User::all();
 
         /** @var User $user */
         foreach ($users as $user) {
-            $projects = Project::factory()->count(random_int(2, 5))->create([
+            $projects = Project::factory()->count(random_int(3, 5))->create([
                 'user_id' => $user,
                 'group_id' => random_int(0, 1) ? $user->groups->random(1)->value('id') : null,
             ]);
 
             /** @var Project $project */
             foreach ($projects as $project) {
-                if ($project->users()->isEmpty()) {
+                $project->members()->attach($user->id, ['is_favourite' => random_int(0, 1)]);
+
+                $groupUsers = $project->group?->members;
+                if (! isset($groupUsers) || $groupUsers->isEmpty()) {
                     continue;
                 }
 
-                $groupUsers = $project->users()->random(random_int(0, $project->users()->count()));
+                $groupUsers = $groupUsers->random(random_int(0, $groupUsers->count()));
 
                 foreach ($groupUsers as $groupUser) {
-                    if ($groupUser->id !== $user->id && random_int(0, 1)) {
-                        DB::table('favourite_projects')->insert([
-                            'user_id' => $groupUser->id,
-                            'project_id' => $project->id,
-                        ]);
-                    }
+                    $project->members()->attach($groupUser->id, ['is_favourite' => (bool) random_int(0, 1)]);
                 }
             }
         }
