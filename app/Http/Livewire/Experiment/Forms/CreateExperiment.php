@@ -51,6 +51,6 @@ class CreateExperiment extends Component
             $this->project->id,
         ));
 
-        return redirect()->route('experiments.show', [$experiment]);
+        return redirect()->route('projects.experiment.show', [$this->project, $experiment]);
     }
 }

@@ -15,10 +15,13 @@ use App\Models\Project;
 use App\Transformers\Helpers\MembersTransformer;
 use App\Transformers\Models\GroupTransformer;
 use App\Transformers\Models\ProjectTransformer;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 
 class GroupController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         private readonly GroupTransformer $groupTransformer,
         private readonly AcceptInvitationHandler $acceptInvitationHandler,

@@ -6,6 +6,7 @@ use App\Http\Livewire\Experiment\Forms\CreateExperiment;
 use App\Models\Experiment;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -18,7 +19,7 @@ class CreateExperimentTest extends TestCase
 
         $this->actingAs($user);
         $name = 'Lorem eperiment';
-        Livewire::test(CreateExperiment::class, ['projectId' => $project->id])
+        Livewire::test(CreateExperiment::class, ['projectUuid' => $project->uuid])
             ->set('experimentName', $name)
             ->call('create');
 
@@ -33,7 +34,7 @@ class CreateExperimentTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
         $name = 'Lorem eperiment';
-        Livewire::test(CreateExperiment::class, ['projectId' => $project->id])
+        Livewire::test(CreateExperiment::class, ['projectUuid' => $project->uuid])
             ->set('experimentName', $name)
             ->call('create')
             ->assertForbidden();
@@ -42,6 +43,7 @@ class CreateExperimentTest extends TestCase
     private function createProject(User $user): Project
     {
         $project = new Project();
+        $project->uuid = Str::uuid();
         $project->name = 'Lorem';
         $project->user_id = $user->id;
         $project->save();

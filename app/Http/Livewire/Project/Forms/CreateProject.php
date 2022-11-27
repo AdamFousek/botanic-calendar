@@ -9,12 +9,15 @@ use App\Models\Project;
 use App\Models\User;
 use App\Queries\Group\ViewGroupByUuidHandler;
 use App\Queries\Group\ViewGroupByUuidQuery;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Str;
 
 class CreateProject extends Component
 {
+    use AuthorizesRequests;
+
     public string $projectName = '';
 
     public bool $isPublic = false;

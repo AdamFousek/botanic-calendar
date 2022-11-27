@@ -18,7 +18,7 @@ class ExperimentController extends Controller
 
     public function show(Project $project, Experiment $experiment)
     {
-        $this->authorize('view', $experiment);
+        $this->authorize('view', [$experiment, $project]);
 
         $data = [
             'project' => $this->projectTransformer->transform($project),

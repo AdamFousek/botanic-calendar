@@ -14,6 +14,10 @@ class ExperimentPolicy
 
     public function create(User $user, Project $project): Response
     {
+        if ($project->user_id === $user->id) {
+            return Response::allow();
+        }
+
         if ($project->users()->contains($user->id)) {
             return Response::allow();
         }
@@ -21,8 +25,12 @@ class ExperimentPolicy
         return Response::denyAsNotFound();
     }
 
-    public function view(User $user, Experiment $experiment): Response
+    public function view(User $user, Experiment $experiment, Project $project): Response
     {
+        if ($project->user_id === $user->id) {
+            return Response::allow();
+        }
+
         if ($experiment->users()->contains($user->id)) {
             return Response::allow();
         }

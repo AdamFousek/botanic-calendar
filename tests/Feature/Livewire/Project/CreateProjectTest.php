@@ -18,7 +18,7 @@ class CreateProjectTest extends TestCase
 
         Livewire::test(CreateProject::class)
             ->set('projectName', 'Lorem project')
-            ->set('description', 'Lorem ipsum')
+            ->set('projectDescription', 'Lorem ipsum')
             ->call('create');
 
         $this->assertTrue(Project::whereName('Lorem project')->exists());
@@ -31,7 +31,7 @@ class CreateProjectTest extends TestCase
         Livewire::test(CreateProject::class)
             ->set('projectName', '')
             ->call('create')
-            ->assertHasErrors(['name' => 'required']);
+            ->assertHasErrors(['projectName' => 'required']);
     }
 
     public function test_is_redirected_to_projects_page_after_creation(): void
