@@ -29,10 +29,6 @@ class ProjectPolicy
 
     public function view(User $user, Project $project): Response
     {
-        if ($project->user->id === $user->id) {
-            return Response::allow();
-        }
-
         if ($project->is_public) {
             return Response::allow();
         }

@@ -20,6 +20,18 @@ class InsertProjectHandler
 
         $project->members()->attach($command->userId);
 
+        if ($command->groupId) {
+            if ($command->allMembers) {
+                $members = $project->group->members;
+            } else {
+                $members = $command->members;
+            }
+
+            foreach ($members as $member) {
+                $project->members()->attach($member['id']);
+            }
+        }
+
         return $project;
     }
 }

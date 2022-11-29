@@ -27,11 +27,11 @@ class ExperimentPolicy
 
     public function view(User $user, Experiment $experiment, Project $project): Response
     {
-        if ($project->user_id === $user->id) {
+        if ($experiment->user_id === $user->id) {
             return Response::allow();
         }
 
-        if ($experiment->users()->contains($user->id)) {
+        if ($project->members->contains($user->id)) {
             return Response::allow();
         }
 
@@ -40,19 +40,19 @@ class ExperimentPolicy
 
     public function update(User $user, Experiment $experiment): Response
     {
-        if ($experiment->user_id !== $user->id) {
-            return Response::denyAsNotFound();
+        if ($experiment->user_id === $user->id) {
+            return Response::allow();
         }
 
-        return Response::allow();
+        return Response::denyAsNotFound();
     }
 
     public function delete(User $user, Experiment $experiment): Response
     {
-        if ($experiment->user_id !== $user->id) {
-            return Response::denyAsNotFound();
+        if ($experiment->user_id === $user->id) {
+            return Response::allow();
         }
 
-        return Response::allow();
+        return Response::denyAsNotFound();
     }
 }
