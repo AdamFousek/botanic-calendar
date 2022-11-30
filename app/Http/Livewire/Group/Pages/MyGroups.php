@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Group\Pages;
 
+use App\Models\Group;
 use App\Models\User;
 use App\Queries\User\ViewGroupsHandler;
 use App\Queries\User\ViewGroupsQuery;
@@ -25,12 +26,17 @@ class MyGroups extends Component
         $search = trim($this->searchText);
 
         $groups = $viewGroupsHandler->handle(new ViewGroupsQuery(
-            $user->id,
+            $user,
             $search !== '' ? $search : null,
         ));
 
+        [$favouriteGroups, $groups] = $groups->partition(function (Group $group) {
+            return $group->is_favourite;
+        });
+
         return view('livewire.group.pages.my-groups', [
             'groups' => $groupTransformer->transformMulti($groups),
+            'favouriteGroups' => $groupTransformer->transformMulti($favouriteGroups),
         ]);
     }
 }

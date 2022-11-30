@@ -18,6 +18,7 @@ use Str;
 class CreateProject extends Component
 {
     use AuthorizesRequests;
+    use MembersTrait;
 
     public string $projectName = '';
 
@@ -29,7 +30,6 @@ class CreateProject extends Component
 
     public ?Group $group = null;
 
-    /** @var User[] */
     public array $members = [];
 
     public bool $allMembers = false;
@@ -76,18 +76,6 @@ class CreateProject extends Component
         }
 
         return view('livewire.project.forms.create-project');
-    }
-
-    public function toggleMembers($userId): void
-    {
-        if (isset($this->members[$userId])) {
-            unset($this->members[$userId]);
-        } else {
-            $this->members[$userId] = $this->filteredUsers[$userId];
-        }
-
-        $this->username = '';
-        $this->filteredUsers = [];
     }
 
     public function create(InsertProjectHandler $insertProjectHandler)

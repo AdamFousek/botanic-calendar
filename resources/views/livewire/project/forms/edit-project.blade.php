@@ -29,6 +29,10 @@
         @enderror
     </div>
 
+    @if ($groupId)
+        @include('components/projects/forms/members')
+    @endif
+
     <div class="flex items-center justify-end mt-4">
         <x-primary-button class="ml-4">
             {{ __('Edit Project') }}

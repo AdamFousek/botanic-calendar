@@ -4,21 +4,13 @@ declare(strict_types=1);
 
 namespace App\Queries\User;
 
+use App\Models\User;
+
 class ViewGroupsQuery
 {
     public function __construct(
-        private readonly int $userId,
-        private readonly ?string $search,
+        public readonly User $user,
+        public readonly ?string $search,
     ) {
-    }
-
-    public function getSearch(): ?string
-    {
-        return $this->search;
-    }
-
-    public function getUserId(): int
-    {
-        return $this->userId;
     }
 }

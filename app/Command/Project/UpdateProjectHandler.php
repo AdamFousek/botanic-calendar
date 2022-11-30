@@ -10,11 +10,12 @@ class UpdateProjectHandler
 {
     public function handle(UpdateProjectCommand $command): Project
     {
-        $project = Project::find($command->getId());
+        $project = Project::find($command->id);
 
-        $project->name = $command->getName();
-        $project->description = $command->getDescription();
-        $project->is_public = $command->isPublic();
+        $project->name = $command->name;
+        $project->description = $command->description;
+        $project->is_public = $command->isPublic;
+        $project->members()->sync($command->members);
 
         $project->save();
 

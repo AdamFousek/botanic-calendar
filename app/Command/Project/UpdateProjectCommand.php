@@ -7,30 +7,11 @@ namespace App\Command\Project;
 class UpdateProjectCommand
 {
     public function __construct(
-        private readonly int $id,
-        private readonly string $name,
-        private readonly string $description,
-        private readonly bool $isPublic,
+        public readonly int $id,
+        public readonly string $name,
+        public readonly string $description,
+        public readonly bool $isPublic,
+        public readonly array $members,
     ) {
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function isPublic(): bool
-    {
-        return $this->isPublic;
     }
 }

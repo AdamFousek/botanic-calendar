@@ -28,8 +28,8 @@ class MyProjects extends Component
             $search !== '' ? $search : null,
         ));
 
-        [$favouriteProjects, $projects] = $projects->partition(function (Project $project) use ($user) {
-            return $user->favouriteProjects()->contains($project->id);
+        [$favouriteProjects, $projects] = $projects->partition(function (Project $project) {
+            return $project->is_favourite;
         });
 
         return view('livewire.project.pages.my-projects', [

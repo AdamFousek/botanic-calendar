@@ -18,13 +18,10 @@ class ViewProjectsHandler
     {
         $user = User::find($query->getUserId());
 
-        $projects = $user->projects()->with(['group', 'user'])->get();
-
-        $builder = $user->memberGroups()->with('projects');
-        $groups = $builder->get();
-        foreach ($groups as $group) {
-            $projects = $projects->merge($group->projects()->with(['group', 'user']));
-        }
+        $projects = $user->memberProjects()
+            ->orderBy('created_at', 'desc')
+            ->with(['group', 'user'])
+            ->get();
 
         $search = $query->getSearch();
         if ($search !== null) {
@@ -37,8 +34,6 @@ class ViewProjectsHandler
             });
         }
 
-        return $projects->sortByDesc(function (Project $project) {
-            return $project->created_at;
-        });
+        return $projects;
     }
 }

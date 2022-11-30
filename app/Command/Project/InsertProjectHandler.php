@@ -28,7 +28,7 @@ class InsertProjectHandler
             }
 
             foreach ($members as $member) {
-                $project->members()->attach($member['id']);
+                $project->members()->syncWithoutDetaching($member['id']);
             }
         }
 

@@ -27,9 +27,9 @@ class FavouriteProject extends Component
         $this->project = $viewProjectByUuidHandler->handle(new ViewProjectByUuidQuery($this->uuid));
         $this->isFavourite = $this->user
             ->memberProjects()
+            ->where('id', $this->project->id)
             ->withPivotValue('is_favourite', true)
-            ->get()
-            ->contains($this->project->id);
+            ->exists();
     }
 
     public function toggleFavourite(

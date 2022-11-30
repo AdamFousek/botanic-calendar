@@ -7,12 +7,14 @@ use App\Command\Project\UpdateProjectHandler;
 use App\Models\Project;
 use App\Queries\Project\ViewProjectByUuidHandler;
 use App\Queries\Project\ViewProjectByUuidQuery;
+use App\Transformers\Models\UserTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class EditProject extends Component
 {
     use AuthorizesRequests;
+    use MembersTrait;
 
     public string $uuid;
 
@@ -26,14 +28,26 @@ class EditProject extends Component
 
     public Project $project;
 
+    public array $members = [];
+
+    public bool $allMembers = false;
+
+    public string $username = '';
+
+    public array $filteredUsers = [];
+
     protected array $rules = [
         'projectName' => 'required|string|max:255',
         'isPublic' => 'nullable',
         'projectDescription' => 'nullable|string',
+        'members' => 'nullable|array',
+        'allMembers' => 'nullable',
     ];
 
-    public function mount(ViewProjectByUuidHandler $viewProjectHandler): void
-    {
+    public function mount(
+        ViewProjectByUuidHandler $viewProjectHandler,
+        UserTransformer $userTransformer,
+    ): void {
         $project = $viewProjectHandler->handle(new ViewProjectByUuidQuery($this->uuid));
 
         if ($project === null) {
@@ -46,6 +60,7 @@ class EditProject extends Component
         $this->isPublic = $project->is_public;
         $this->groupId = $project->group_id;
         $this->projectDescription = $project->description;
+        $this->members = $userTransformer->transformMulti($project->members);
     }
 
     public function update(UpdateProjectHandler $updateProjectHandler)
@@ -59,6 +74,7 @@ class EditProject extends Component
             $validatedData['projectName'],
             $validatedData['projectDescription'],
             $validatedData['isPublic'],
+            $validatedData['members'],
         ));
 
         return redirect()
