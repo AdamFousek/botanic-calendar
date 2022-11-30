@@ -13,7 +13,6 @@ class ViewGroupsHandler
     {
         $groups = $query->user->memberGroups()
             ->with(['user'])
-            ->withPivot('is_favourite')
             ->orderBy('is_admin', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();

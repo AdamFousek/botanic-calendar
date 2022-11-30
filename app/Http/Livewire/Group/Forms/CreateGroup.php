@@ -4,28 +4,29 @@ namespace App\Http\Livewire\Group\Forms;
 
 use App\Command\Group\InsertGroupCommand;
 use App\Command\Group\InsertGroupHandler;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CreateGroup extends Component
 {
-    public string $groupName = '';
-
-    public bool $isPublic = false;
-
-    public string $groupDescription = '';
+    public Group $group;
 
     protected $rules = [
-        'groupName' => 'required|string|max:255',
-        'isPublic' => 'nullable',
-        'groupDescription' => 'nullable|string',
+        'group.name' => 'required|string|max:255',
+        'group.is_public' => 'nullable',
+        'group.description' => 'nullable|string',
     ];
+
+    public function mount()
+    {
+        $this->group = new Group();
+    }
 
     public function create(InsertGroupHandler $insertGroupHandler)
     {
-        $validatedData = $this->validate();
+        $this->validate();
 
         $user = Auth::user();
         if (! $user instanceof User) {
@@ -33,11 +34,8 @@ class CreateGroup extends Component
         }
 
         $group = $insertGroupHandler->handle(new InsertGroupCommand(
-            $validatedData['groupName'],
-            (string) Str::uuid(),
-            $validatedData['isPublic'] ?? false,
-            $validatedData['groupDescription'] ?? '',
-            $user->id,
+            $user,
+            $this->group,
         ));
 
         return redirect()->route('groups.show', [$group]);

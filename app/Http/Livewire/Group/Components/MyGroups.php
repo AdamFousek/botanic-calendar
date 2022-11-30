@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Group\Pages;
+namespace App\Http\Livewire\Group\Components;
 
 use App\Models\Group;
 use App\Models\User;
@@ -31,12 +31,12 @@ class MyGroups extends Component
         ));
 
         [$favouriteGroups, $groups] = $groups->partition(function (Group $group) {
-            return $group->is_favourite;
+            return $group->pivot->is_favourite;
         });
 
-        return view('livewire.group.pages.my-groups', [
-            'groups' => $groupTransformer->transformMulti($groups),
-            'favouriteGroups' => $groupTransformer->transformMulti($favouriteGroups),
+        return view('livewire.group.components.my-groups', [
+            'groups' => $groups,
+            'favouriteGroups' => $favouriteGroups,
         ]);
     }
 }

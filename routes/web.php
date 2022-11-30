@@ -5,6 +5,7 @@ use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Livewire;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,11 +37,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/user/{user}/edit', 'edit')->name('user.edit');
     });
 
+    // Groups
+    Route::get('/groups', Livewire\Group\Pages\Index::class)->name('groups.index');
+    Route::get('/groups/create', Livewire\Group\Pages\Create::class)->name('groups.create');
+    Route::get('/groups/{group}', Livewire\Group\Pages\Show::class)->name('groups.show');
+    Route::get('/groups/{group}/edit', Livewire\Group\Pages\Edit::class)->name('groups.edit');
+
     Route::controller(GroupController::class)->group(function () {
-        Route::get('/groups', 'index')->name('groups.index');
-        Route::get('/groups/create', 'create')->name('groups.create');
-        Route::get('/groups/{group}', 'show')->name('groups.show');
-        Route::get('/groups/{group}/edit', 'edit')->name('groups.edit');
         Route::get('/groups/{group}/inviteMember/{invitation}', 'acceptInvitation')->name('groups.acceptInvitation');
     });
 

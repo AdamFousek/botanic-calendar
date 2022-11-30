@@ -29,7 +29,7 @@ class MyProjects extends Component
         ));
 
         [$favouriteProjects, $projects] = $projects->partition(function (Project $project) {
-            return $project->is_favourite;
+            return $project->pivot->is_favourite;
         });
 
         return view('livewire.project.pages.my-projects', [

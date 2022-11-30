@@ -1,9 +1,9 @@
 <div>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <x-text-input wire:model.debounc.500ms="searchText" id="searchText" name="searchText" placeholder="{{ __('Search project') }}" type="text" class="py-1 px-2 mr-2"></x-text-input>
     </div>
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
-        <div wire:loading.delay.shortest>{{ __('Loading...') }}</div>
+    <div wire:loading.delay.shortest class="max-w-7xl mx-auto sm:px-6 lg:px-8 mb-4">
+        {{ __('Loading...') }}
     </div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div wire:loading.class="opacity-50 pointer-events-none">

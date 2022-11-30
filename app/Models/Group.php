@@ -63,8 +63,8 @@ class Group extends Model
     ];
 
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'created_at' => 'datetime:j.n.Y',
+        'updated_at' => 'datetime:j.n.Y',
     ];
 
     public function user()

@@ -1,20 +1,20 @@
-<x-app-layout>
+<main class="py-2 md:py-6">
     <x-slot name="header">
         <div class="flex flex-wrap justify-center items-center md:justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
-                {{ $group['name'] }}
+                {{ $group->name }}
             </h2>
         </div>
     </x-slot>
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
-            <livewire:group.favourite-group :uuid="$group['uuid']"/>
-            @if($canEditGroup)
-            <x-primary-link href="{{ route('groups.edit', $group['uuid']) }}" type="button-outline-sm">
-                {{ __('Edit group') }}
-            </x-primary-link>
-            @endif
+            <livewire:group.favourite-group :uuid="$group->uuid"/>
+            @can('update', $group)
+                <x-primary-link href="{{ route('groups.edit', $group->uuid) }}" type="button-outline-sm">
+                    {{ __('Edit group') }}
+                </x-primary-link>
+            @endcan
         </div>
     </x-slot>
 
@@ -22,21 +22,21 @@
         <div class="w-full grid grid-cols-1 items-start md:grid-cols-4 gap-4 mb-4">
             <div class="md:col-span-3 overflow-hidden min-h-0">
                 <div class="p-6 mb-4 bg-white overflow-hidden shadow-sm sm:rounded-lg border-b border-gray-200">
-                    {{ $group['description'] }}
+                    {{ $group->description }}
                 </div>
                 <div class="w-full">
-                    <x-groups.projects :projects="$projects" :canCreateProject="$canCreateProject"></x-groups.projects>
+                    <x-groups.projects :projects="$projects" :group="$group"></x-groups.projects>
                 </div>
             </div>
             <div class="bg-white md:col-span-1 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
-                <x-groups.members :members="$members" :canInviteMember="$canInviteMember" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
+                <x-groups.members :members="$members" :group="$group" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
             </div>
         </div>
     </div>
-    @if($canInviteMember)
-        <x-groups.invite-member :uuid="$group['uuid']"></x-groups.invite-member>
+    @can('inviteMember', $group)
+        <x-groups.invite-member :uuid="$group->uuid"></x-groups.invite-member>
     @endif
-    @if($canCreateProject)
+    @can('create', [\App\Models\Project::class, $group])
         <x-groups.create-project :group="$group"></x-groups.create-project>
     @endif
-</x-app-layout>
+</main>

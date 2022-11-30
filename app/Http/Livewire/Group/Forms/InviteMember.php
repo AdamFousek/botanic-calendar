@@ -7,16 +7,12 @@ namespace App\Http\Livewire\Group\Forms;
 use App\Command\Group\InviteMemberCommand;
 use App\Command\Group\InviteMemberHandler;
 use App\Models\Group;
-use App\Queries\Group\ViewGroupByUuidHandler;
-use App\Queries\Group\ViewGroupByUuidQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class InviteMember extends Component
 {
     use AuthorizesRequests;
-
-    public string $uuid;
 
     public string $email = '';
 
@@ -25,17 +21,6 @@ class InviteMember extends Component
     protected array $rules = [
         'email' => 'required|email',
     ];
-
-    public function mount(ViewGroupByUuidHandler $viewGroupByUuidHandler): void
-    {
-        $group = $viewGroupByUuidHandler->handle(new ViewGroupByUuidQuery($this->uuid));
-
-        if ($group === null) {
-            redirect()->route('groups.index');
-        }
-
-        $this->group = $group;
-    }
 
     public function invite(InviteMemberHandler $inviteMemberHandler)
     {

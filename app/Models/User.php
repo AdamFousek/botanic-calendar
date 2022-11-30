@@ -111,12 +111,14 @@ class User extends Authenticatable
 
     public function memberGroups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_members', 'user_id', 'group_id')
+            ->withPivot(['is_favourite', 'is_admin']);
     }
 
     public function memberProjects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class, 'project_members', 'user_id', 'project_id');
+        return $this->belongsToMany(Project::class, 'project_members', 'user_id', 'project_id')
+            ->withPivot('is_favourite');
     }
 
     public function favouriteProjects(): Collection

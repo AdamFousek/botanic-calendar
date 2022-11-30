@@ -1,16 +1,16 @@
-@props(['projects' => [], 'canCreateProject' => false])
+@props(['projects' => [], 'group'])
 
 <div class="flex flex-wrap justify-between border-b mb-4">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-4">
         {{ __('Projects') }}
     </h2>
-    @if($canCreateProject)
+    @can('create', [\App\Models\Project::class, $group])
         <x-primary-link type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createProject">
             {{ __('Create Project') }}
         </x-primary-link>
-    @endif
+    @endcan
 </div>
-@if ($projects !== [])
+@if(!$projects->isEmpty())
     <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
         @foreach($projects as $project)
             <x-projects.card :project="$project"></x-projects.card>

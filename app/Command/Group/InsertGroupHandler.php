@@ -5,20 +5,18 @@ declare(strict_types=1);
 namespace App\Command\Group;
 
 use App\Models\Group;
+use Illuminate\Support\Str;
 
 class InsertGroupHandler
 {
     public function handle(InsertGroupCommand $command): Group
     {
-        $group = new Group();
-        $group->uuid = $command->getUuid();
-        $group->name = $command->getName();
-        $group->description = $command->getDescription();
-        $group->user_id = $command->getAuthorId();
-        $group->is_public = $command->isPublic();
+        $group = $command->group;
+        $group->uuid = Str::uuid();
+        $group->user_id = $command->user->id;
         $group->save();
 
-        $group->members()->attach($command->getAuthorId(), ['is_admin' => 1]);
+        $group->members()->attach($command->user->id, ['is_admin' => 1]);
 
         return $group;
     }

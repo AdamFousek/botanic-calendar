@@ -30,9 +30,7 @@
             <x-alert />
 
             <!-- Page Content -->
-            <main class="py-2 md:py-6">
-                {{ $slot }}
-            </main>
+            {{ $slot }}
         </div>
         @livewireScripts
     </body>
