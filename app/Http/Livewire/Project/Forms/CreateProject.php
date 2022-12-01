@@ -7,7 +7,7 @@ use App\Command\Project\InsertProjectHandler;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\User;
-use App\Transformers\Models\UserTransformer;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -23,53 +23,30 @@ class CreateProject extends Component
 
     public ?User $user;
 
-    public array $members = [];
-
     public bool $allMembers = false;
-
-    public string $username = '';
-
-    public array $filteredUsers = [];
 
     protected $rules = [
         'project.name' => 'required|string|max:255',
         'project.description' => 'nullable|string',
         'project.is_public' => 'boolean',
         'allMembers' => 'boolean',
-        'members' => 'nullable|array',
     ];
 
     public function mount()
     {
         $this->project = new Project();
+        $this->project->is_public = false;
         $this->user = Auth::user();
+        $this->members = new Collection();
 
         if ($this->user === null) {
             return redirect()->route('welcome');
         }
     }
 
-    public function render(UserTransformer $userTransformer)
+    public function render()
     {
-        $this->filteredUsers = [];
-        if ($this->username !== '') {
-            $users = $this->group?->members;
-            /** @var User $user */
-            foreach ($users as $user) {
-                $upperSearch = strtoupper(trim($this->username));
-                $firstNameUpper = strtoupper($user->first_name);
-                $lastNameUpper = strtoupper($user->last_name);
-                $usernameUpper = strtoupper($user->username);
-
-                if (
-                    str_contains($firstNameUpper, $upperSearch) ||
-                    str_contains($lastNameUpper, $upperSearch) ||
-                    str_contains($usernameUpper, $upperSearch)
-                ) {
-                    $this->filteredUsers[$user->id] = $userTransformer->transform($user);
-                }
-            }
-        }
+        $this->searchUser();
 
         return view('livewire.project.forms.create-project');
     }
@@ -83,7 +60,7 @@ class CreateProject extends Component
         $project = $insertProjectHandler->handle(new InsertProjectCommand(
             $this->project,
             $this->user,
-            $validatedData['members'],
+            $this->members,
             $validatedData['allMembers'],
             $this->group,
         ));

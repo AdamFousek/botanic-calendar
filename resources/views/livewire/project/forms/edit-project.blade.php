@@ -29,7 +29,7 @@
         @enderror
     </div>
 
-    @if ($project->group)
+    @if ($group)
         @include('components/projects/forms/members')
     @endif
 

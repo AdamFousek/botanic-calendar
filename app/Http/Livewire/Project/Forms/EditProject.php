@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Project\Forms;
 
 use App\Command\Project\UpdateProjectCommand;
 use App\Command\Project\UpdateProjectHandler;
+use App\Models\Group;
 use App\Models\Project;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -15,28 +16,28 @@ class EditProject extends Component
 
     public Project $project;
 
-    public ?int $groupId;
-
-    public array $members = [];
+    public ?Group $group;
 
     public bool $allMembers = false;
-
-    public string $username = '';
-
-    public array $filteredUsers = [];
 
     protected array $rules = [
         'project.name' => 'required|string|max:255',
         'project.is_public' => 'boolean',
         'project.description' => 'nullable|string',
-        'members' => 'nullable|array',
         'allMembers' => 'boolean',
     ];
 
     public function mount(Project $project): void
     {
         $this->project = $project;
-        $this->members = $this->project->members->toArray();
+        $this->members = $this->project->members->keyBy('id');
+    }
+
+    public function render()
+    {
+        $this->searchUser();
+
+        return view('livewire.project.forms.edit-project');
     }
 
     public function update(UpdateProjectHandler $updateProjectHandler)
@@ -47,7 +48,7 @@ class EditProject extends Component
 
         $project = $updateProjectHandler->handle(new UpdateProjectCommand(
             $this->project,
-            $validatedData['members'],
+            $this->members,
             $validatedData['allMembers'],
         ));
 

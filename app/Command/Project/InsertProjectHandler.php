@@ -17,8 +17,6 @@ class InsertProjectHandler
         $project->group_id = $command->group?->id;
         $project->save();
 
-        $project->members()->attach($command->user->id);
-
         if ($command->group) {
             if ($command->allMembers) {
                 $members = $project->group->members;
@@ -26,10 +24,10 @@ class InsertProjectHandler
                 $members = $command->members;
             }
 
-            foreach ($members as $member) {
-                $project->members()->syncWithoutDetaching($member['id']);
-            }
+            $project->members()->sync($members);
         }
+
+        $project->members()->syncWithoutDetaching([$command->user->id]);
 
         return $project;
     }

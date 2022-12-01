@@ -7,7 +7,7 @@
 
         <x-text-input wire:model.lazy="project.name" id="projectName" class="block mt-1 w-full" type="text" name="projectName" :value="old('projectName')" autofocus />
 
-        @error('projectName')
+        @error('project.name')
             <x-input-error :messages="$message" class="mt-2" />
         @enderror
     </div>
@@ -24,7 +24,7 @@
 
         <textarea wire:model.lazy="project.description" name="description" id="description" class="w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-emerald-300 focus:ring focus:ring-emerald-200 focus:ring-opacity-50">{{ old('description') }}</textarea>
 
-        @error('projectDescription')
+        @error('project.description')
             <x-input-error :messages="$message" class="mt-2" />
         @enderror
     </div>
