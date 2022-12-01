@@ -17,11 +17,15 @@ class InviteMemberHandler
 {
     public function handle(InviteMemberCommand $command): void
     {
-        $user = User::where(['email' => $command->getEmail()])->first();
+        $user = User::where(['email' => $command->email])->first();
         if ($user === null) {
             throw new RuntimeException(trans('User not found'));
         }
-        $group = $command->getGroup();
+        $group = $command->group;
+        if ($group->members->contains($user->id)) {
+            throw new RuntimeException(trans('User is already in this group'));
+        }
+
         if ($this->invitationExists($user, $group)) {
             throw new RuntimeException(trans('Invitation already exists'));
         }
@@ -70,7 +74,7 @@ class InviteMemberHandler
     private function createNewInvitation(User $user, Group $group): Invitation
     {
         $invitation = new Invitation();
-        $invitation->uuid = Str::uuid();
+        $invitation->hash = Str::uuid();
         $invitation->group_id = $group->id;
         $invitation->user_id = $user->id;
         $invitation->used = false;

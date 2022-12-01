@@ -7,28 +7,21 @@ use App\Command\Project\InsertProjectHandler;
 use App\Models\Group;
 use App\Models\Project;
 use App\Models\User;
-use App\Queries\Group\ViewGroupByUuidHandler;
-use App\Queries\Group\ViewGroupByUuidQuery;
 use App\Transformers\Models\UserTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Str;
 
 class CreateProject extends Component
 {
     use AuthorizesRequests;
     use MembersTrait;
 
-    public string $projectName = '';
-
-    public bool $isPublic = false;
-
-    public string $projectDescription = '';
-
-    public ?string $groupUuid = null;
+    public Project $project;
 
     public ?Group $group = null;
+
+    public ?User $user;
 
     public array $members = [];
 
@@ -39,17 +32,20 @@ class CreateProject extends Component
     public array $filteredUsers = [];
 
     protected $rules = [
-        'projectName' => 'required|string|max:255',
-        'isPublic' => 'nullable',
-        'projectDescription' => 'nullable|string',
-        'allMembers' => 'nullable',
+        'project.name' => 'required|string|max:255',
+        'project.description' => 'nullable|string',
+        'project.is_public' => 'boolean',
+        'allMembers' => 'boolean',
         'members' => 'nullable|array',
     ];
 
-    public function mount(ViewGroupByUuidHandler $viewGroupByUuidHandler): void
+    public function mount()
     {
-        if ($this->groupUuid) {
-            $this->group = $viewGroupByUuidHandler->handle(new ViewGroupByUuidQuery($this->groupUuid));
+        $this->project = new Project();
+        $this->user = Auth::user();
+
+        if ($this->user === null) {
+            return redirect()->route('welcome');
         }
     }
 
@@ -84,20 +80,12 @@ class CreateProject extends Component
 
         $validatedData = $this->validate();
 
-        $user = Auth::user();
-        if (! $user instanceof User) {
-            return redirect()->route('welcome');
-        }
-
         $project = $insertProjectHandler->handle(new InsertProjectCommand(
-            $user->id,
-            Str::uuid(),
-            $validatedData['projectName'],
-            $validatedData['isPublic'] ?? false,
-            $validatedData['projectDescription'] ?? '',
+            $this->project,
+            $this->user,
             $validatedData['members'],
             $validatedData['allMembers'],
-            $this->group?->id,
+            $this->group,
         ));
 
         return redirect()->route('projects.show', [$project]);

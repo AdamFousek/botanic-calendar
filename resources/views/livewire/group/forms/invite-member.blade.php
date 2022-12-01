@@ -4,10 +4,10 @@
         <div>
             <x-input-label for="email" :value="__('Email')" />
 
-            <x-text-input wire:model.debounce.500ms="email" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" />
+            <x-text-input wire:model.lazy="email" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" />
 
             @error('email')
-                <x-input-error :messages="$message" class="mt-2" />
+            <x-input-error :messages="$message" class="mt-2" />
             @enderror
         </div>
     </div>
@@ -20,3 +20,4 @@
         </x-primary-button>
     </div>
 </form>
+

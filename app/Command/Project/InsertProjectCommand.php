@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Command\Project;
 
+use App\Models\Group;
+use App\Models\Project;
+use App\Models\User;
+
 class InsertProjectCommand
 {
     public function __construct(
-        public readonly int $userId,
-        public readonly string $uuid,
-        public readonly string $name,
-        public readonly bool $isPublic,
-        public readonly string $description,
+        public readonly Project $project,
+        public readonly User $user,
         public readonly array $members,
         public readonly bool $allMembers,
-        public readonly ?int $groupId,
+        public readonly ?Group $group,
     ) {
     }
 }

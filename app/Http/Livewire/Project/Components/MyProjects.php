@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Project\Pages;
+namespace App\Http\Livewire\Project\Components;
 
 use App\Models\Project;
 use App\Queries\User\ViewProjectsHandler;
@@ -32,9 +32,9 @@ class MyProjects extends Component
             return $project->pivot->is_favourite;
         });
 
-        return view('livewire.project.pages.my-projects', [
-            'favouriteProjects' => $projectTransformer->transformMulti($favouriteProjects),
-            'projects' => $projectTransformer->transformMulti($projects),
+        return view('livewire.project.components.my-projects', [
+            'favouriteProjects' => $favouriteProjects,
+            'projects' => $projects,
         ]);
     }
 }

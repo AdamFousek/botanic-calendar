@@ -5,8 +5,6 @@ namespace App\Http\Livewire\User\Forms;
 use App\Command\User\UpdateUserCommand;
 use App\Command\User\UpdateUserHandler;
 use App\Models\User;
-use App\Queries\User\ViewUserByIdHandler;
-use App\Queries\User\ViewUserByIdQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -35,34 +33,15 @@ class EditUser extends Component
     public bool $removePhoto = false;
 
     protected array $rules = [
-        'firstName' => 'string|max:255',
-        'lastName' => 'string|max:255',
+        'user.first_name' => 'string|max:255',
+        'user.last_name' => 'string|max:255',
         'photo' => 'nullable|image',
         'removePhoto' => 'nullable',
     ];
 
-    public function updatedPhoto(): void
+    public function mount(User $user): void
     {
-        $photo = Image::make($this->photo);
-        $photo->fit(User::IMAGE_WIDTH, User::IMAGE_HEIGHT, function ($constraint) {
-            $constraint->upsize();
-        });
-
-        $path = implode('/', [$this->photo->getPath(), $this->photo->getFilename()]);
-        $photo->save($path);
-    }
-
-    public function mount(ViewUserByIdHandler $viewUserByIdHandler): void
-    {
-        $user = $viewUserByIdHandler->handle(new ViewUserByIdQuery($this->userId));
-
-        if ($user === null) {
-            redirect()->route('welcome');
-        }
-
         $this->user = $user;
-        $this->firstName = $user->first_name;
-        $this->lastName = $user->last_name;
     }
 
     public function update(UpdateUserHandler $updateUserHandler)
@@ -73,14 +52,23 @@ class EditUser extends Component
 
         $user = $updateUserHandler->handle(new UpdateUserCommand(
             $this->user,
-            $validatedData['firstName'],
-            $validatedData['lastName'],
             $validatedData['removePhoto'] ? null : $this->resolvePhoto($validatedData['photo']),
         ));
 
         return redirect()
             ->route('user.show', [$user])
             ->with('success', trans('User updated!'));
+    }
+
+    public function updatedPhoto(): void
+    {
+        $photo = Image::make($this->photo);
+        $photo->fit(User::IMAGE_WIDTH, User::IMAGE_HEIGHT, function ($constraint) {
+            $constraint->upsize();
+        });
+
+        $path = implode('/', [$this->photo->getPath(), $this->photo->getFilename()]);
+        $photo->save($path);
     }
 
     private function resolvePhoto(mixed $photo): ?string

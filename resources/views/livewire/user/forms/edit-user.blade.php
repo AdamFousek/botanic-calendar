@@ -3,7 +3,7 @@
     <div class="mt-4">
         <x-input-label for="firstName" :value="__('First Name')" />
 
-        <x-text-input wire:model.lazy="firstName" id="firstName" class="block mt-1 w-full" type="text" name="firstName" :value="old('firstName')" autofocus />
+        <x-text-input wire:model.lazy="user.first_name" id="firstName" class="block mt-1 w-full" type="text" name="firstName" :value="old('firstName')" autofocus />
 
         @error('firstName')
         <x-input-error :messages="$message" class="mt-2" />
@@ -12,7 +12,7 @@
     <div class="mt-4">
         <x-input-label for="lastName" :value="__('Last Name')" />
 
-        <x-text-input wire:model.lazy="lastName" id="lastName" class="block mt-1 w-full" type="text" name="lastName" :value="old('firstName')" autofocus />
+        <x-text-input wire:model.lazy="user.last_name" id="lastName" class="block mt-1 w-full" type="text" name="lastName" :value="old('firstName')" autofocus />
 
         @error('firstName')
         <x-input-error :messages="$message" class="mt-2" />

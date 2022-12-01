@@ -9,30 +9,8 @@ use App\Models\User;
 class UpdateUserCommand
 {
     public function __construct(
-        private readonly User $user,
-        private readonly string $firstName,
-        private readonly string $lastName,
-        private readonly string $photo,
+        public readonly User $user,
+        public readonly string $photo,
     ) {
-    }
-
-    public function getPhoto(): string
-    {
-        return $this->photo;
-    }
-
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 }

@@ -10,11 +10,9 @@ class UpdateUserHandler
 {
     public function handle(UpdateUserCommand $command): User
     {
-        $user = $command->getUser();
+        $user = $command->user;
 
-        $user->first_name = $command->getFirstName();
-        $user->last_name = $command->getLastName();
-        $user->image_path = $command->getPhoto();
+        $user->image_path = $command->photo;
 
         $user->save();
 

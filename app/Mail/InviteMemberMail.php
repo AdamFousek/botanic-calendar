@@ -35,7 +35,7 @@ class InviteMemberMail extends Mailable
 
     public function content(): Content
     {
-        $link = route('groups.acceptInvitation', ['group' => $this->invitation->group, 'invitation' => $this->invitation->uuid]);
+        $link = route('groups.acceptInvitation', ['group' => $this->invitation->group, 'invitation' => $this->invitation]);
 
         return new Content(
             view: 'emails.group.invitation-email',

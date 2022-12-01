@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Group;
+namespace App\Http\Livewire\Group\Actions;
 
 use App\Command\Group\ToggleFavouriteGroupCommand;
 use App\Command\Group\ToggleFavouriteGroupHandler;

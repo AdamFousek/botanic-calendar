@@ -10,10 +10,9 @@ class InsertExperimentHandler
 {
     public function handle(InsertExperimentCommand $command): Experiment
     {
-        $experiment = new Experiment();
-        $experiment->name = $command->name;
-        $experiment->user_id = $command->userId;
-        $experiment->project_id = $command->projectId;
+        $experiment = $command->experiment;
+        $experiment->user_id = $command->user->id;
+        $experiment->project_id = $command->project->id;
         $experiment->save();
 
         return $experiment;

@@ -46,7 +46,7 @@ class Invitation extends Model
     protected $fillable = [
         'user_id',
         'group_id',
-        'uuid',
+        'hash',
         'used',
     ];
 
@@ -68,6 +68,6 @@ class Invitation extends Model
 
     public function getRouteKeyName(): string
     {
-        return 'uuid';
+        return 'hash';
     }
 }

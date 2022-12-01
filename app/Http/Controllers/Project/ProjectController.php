@@ -23,35 +23,8 @@ class ProjectController extends Controller
     ) {
     }
 
-    public function index()
-    {
-        return view('pages.projects.index');
-    }
-
-    public function create()
-    {
-        return view('pages.projects.create');
-    }
-
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
-
-        $group = [];
-        if ($project->group !== null) {
-            $group = $this->groupTransformer->transform($project->group);
-        }
-
-        $members = $project->members;
-
-        $data = [
-            'project' => $this->projectTransformer->transform($project),
-            'members' => $this->membersTransformer->transform($members),
-            'group' => $group,
-            'experiments' => $this->experimentTransformer->transformMulti($project->experiments),
-        ];
-
-        return view('pages.projects.show', $data);
     }
 
     public function edit(Project $project)

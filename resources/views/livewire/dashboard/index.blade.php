@@ -1,4 +1,4 @@
-<x-app-layout>
+<main class="py-2 md:py-6">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Dashboard') }}
@@ -17,4 +17,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</main>

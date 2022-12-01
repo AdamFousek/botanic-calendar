@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Livewire\Project;
+namespace App\Http\Livewire\Project\Actions;
 
 use App\Command\Project\MarkProjectAsFavouriteByUserHandler;
 use App\Command\Project\MarkProjectFavouriteByUserCommand;
 use App\Models\Project;
 use App\Models\User;
-use App\Queries\Project\ViewProjectByUuidHandler;
-use App\Queries\Project\ViewProjectByUuidQuery;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -15,16 +13,13 @@ class FavouriteProject extends Component
 {
     public bool $isFavourite = true;
 
-    public string $uuid;
+    public Project $project;
 
     public User $user;
 
-    public Project $project;
-
-    public function mount(ViewProjectByUuidHandler $viewProjectByUuidHandler): void
+    public function mount(): void
     {
         $this->user = Auth::user();
-        $this->project = $viewProjectByUuidHandler->handle(new ViewProjectByUuidQuery($this->uuid));
         $this->isFavourite = $this->user
             ->memberProjects()
             ->where('id', $this->project->id)

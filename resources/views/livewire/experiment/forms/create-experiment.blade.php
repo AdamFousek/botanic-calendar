@@ -19,7 +19,7 @@
                     <div class="mt-4">
                         <x-input-label for="experimentName" :value="__('Experiment name')" />
 
-                        <x-text-input wire:model.lazy="experimentName" id="experimentName" class="block mt-1 w-full" type="text" name="experimentName" :value="old('experimentName')" autofocus />
+                        <x-text-input wire:model.lazy="experiment.name" id="experimentName" class="block mt-1 w-full" type="text" name="experimentName" :value="old('experimentName')" autofocus />
 
                         @error('experimentName')
                         <x-input-error :messages="$message" class="mt-2" />

@@ -5,9 +5,6 @@ namespace App\Http\Livewire\Project\Forms;
 use App\Command\Project\UpdateProjectCommand;
 use App\Command\Project\UpdateProjectHandler;
 use App\Models\Project;
-use App\Queries\Project\ViewProjectByUuidHandler;
-use App\Queries\Project\ViewProjectByUuidQuery;
-use App\Transformers\Models\UserTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -16,17 +13,9 @@ class EditProject extends Component
     use AuthorizesRequests;
     use MembersTrait;
 
-    public string $uuid;
-
-    public string $projectName;
-
-    public bool $isPublic;
+    public Project $project;
 
     public ?int $groupId;
-
-    public string $projectDescription;
-
-    public Project $project;
 
     public array $members = [];
 
@@ -37,30 +26,17 @@ class EditProject extends Component
     public array $filteredUsers = [];
 
     protected array $rules = [
-        'projectName' => 'required|string|max:255',
-        'isPublic' => 'nullable',
-        'projectDescription' => 'nullable|string',
+        'project.name' => 'required|string|max:255',
+        'project.is_public' => 'boolean',
+        'project.description' => 'nullable|string',
         'members' => 'nullable|array',
-        'allMembers' => 'nullable',
+        'allMembers' => 'boolean',
     ];
 
-    public function mount(
-        ViewProjectByUuidHandler $viewProjectHandler,
-        UserTransformer $userTransformer,
-    ): void {
-        $project = $viewProjectHandler->handle(new ViewProjectByUuidQuery($this->uuid));
-
-        if ($project === null) {
-            redirect()->route('projects.index');
-        }
-
+    public function mount(Project $project): void
+    {
         $this->project = $project;
-        $this->projectName = $project->name;
-        $this->uuid = $project->uuid;
-        $this->isPublic = $project->is_public;
-        $this->groupId = $project->group_id;
-        $this->projectDescription = $project->description;
-        $this->members = $userTransformer->transformMulti($project->members);
+        $this->members = $this->project->members->toArray();
     }
 
     public function update(UpdateProjectHandler $updateProjectHandler)
@@ -70,11 +46,9 @@ class EditProject extends Component
         $validatedData = $this->validate();
 
         $project = $updateProjectHandler->handle(new UpdateProjectCommand(
-            $this->project->id,
-            $validatedData['projectName'],
-            $validatedData['projectDescription'],
-            $validatedData['isPublic'],
+            $this->project,
             $validatedData['members'],
+            $validatedData['allMembers'],
         ));
 
         return redirect()

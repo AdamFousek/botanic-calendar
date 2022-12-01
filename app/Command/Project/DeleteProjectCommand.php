@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command\Project;
 
+use App\Models\Project;
+
 class DeleteProjectCommand
 {
     public function __construct(
-        private readonly string $uuid,
+        public readonly Project $project,
     ) {
-    }
-
-    public function getUuid(): string
-    {
-        return $this->uuid;
     }
 }

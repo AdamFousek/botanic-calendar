@@ -1,4 +1,4 @@
-<x-app-layout>
+<main class="py-2 md:py-6">
     <x-slot name="header">
         <div class="flex flex-wrap justify-center items-center md:justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
@@ -15,5 +15,5 @@
         </div>
     </x-slot>
 
-    <livewire:project.pages.my-projects />
-</x-app-layout>
+    <livewire:project.components.my-projects />
+</main>

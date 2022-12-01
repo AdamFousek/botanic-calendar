@@ -5,8 +5,6 @@ namespace App\Http\Livewire\Project\Forms;
 use App\Command\Project\DeleteProjectCommand;
 use App\Command\Project\DeleteProjectHandler;
 use App\Models\Project;
-use App\Queries\Project\ViewProjectByUuidHandler;
-use App\Queries\Project\ViewProjectByUuidQuery;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -14,18 +12,10 @@ class DeleteProject extends Component
 {
     use AuthorizesRequests;
 
-    public string $uuid;
-
     public Project $project;
 
-    public function mount(ViewProjectByUuidHandler $viewProjectHandler): void
+    public function mount(Project $project): void
     {
-        $project = $viewProjectHandler->handle(new ViewProjectByUuidQuery($this->uuid));
-
-        if ($project === null) {
-            redirect()->back();
-        }
-
         $this->project = $project;
     }
 
@@ -34,7 +24,7 @@ class DeleteProject extends Component
         $this->authorize('delete', $this->project);
 
         $deleteProjectHandler->handle(new DeleteProjectCommand(
-            $this->uuid,
+            $this->project,
         ));
 
         redirect()->route('projects.index');
