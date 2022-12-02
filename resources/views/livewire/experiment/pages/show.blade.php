@@ -1,15 +1,15 @@
-<x-app-layout>
+<main class="py-2 md:py-6">
     <x-slot name="header">
         <div class="flex flex-wrap justify-center items-center md:justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
-                {{ $experiment['name'] }}
+                {{ $experiment->name }}
             </h2>
         </div>
     </x-slot>
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
-            <x-primary-link href="{{ route('projects.experiment.edit', [$project['uuid'], $experiment['id']]) }}" type="button-outline-sm">
+            <x-primary-link href="{{ route('experiment.edit', [$project->uuid, $experiment->id]) }}" type="button-outline-sm">
                 {{ __('Settings') }}
             </x-primary-link>
         </div>
@@ -24,4 +24,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</main>

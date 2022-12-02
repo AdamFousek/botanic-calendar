@@ -70,6 +70,11 @@ class Experiment extends Model
         return $this->project->members;
     }
 
+    public function settings(): BelongsTo
+    {
+        return $this->belongsTo(ExperimentSettings::class);
+    }
+
     protected function createdAt(): Attribute
     {
         return Attribute::make(

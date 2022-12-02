@@ -21,7 +21,7 @@
 
                         <x-text-input wire:model.lazy="experiment.name" id="experimentName" class="block mt-1 w-full" type="text" name="experimentName" :value="old('experimentName')" autofocus />
 
-                        @error('experimentName')
+                        @error('experiment.name')
                         <x-input-error :messages="$message" class="mt-2" />
                         @enderror
                     </div>

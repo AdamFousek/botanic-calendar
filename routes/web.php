@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Experiment\ExperimentController;
-use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\SearchController;
 use App\Http\Livewire;
 use Illuminate\Support\Facades\Route;
@@ -13,18 +11,16 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', Livewire\Dashboard\Index::class)->name('dashboard');
 
+    // Projects
     Route::prefix('/projects')->group(function () {
         Route::get('/', Livewire\Project\Pages\Index::class)->name('projects.index');
         Route::get('/create', Livewire\Project\Pages\Create::class)->name('projects.create');
         Route::get('/{project}', Livewire\Project\Pages\Show::class)->name('projects.show');
         Route::get('/{project}/edit', Livewire\Project\Pages\Edit::class)->name('projects.edit');
-    });
 
-    Route::controller(ProjectController::class)->prefix('/projects')->group(function () {
-        Route::controller(ExperimentController::class)->group(function () {
-            Route::get('{project}/experiment/{experiment}', 'show')->name('projects.experiment.show');
-            Route::get('{project}/experiment/{experiment}/settings', 'edit')->name('projects.experiment.edit');
-        });
+        // Experiments
+        Route::get('/{project}/experiment/{experiment}', Livewire\Experiment\Pages\Show::class)->name('experiment.show');
+        Route::get('/{project}/experiment/{experiment}/settings', Livewire\Experiment\Pages\Edit::class)->name('experiment.edit');
     });
 
     // User
@@ -42,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{group}/inviteMember/{invitation}', Livewire\Group\Actions\AcceptInvitation::class)->name('groups.acceptInvitation');
     });
 
+    // Others
     Route::controller(SearchController::class)->group(function () {
         Route::get('/search', 'index')->name('search.index');
     });
