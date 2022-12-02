@@ -14,6 +14,7 @@ class InsertGroupHandler
         $group = $command->group;
         $group->uuid = Str::uuid();
         $group->user_id = $command->user->id;
+        $group->description = $group->description ?? '';
         $group->save();
 
         $group->members()->attach($command->user->id, ['is_admin' => 1]);

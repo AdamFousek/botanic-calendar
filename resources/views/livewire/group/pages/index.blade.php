@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap justify-center items-center md:justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight mb-0">
-                {{ __('All public Projects') }}
+                {{ __('My groups') }}
             </h2>
         </div>
     </x-slot>

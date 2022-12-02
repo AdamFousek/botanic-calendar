@@ -10,7 +10,7 @@
         <div wire:loading.class="opacity-50 pointer-events-none">
             @if ($favouriteGroups !== [])
                 <div class="w-full border-b py-4 mb-4">
-                    <h2 class="text-2xl mb-2">{{ __('Favourite projects') }}</h2>
+                    <h2 class="text-2xl mb-2">{{ __('Favourite groups') }}</h2>
                     <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4">
                         @foreach($favouriteGroups as $group)
                             <x-groups.card :group="$group" :wire:key="$group->id"></x-groups.card>
