@@ -39,6 +39,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $user_id
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereUserId($value)
+ * @property int|null $setting_id
+ * @property-read \App\Models\ExperimentSettings|null $settings
+ * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereSettingId($value)
  */
 class Experiment extends Model
 {

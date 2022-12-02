@@ -7,13 +7,18 @@
         </div>
     </x-slot>
 
+    <x-slot name="actions">
+        <div class="flex flex-wrap justify-end">
+            <x-primary-link href="{{ route('experiment.show', [$experiment->project, $experiment]) }}" type="button-outline-sm">
+                {{ __('Back to experiment') }}
+            </x-primary-link>
+        </div>
+    </x-slot>
+
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="w-full grid grid-cols-1 items-start gap-4 mb-4">
-            <div class="overflow-hidden min-h-0">
-                <div class="p-6 mb-4 bg-white overflow-hidden shadow-sm sm:rounded-lg border-b border-gray-200">
-                    <livewire:experiment.forms.edit-experiment :experiment="$experiment"/>
-                </div>
-            </div>
+            <livewire:experiment.forms.edit-experiment :experiment="$experiment"/>
+            <livewire:experiment-settings.forms.create :experimentSettings="$experimentSettings"/>
         </div>
     </div>
 </main>

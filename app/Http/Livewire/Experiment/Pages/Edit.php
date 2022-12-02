@@ -15,10 +15,6 @@ class Edit extends Component
 
     public ?ExperimentSettings $experimentSettings;
 
-    protected $listeners = [
-        'experimentUpdated' => '$refresh',
-    ];
-
     public function mount(Experiment $experiment)
     {
         $this->experiment = $experiment;

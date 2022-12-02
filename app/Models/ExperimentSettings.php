@@ -19,8 +19,19 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|ExperimentSettings whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ExperimentSettings whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property mixed $setting
+ * @method static \Illuminate\Database\Eloquent\Builder|ExperimentSettings whereSetting($value)
  */
 class ExperimentSettings extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'setting',
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }

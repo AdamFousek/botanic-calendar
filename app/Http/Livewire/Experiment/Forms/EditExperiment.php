@@ -24,8 +24,8 @@ class EditExperiment extends Component
 
         $this->experiment->save();
 
-        session()->flash('success', trans('Experiment was edited successfully!'));
-
-        $this->emitUp('experimentUpdated');
+        redirect()
+            ->route('experiment.edit', [$this->experiment->project, $this->experiment])
+            ->with('success', trans('Experiment was edited successfully!'));
     }
 }
