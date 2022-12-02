@@ -9,7 +9,6 @@ use App\Command\Group\InsertGroupHandler;
 use App\Http\Livewire\Group\Forms\DeleteGroup;
 use App\Models\Group;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -30,10 +29,10 @@ class DeleteGroupTest extends TestCase
         $group = $this->createGroup($user);
 
         $this->actingAs($user);
-        Livewire::test(DeleteGroup::class, ['uuid' => $group->uuid])
+        Livewire::test(DeleteGroup::class, ['group' => $group])
             ->call('delete');
 
-        $deletedGroup = Group::withTrashed()->where('uuid', $group->uuid)->first();
+        $deletedGroup = Group::withTrashed()->where('id', $group->id)->first();
 
         $this->assertTrue($deletedGroup->trashed());
     }
@@ -45,23 +44,25 @@ class DeleteGroupTest extends TestCase
 
         $user2 = User::factory()->create();
         $this->actingAs($user2);
-        Livewire::test(DeleteGroup::class, ['uuid' => $group->uuid])
+        Livewire::test(DeleteGroup::class, ['group' => $group])
             ->call('delete')
             ->assertForbidden();
 
-        $deletedGroup = Group::withTrashed()->where('uuid', $group->uuid)->first();
+        $deletedGroup = Group::withTrashed()->where('id', $group->id)->first();
 
         $this->assertNotTrue($deletedGroup->trashed());
     }
 
     private function createGroup($user): Group
     {
+        $group = new Group();
+        $group->name = 'New Group';
+        $group->is_public = true;
+        $group->description = 'New group description';
+
         return $this->insertGroupHandler->handle(new InsertGroupCommand(
-            'New Group',
-            (string) Str::uuid(),
-            true,
-            'New group description',
-            $user->id,
+            $user,
+            $group,
         ));
     }
 }

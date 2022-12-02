@@ -6,7 +6,6 @@ use App\Models\Group;
 use App\Models\User;
 use App\Queries\User\ViewGroupsHandler;
 use App\Queries\User\ViewGroupsQuery;
-use App\Transformers\Models\GroupTransformer;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -15,7 +14,6 @@ class MyGroups extends Component
     public string $searchText = '';
 
     public function render(
-        GroupTransformer $groupTransformer,
         ViewGroupsHandler $viewGroupsHandler,
     ) {
         $user = Auth::user();

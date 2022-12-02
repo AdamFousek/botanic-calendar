@@ -51,6 +51,10 @@ class ProjectPolicy
 
     public function delete(User $user, Project $project): Response
     {
+        if (! $project->experiments->isEmpty()) {
+            return Response::deny('You cannot remove project with experiments');
+        }
+
         if ($project->user->id === $user->id) {
             return Response::allow();
         }

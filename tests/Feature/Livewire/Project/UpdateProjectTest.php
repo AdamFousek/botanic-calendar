@@ -4,25 +4,36 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Livewire\Project;
 
+use App\Command\Project\InsertProjectCommand;
+use App\Command\Project\InsertProjectHandler;
 use App\Http\Livewire\Project\Forms\EditProject;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Livewire;
 use Tests\TestCase;
 
 class UpdateProjectTest extends TestCase
 {
+    protected InsertProjectHandler $insertProjectHandler;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->insertProjectHandler = $this->app->make(InsertProjectHandler::class);
+    }
+
     public function test_can_update_project(): void
     {
         $user = User::factory()->create();
         $project = $this->createProject($user);
 
         $this->actingAs($user);
-        Livewire::test(EditProject::class, ['uuid' => $project->uuid])
-            ->set('projectName', 'second name')
-            ->set('projectDescription', 'description 2')
-            ->set('isPublic', true)
+        Livewire::test(EditProject::class, ['project' => $project])
+            ->set('project.name', 'second name')
+            ->set('project.description', 'description 2')
+            ->set('project.is_public', true)
             ->call('update');
 
         $editedProject = Project::where('uuid', $project->uuid)->first();
@@ -39,10 +50,10 @@ class UpdateProjectTest extends TestCase
 
         $user2 = User::factory()->create();
         $this->actingAs($user2);
-        Livewire::test(EditProject::class, ['uuid' => $project->uuid])
-            ->set('projectName', 'second name')
-            ->set('projectDescription', 'description 2')
-            ->set('isPublic', true)
+        Livewire::test(EditProject::class, ['project' => $project])
+            ->set('project.name', 'second name')
+            ->set('project.description', 'description 2')
+            ->set('project.is_public', true)
             ->call('update')
             ->assertForbidden();
     }
@@ -51,13 +62,15 @@ class UpdateProjectTest extends TestCase
     {
         $project = new Project();
         $project->name = 'first title';
-        $project->uuid = Str::uuid();
         $project->description = 'description';
         $project->is_public = false;
-        $project->user_id = $user->id;
-        $project->group_id = null;
-        $project->save();
 
-        return $project;
+        return $this->insertProjectHandler->handle(new InsertProjectCommand(
+            $project,
+            $user,
+            new Collection(),
+            false,
+            null,
+        ));
     }
 }

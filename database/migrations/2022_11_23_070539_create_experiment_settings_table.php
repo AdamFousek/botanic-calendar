@@ -21,6 +21,7 @@ return new class() extends Migration {
         Schema::table('experiments', function (Blueprint $table) {
             $table->foreignId('setting_id')
                 ->nullable()
+                ->after('project_id')
                 ->constrained('experiment_settings');
         });
     }

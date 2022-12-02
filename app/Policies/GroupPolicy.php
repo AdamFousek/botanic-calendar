@@ -37,6 +37,10 @@ class GroupPolicy
 
     public function delete(User $user, Group $group): Response
     {
+        if (! $group->projects->isEmpty()) {
+            return Response::deny(trans('You cannot remove group with projects'));
+        }
+
         if ($user->id === $group->user_id) {
             return Response::allow();
         }

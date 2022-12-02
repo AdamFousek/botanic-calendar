@@ -27,6 +27,8 @@ class CreateExperiment extends Component
 
     public function mount()
     {
+        $this->authorize('create', [Experiment::class, $this->project]);
+
         $this->user = Auth::user();
         if (! $this->user instanceof User) {
             redirect()->route('welcome');
