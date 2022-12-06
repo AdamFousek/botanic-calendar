@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
 /**
  * App\Models\Experiment.
@@ -47,6 +48,7 @@ class Experiment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HybridRelations;
 
     protected $fillable = [
         'name',
@@ -76,6 +78,11 @@ class Experiment extends Model
     public function settings(): BelongsTo
     {
         return $this->belongsTo(ExperimentSettings::class);
+    }
+
+    public function records()
+    {
+        return $this->hasMany(Record::class);
     }
 
     protected function createdAt(): Attribute

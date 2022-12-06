@@ -93,6 +93,18 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_DB_HOST', '127.0.0.1'),
+            'port' => env('MONGO_DB_PORT', 27017),
+            'database' => env('MONGO_DB_DATABASE', 'homestead'),
+            'username' => env('MONGO_DB_USERNAME', 'homestead'),
+            'password' => env('MONGO_DB_PASSWORD', 'secret'),
+            'options' => [
+                'appname' => env('APP_NAME', 'homestead'),
+            ],
+        ],
+
     ],
 
     /*
@@ -144,6 +156,15 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
+        ],
+
+        'session' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => '0',
+            'prefix' => 's:',
         ],
 
     ],

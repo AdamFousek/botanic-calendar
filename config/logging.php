@@ -117,6 +117,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'channels' => [
+            'stdout' => [
+                'driver' => 'monolog',
+                'level' => env('LOG_LEVEL', 'debug'),
+                'handler' => StreamHandler::class,
+                'formatter' => env('LOG_STDOUT_FORMATTER'),
+                'with' => [
+                    'stream' => 'php://stdout',
+                ],
+            ],
+        ],
     ],
 
 ];
