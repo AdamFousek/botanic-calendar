@@ -23,9 +23,5 @@ class EditExperiment extends Component
         $this->validate();
 
         $this->experiment->save();
-
-        redirect()
-            ->route('experiment.edit', [$this->experiment->project, $this->experiment])
-            ->with('success', trans('Experiment was edited successfully!'));
     }
 }
