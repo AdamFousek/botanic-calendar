@@ -23,6 +23,10 @@ class CreateExperiment extends Component
 
     protected array $rules = [
         'experiment.name' => 'required|string|max:255',
+        'experiment.color' => [
+            'required',
+            'regex:/^#([a-f0-9]{6}|[a-f0-9]{3})$/i',
+        ],
     ];
 
     public function mount()

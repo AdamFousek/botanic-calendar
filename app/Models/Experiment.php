@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
@@ -53,6 +54,7 @@ class Experiment extends Model
     protected $fillable = [
         'name',
         'user_id',
+        'color',
     ];
 
     protected $casts = [
@@ -75,9 +77,9 @@ class Experiment extends Model
         return $this->project->members;
     }
 
-    public function settings(): BelongsTo
+    public function settings(): HasOne
     {
-        return $this->belongsTo(ExperimentSettings::class);
+        return $this->hasOne(ExperimentSettings::class);
     }
 
     public function records()

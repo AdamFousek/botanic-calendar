@@ -25,9 +25,11 @@
                         <h2 id="projects" class="font-semibold text-xl text-gray-800 leading-tight md:mb-4">
                             {{ __('Experiments') }}
                         </h2>
+                        @can('create', [\App\Models\Experiment::class, $project])
                         <x-primary-link type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createExperiment">
                             {{ __('Create experiments') }}
                         </x-primary-link>
+                        @endcan
                     </div>
                     <div>
                         @if (!$project->experiments->isEmpty())
@@ -35,9 +37,11 @@
                         @else
                             <div class="bg-white p-4 my-2">
                                 {{ __('No experiments yet!') }}
+                                @can('create', [\App\Models\Experiment::class, $project])
                                 <x-primary-link type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createExperiment">
                                     {{ __('Create one!') }}
                                 </x-primary-link>
+                                @endcan
                             </div>
                         @endif
                     </div>
@@ -45,6 +49,25 @@
             </div>
             <x-projects.informations :project="$project"></x-projects.informations>
         </div>
-        <livewire:experiment.forms.create-experiment :project="$project" />
+        @can('create', [\App\Models\Experiment::class, $project])
+        <!-- Modal -->
+        <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="createExperiment" tabindex="-1" aria-labelledby="CreateExperiment" aria-hidden="true">
+            <div class="modal-dialog relative w-auto pointer-events-none">
+                <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                    <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                        <h5 class="text-xl font-medium leading-normal text-gray-800" id="CreteExperiment">
+                            {{ __('Create Experiment') }}
+                        </h5>
+                        <button type="button"
+                                class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer p-4 border-t border-gray-200 rounded-b-md">
+                        <livewire:experiment.forms.create-experiment :project="$project" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
     </div>
 </main>

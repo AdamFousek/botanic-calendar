@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\ExperimentSettings.
@@ -34,4 +35,9 @@ class ExperimentSettings extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function experiment(): BelongsTo
+    {
+        return $this->belongsTo(Experiment::class);
+    }
 }

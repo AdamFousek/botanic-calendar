@@ -14,15 +14,9 @@ return new class() extends Migration {
     {
         Schema::create('experiment_settings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('experiment_id')->constrained();
             $table->json('setting');
             $table->timestamps();
-        });
-
-        Schema::table('experiments', function (Blueprint $table) {
-            $table->foreignId('setting_id')
-                ->nullable()
-                ->after('project_id')
-                ->constrained('experiment_settings');
         });
     }
 
@@ -34,9 +28,5 @@ return new class() extends Migration {
     public function down()
     {
         Schema::dropIfExists('experiment_settings');
-
-        Schema::table('group_members', function (Blueprint $table) {
-            $table->removeColumn('setting_id');
-        });
     }
 };

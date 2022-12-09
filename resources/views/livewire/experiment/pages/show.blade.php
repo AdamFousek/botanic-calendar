@@ -9,9 +9,14 @@
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
+            <x-primary-link href="{{ route('projects.show', $project) }}" type="button-outline-sm" class="mr-2">
+                {{ __('Back to project') }}
+            </x-primary-link>
+            @can('update', $experiment)
             <x-primary-link href="{{ route('experiment.edit', [$project->uuid, $experiment->id]) }}" type="button-outline-sm">
                 {{ __('Settings') }}
             </x-primary-link>
+            @endcan
         </div>
     </x-slot>
 

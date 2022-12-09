@@ -17,6 +17,8 @@ class Edit extends Component
 
     public function mount(Experiment $experiment)
     {
+        $this->authorize('update', $experiment);
+
         $this->experiment = $experiment;
         $this->experimentSettings = $experiment->settings;
     }

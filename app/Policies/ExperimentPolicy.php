@@ -18,10 +18,6 @@ class ExperimentPolicy
             return Response::allow();
         }
 
-        if ($project->members->contains($user->id)) {
-            return Response::allow();
-        }
-
         return Response::denyAsNotFound();
     }
 
@@ -40,7 +36,7 @@ class ExperimentPolicy
 
     public function update(User $user, Experiment $experiment): Response
     {
-        if ($experiment->user_id === $user->id) {
+        if ($experiment->project->user_id === $user->id) {
             return Response::allow();
         }
 

@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="bg-white md:col-span-1 overflow-hidden min-h-0 shadow-sm sm:rounded-lg">
-                <x-groups.members :members="$members" :group="$group" class="p-6 bg-white border-b border-gray-200"></x-groups.members>
+                <x-groups.informations :group="$group" class="p-6 bg-white border-b border-gray-200"></x-groups.informations>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ return new class() extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->foreignId('project_id')->constrained();
             $table->string('name');
+            $table->string('color');
             $table->timestamps();
             $table->softDeletes();
         });

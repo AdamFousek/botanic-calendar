@@ -11,9 +11,10 @@ return new class() extends Migration {
      */
     public function up()
     {
-        Schema::connection('mongodb')->create('records', function ($collection) {
+        /* Schema::connection('mongodb')->create('records', function ($collection) {
             $collection->index('experiment_id');
         });
+        */
     }
 
     /**
@@ -23,6 +24,6 @@ return new class() extends Migration {
      */
     public function down()
     {
-        Schema::connection('mongodb')->dropIfExists('records');
+        // Schema::connection('mongodb')->dropIfExists('records');
     }
 };

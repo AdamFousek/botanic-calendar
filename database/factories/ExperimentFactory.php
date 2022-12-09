@@ -19,6 +19,7 @@ class ExperimentFactory extends Factory
     {
         return [
             'name' => $this->faker->words(random_int(1, 3), true),
+            'color' => $this->faker->hexColor(),
         ];
     }
 }
