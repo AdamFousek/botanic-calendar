@@ -24,117 +24,38 @@
         <div class="w-full grid grid-cols-1 items-start gap-4 mb-4">
             <div class="md:col-span-3 overflow-hidden min-h-0">
                 <div class="p-6 mb-4 bg-white overflow-hidden shadow-sm sm:rounded-lg border-b border-gray-200">
-                    {{ __('Records') }}
-                    <div class="overflow-y-auto">
-                        <table class="min-w-full">
-                            <thead class="bg-white border-b">
-                            <tr>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Date
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Action
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Number
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Note
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Another field
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    User
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" data-bs-toggle="collapse" href="#collapseExample">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    10.11.2022
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Záznam květu
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    10
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    poznámka
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    další pole
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Fousek Adam
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 collapse" id="collapseExample">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    17.11.2022
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Sběr pludů
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    10
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    poznámka
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    další pole
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Fousek Adam
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    10.11.2022
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Záznam květu
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    10
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    poznámka
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    další pole
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Fousek Adam
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    10.11.2022
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Záznam květu
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    10
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    poznámka
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    další pole
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    Fousek Adam
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="flex flex-wrap justify-between">
+                        <h2 class="text-xl">{{ __('Records') }}</h2>
+                        <div>
+                            @can('create', [\App\Models\Record::class, $experiment])
+                                <x-primary-button type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createRecord">
+                                    {{ __('Add record') }}
+                                </x-primary-button>
+                            @endcan
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    @can('create', [\App\Models\Record::class, $experiment])
+        <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="createRecord" tabindex="-1" aria-labelledby="CreateRecord" aria-hidden="true">
+            <div class="modal-dialog relative w-auto pointer-events-none">
+                <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+                    <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+                        <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLongLabel">
+                            {{ __('Create Record') }}
+                        </h5>
+                        <button type="button"
+                                class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                                data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer p-4 border-t border-gray-200 rounded-b-md">
+                        <livewire:record.forms.create :experiment="$experiment"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 </main>

@@ -12,6 +12,16 @@
                 @enderror
             </div>
 
+            <div class="mt-4">
+                <x-input-label for="experiment.color" :value="__('Experiment color')" class="inline-block"/>
+
+                <x-text-input wire:model.lazy="experiment.color" id="experiment.color" class="inline-block mt-1" type="color" name="experiment.color" />
+
+                @error('experiment.color')
+                <x-input-error :messages="$message" class="mt-2" />
+                @enderror
+            </div>
+
             <div class="flex items-end justify-end mt-4">
                 <x-primary-button class="ml-4">
                     {{ __('Save') }}

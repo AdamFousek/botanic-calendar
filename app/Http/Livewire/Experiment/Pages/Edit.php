@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Experiment\Pages;
 
 use App\Models\Experiment;
 use App\Models\ExperimentSettings;
+use App\Transformers\Models\ExperimentSettingsTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -23,8 +24,12 @@ class Edit extends Component
         $this->experimentSettings = $experiment->settings;
     }
 
-    public function render()
+    public function render(ExperimentSettingsTransformer $experimentSettingsTransformer)
     {
-        return view('livewire.experiment.pages.edit');
+        $data = [
+            'settings' => $experimentSettingsTransformer->transform($this->experimentSettings),
+        ];
+
+        return view('livewire.experiment.pages.edit', $data);
     }
 }

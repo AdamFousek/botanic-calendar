@@ -8,6 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/phpinfo', function () {
+    if (env('APP_DEBUG')) {
+        phpinfo();
+    }
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', Livewire\Dashboard\Index::class)->name('dashboard');
 

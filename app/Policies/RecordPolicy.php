@@ -2,46 +2,36 @@
 
 namespace App\Policies;
 
+use App\Models\Experiment;
 use App\Models\Record;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class RecordPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view any models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function viewAny(User $user)
+    public function viewAny(User $user, Experiment $experiment)
     {
-        //
+        if ($experiment->project->members->contains($user->id)) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Record  $record
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function view(User $user, Record $record)
+    public function create(User $user, Experiment $experiment): Response
     {
-        //
-    }
+        if ($experiment->settings === null) {
+            return Response::deny(trans('First you have to create or import settings for experiment'));
+        }
 
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        //
+        if ($experiment->project->members->contains($user->id)) {
+            return Response::allow();
+        }
+
+        return Response::deny();
     }
 
     /**
@@ -56,39 +46,12 @@ class RecordPolicy
         //
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Record  $record
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, Record $record)
+    public function delete(User $user, Record $record): Response
     {
-        //
-    }
+        if ($record->experiment->project->user_id === $user->id) {
+            return Response::allow();
+        }
 
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Record  $record
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Record $record)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Record  $record
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Record $record)
-    {
-        //
+        return Response::deny();
     }
 }

@@ -126,5 +126,7 @@ class Create extends Component
             json_encode($validatedData['fields'], JSON_THROW_ON_ERROR),
             json_encode($validatedData['notifications'], JSON_THROW_ON_ERROR),
         ));
+
+        return redirect()->route('experiment.edit', [$this->experiment->project, $this->experiment]);
     }
 }
