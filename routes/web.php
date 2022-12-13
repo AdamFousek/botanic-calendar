@@ -27,8 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Experiments
         Route::get('/{project}/experiment/{experiment}', Livewire\Experiment\Pages\Show::class)->name('experiment.show');
         Route::get('/{project}/experiment/{experiment}/edit', Livewire\Experiment\Pages\Edit::class)->name('experiment.edit');
-        Route::get('/{project}/experiment/{experiment}/settings/create', Livewire\ExperimentSettings\Pages\Create::class)->name('experiment.settings.create');
-        Route::get('/{project}/experiment/{experiment}/settings/edit', Livewire\ExperimentSettings\Pages\Edit::class)->name('experiment.settings.edit');
+
+        Route::get('/{project}/experiment/{experiment}/actions/create', Livewire\Actions\Pages\Create::class)->name('experiment.actions.create');
+        Route::get('/{project}/experiment/{experiment}/actions/{action}/edit', Livewire\Actions\Pages\Edit::class)->name('experiment.actions.edit');
     });
 
     // User

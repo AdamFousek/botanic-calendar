@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Experiment\Action;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
@@ -42,8 +43,10 @@ use Jenssegers\Mongodb\Eloquent\HybridRelations;
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereUserId($value)
  * @property int|null $setting_id
- * @property-read \App\Models\ExperimentSettings|null $settings
  * @method static \Illuminate\Database\Eloquent\Builder|Experiment whereSettingId($value)
+ * @property string $color
+ * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Experiment addHybridHas(\Illuminate\Database\Eloquent\Relations\Relation $relation, $operator = '>=', $count = 1, $boolean = 'and', ?\Closure $callback = null)
+ * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Experiment whereColor($value)
  */
 class Experiment extends Model
 {
@@ -77,9 +80,9 @@ class Experiment extends Model
         return $this->project->members;
     }
 
-    public function settings(): HasOne
+    public function actions(): HasMany
     {
-        return $this->hasOne(ExperimentSettings::class);
+        return $this->hasMany(Action::class);
     }
 
     public function records()

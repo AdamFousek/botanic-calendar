@@ -39,6 +39,7 @@ class CreateExperiment extends Component
         }
 
         $this->experiment = new Experiment();
+        $this->experiment->color = '#000';
     }
 
     public function create(InsertExperimentHandler $insertExperimentHandler)
@@ -53,6 +54,8 @@ class CreateExperiment extends Component
             $this->project,
         ));
 
-        return redirect()->route('experiment.show', [$this->project, $experiment]);
+        return redirect()
+            ->route('experiment.show', [$this->project, $experiment])
+            ->with('success', trans('Experiment was created successfully'));
     }
 }

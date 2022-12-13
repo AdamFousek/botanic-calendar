@@ -5,7 +5,6 @@ namespace App\Http\Livewire\ExperimentSettings\Forms;
 use App\Command\Experiment\InsertExperimentSettingsCommand;
 use App\Command\Experiment\InsertExperimentSettingsHandler;
 use App\Models\Experiment;
-use App\Models\ExperimentSettings;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -15,9 +14,7 @@ class Create extends Component
 
     public Experiment $experiment;
 
-    public ?ExperimentSettings $experimentSettings;
-
-    public array $actions = [];
+    public Experiment\Action $action;
 
     public array $fields = [];
 
@@ -26,16 +23,16 @@ class Create extends Component
     public string $color = '';
 
     protected array $rules = [
-        'actions' => 'required|array|min:1',
-        'actions.*.name' => 'sometimes|required|string|max:255',
-        'fields' => 'sometimes|array',
-        'fields.*.name' => 'sometimes|required|string|max:255',
-        'fields.*.type' => 'sometimes|required|in:text,datetime,number,select',
-        'fields.*.fields' => 'sometimes|array',
-        'fields.*.fields.*.option' => 'sometimes|required|string|max:255',
-        'notifications' => 'sometimes|array',
-        'notifications.*.action' => 'sometimes|required|string|max:255',
-        'notifications.*.days' => 'sometimes|required|int|min:1',
+        'action.name' => 'sometimes|required|string|max:255',
+        'action.fields' => 'sometimes|array',
+        'action.fields.*.name' => 'sometimes|required|string|max:255',
+        'action.fields.*.type' => 'sometimes|required|in:text,datetime,number,select',
+        'action.fields.*.options' => 'sometimes|array',
+        'action.fields.*.options.*.name' => 'sometimes|required|string|max:255',
+        'action.notifications' => 'sometimes|array',
+        'action.notifications.*.days' => 'sometimes|required|int|min:1',
+        'action.operations' => 'sometimes|array',
+        'action.operations',
     ];
 
     public function mount()
