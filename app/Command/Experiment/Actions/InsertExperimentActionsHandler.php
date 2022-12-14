@@ -13,7 +13,6 @@ class InsertExperimentActionsHandler
         $action = $command->action;
         $action->experiment_id = $command->experiment->id;
         $action->fields = $command->fields;
-        $action->operations = $command->operations;
         $action->notifications = $command->notifications;
         $action->parent_id = $command->parent?->id;
 

@@ -47,6 +47,10 @@ use Jenssegers\Mongodb\Eloquent\HybridRelations;
  * @property string $color
  * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Experiment addHybridHas(\Illuminate\Database\Eloquent\Relations\Relation $relation, $operator = '>=', $count = 1, $boolean = 'and', ?\Closure $callback = null)
  * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Experiment whereColor($value)
+ * @property-read Collection|Action[] $actions
+ * @property-read int|null $actions_count
+ * @property-read Collection|\App\Models\Record[] $records
+ * @property-read int|null $records_count
  */
 class Experiment extends Model
 {

@@ -12,11 +12,14 @@ class Create extends Component
 
     public Experiment $experiment;
 
-    public function mount(Experiment $experiment)
+    public Experiment\Action $action;
+
+    public function mount(Experiment $experiment, Experiment\Action $action)
     {
         $this->authorize('createAction', $experiment);
 
         $this->experiment = $experiment;
+        $this->action = $action;
     }
 
     public function render()

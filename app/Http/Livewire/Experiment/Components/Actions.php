@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Experiment\Components;
 
 use App\Models\Experiment;
+use App\Transformers\Models\ActionTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
@@ -17,8 +18,12 @@ class Actions extends Component
         $this->authorize('update', $this->experiment);
     }
 
-    public function render()
+    public function render(ActionTransformer $actionTransformer)
     {
-        return view('livewire.experiment.components.actions');
+        $data = [
+            'actions' => $actionTransformer->transformMulti($this->experiment->actions),
+        ];
+
+        return view('livewire.experiment.components.actions', $data);
     }
 }

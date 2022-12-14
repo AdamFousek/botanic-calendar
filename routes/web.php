@@ -29,6 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{project}/experiment/{experiment}/edit', Livewire\Experiment\Pages\Edit::class)->name('experiment.edit');
 
         Route::get('/{project}/experiment/{experiment}/actions/create', Livewire\Actions\Pages\Create::class)->name('experiment.actions.create');
+        Route::get('/{project}/experiment/{experiment}/actions/{action}/create', Livewire\Actions\Pages\Create::class)->name('experiment.actions.createSubAction');
         Route::get('/{project}/experiment/{experiment}/actions/{action}/edit', Livewire\Actions\Pages\Edit::class)->name('experiment.actions.edit');
     });
 

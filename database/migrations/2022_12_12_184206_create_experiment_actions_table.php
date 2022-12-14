@@ -19,7 +19,6 @@ return new class() extends Migration {
             $table->string('name');
             $table->json('fields')->nullable();
             $table->json('notifications')->nullable();
-            $table->json('operations')->nullable();
         });
 
         Schema::table('actions', function (Blueprint $table) {

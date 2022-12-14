@@ -13,7 +13,6 @@ class InsertExperimentActionsCommand
         public readonly Experiment\Action $action,
         public readonly string $fields,
         public readonly string $notifications,
-        public readonly string $operations,
         public readonly ?Experiment\Action $parent = null,
     ) {
     }
