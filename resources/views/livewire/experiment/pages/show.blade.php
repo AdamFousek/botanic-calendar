@@ -21,21 +21,14 @@
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="w-full grid grid-cols-1 items-start gap-4 mb-4">
-            <div class="md:col-span-3 overflow-hidden min-h-0">
-                <div class="p-6 mb-4 bg-white overflow-hidden shadow-sm sm:rounded-lg border-b border-gray-200">
-                    <div class="flex flex-wrap justify-between">
-                        <h2 class="text-xl">{{ __('Records') }}</h2>
-                        <div>
-                            @can('create', [\App\Models\Record::class, $experiment])
-                                <x-primary-button type="link" class="cursor-pointer" type="link" data-bs-toggle="modal" data-bs-target="#createRecord">
-                                    {{ __('Add record') }}
-                                </x-primary-button>
-                            @endcan
-                        </div>
-                    </div>
-                </div>
+        <div class="w-full mb-2 border-b pb-2">
+            <div class="md:col-span-3 overflow-hidden min-h-0 flex flex-wrap justify-between">
+                <h2 class="text-xl">{{ __('Records') }}</h2>
+                @can('create', [\App\Models\Record::class, $experiment])
+                    <x-icon-link title="{{ __('Add record') }}" name="plus" variant="outline" class="cursor-pointer bg-emerald-500 hover:bg-emerald-600" type="link" data-bs-toggle="modal" data-bs-target="#createRecord" />
+                @endcan
             </div>
+            <div class="w-full bg-white"></div>
         </div>
     </div>
 

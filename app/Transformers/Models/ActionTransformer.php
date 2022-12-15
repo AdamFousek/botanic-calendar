@@ -16,7 +16,7 @@ class ActionTransformer
      */
     public function transform(Action $action): array
     {
-        $data = [
+        return [
             'id' => $action->id,
             'parent_id' => $action->action?->id,
             'parent_name' => $action->action?->name,
@@ -26,8 +26,6 @@ class ActionTransformer
             'notifications' => $this->resolveNotifications($action->notifications),
             'subActions' => $this->resolveSubActions($action->subActions),
         ];
-
-        return $data;
     }
 
     /**

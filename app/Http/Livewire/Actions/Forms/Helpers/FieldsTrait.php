@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Livewire\Actions\Forms\Helpers;
 
+use App\Models\Experiment\Action;
+use App\Transformers\Models\ActionTransformer;
+
 trait FieldsTrait
 {
     public array $fields = [];
@@ -14,7 +17,13 @@ trait FieldsTrait
             'name' => '',
             'type' => 'number',
             'options' => [],
-            'operations' => [],
+            'calculated' => [
+                'operation' => 'subtract',
+                'fromAction' => 0,
+                'fromField' => '',
+                'action' => 0,
+                'field' => '',
+            ],
         ];
 
         $this->fields[] = $data;
@@ -37,19 +46,33 @@ trait FieldsTrait
         unset($this->fields[$fieldIndex]['options'][$subfieldIndex]);
     }
 
-    public function addOperation(int $index): void
+    private function resolveAvailableFields(ActionTransformer $actionTransformer, string $field): array
     {
-        $data = [
-            'operation' => 'subtract',
-            'fromField' => '',
-            'field' => '',
-        ];
+        $availableFields = [];
+        foreach ($this->fields as $key => $f) {
+            if ($f['type'] === 'calculated') {
+                $availableFields[$key] = [];
+                $actionId = (int) $f['calculated'][$field];
+                if ($actionId === 0) {
+                    foreach ($this->fields as $thisField) {
+                        if ($thisField['type'] === 'number') {
+                            $availableFields[$key][$thisField['name']] = $thisField['name'];
+                        }
+                    }
+                } else {
+                    $action = $this->experiment->actions->filter(function (Action $action) use ($actionId) {
+                        return $action->id === $actionId;
+                    })->first();
+                    $transformedAction = $actionTransformer->transform($action);
+                    foreach ($transformedAction['fields'] as $tAction) {
+                        if ($tAction['type'] === 'number') {
+                            $availableFields[$key][$tAction['name']] = $tAction['name'];
+                        }
+                    }
+                }
+            }
+        }
 
-        $this->fields[$index]['operations'][] = $data;
-    }
-
-    public function removeOperation(int $fieldIndex, int $index): void
-    {
-        unset($this->fields[$fieldIndex]['operations'][$index]);
+        return $availableFields;
     }
 }

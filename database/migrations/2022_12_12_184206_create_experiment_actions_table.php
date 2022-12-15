@@ -25,7 +25,9 @@ return new class() extends Migration {
         Schema::table('actions', function (Blueprint $table) {
             $table->foreign('parent_id')
                 ->references('id')
-                ->on('actions');
+                ->on('actions')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

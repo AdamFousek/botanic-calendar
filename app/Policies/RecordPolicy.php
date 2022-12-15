@@ -23,8 +23,8 @@ class RecordPolicy
 
     public function create(User $user, Experiment $experiment): Response
     {
-        if ($experiment->settings === null) {
-            return Response::deny(trans('First you have to create or import settings for experiment'));
+        if ($experiment->actions->count() === 0) {
+            return Response::deny(trans('First you have to create or import actions for your experiment'));
         }
 
         if ($experiment->project->members->contains($user->id)) {

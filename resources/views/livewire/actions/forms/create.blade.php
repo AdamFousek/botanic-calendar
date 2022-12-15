@@ -41,7 +41,7 @@
                                     <option value="datetime">{{ __('Datetime') }}</option>
                                     <option value="text">{{ __('Text') }}</option>
                                     <option value="select">{{ __('Select') }}</option>
-                                    <option value="operation">{{ __('Calculated') }}</option>
+                                    <option value="calculated">{{ __('Calculated') }}</option>
                                 </select>
                             </div>
                             <x-icon-link wire:click="removeField({{ $index }})" title="{{ __('Remove field') }}" name="trash" variant="mini" class="self-end cursor-pointer hover:bg-red-500" />
@@ -56,44 +56,59 @@
                                 </div>
                             @endforeach
                         @endif
-                        @if($field['type'] === 'operation')
-                            <x-primary-link wire:click="addOperation({{ $index }})" class="text-sm cursor-pointer" type="link">{{ __('Add operation') }}</x-primary-link>
-                            @foreach($field['operations'] as $i => $operation)
-                                <div class="my-1 flex flex-wrap items-center">
-                                    <div>
-                                        <x-input-label for="fields.{{ $index }}.operations.{{ $i }}.fromField" :value="__('Field from')" />
-                                        <select wire:model.lazy="fields.{{ $index }}.operations.{{ $i }}.fromField" id="fields.{{ $index }}.operations.{{ $i }}.fromField"
-                                                class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                            <option value>{{ __('Select field') }}</option>
-                                            @foreach($availableFields as $afield)
-                                                <option value="{{ $afield }}">{{ $afield }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <x-input-label for="fields.{{ $index }}.operations.{{ $i }}.operation" :value="__('Operation')" />
-                                        <select wire:model.lazy="fields.{{ $index }}.operations.{{ $i }}.operation" id="fields.{{ $index }}.operations.{{ $i }}.operation"
-                                                class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                            <option value>{{ __('Select operation') }}</option>
-                                            @foreach($selectOperations as $value => $operation)
-                                                <option value="{{ $value }}">{{ $operation }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <x-input-label for="fields.{{ $index }}.operations.{{ $i }}.field" :value="__('Field from')" />
-                                        <select wire:model.lazy="fields.{{ $index }}.operations.{{ $i }}.field" id="fields.{{ $index }}.operations.{{ $i }}.field"
-                                                class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                            <option >{{ __('Select field') }}</option>
-                                            @foreach($availableFields as $afield)
-                                                <option value="{{ $afield }}">{{ $afield }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <x-primary-link wire:click="removeOperation({{$index}}, {{ $i }})" class="cursor-pointer" type="link-red">{{ __('Remove operation') }}</x-primary-link>
+                        @if($field['type'] === 'calculated')
+                            <div class="my-1 flex flex-wrap items-center">
+                                <div>
+                                    <x-input-label for="fields.{{ $index }}.calculated.fromAction" :value="__('Action')" />
+                                    <select wire:model.lazy="fields.{{ $index }}.calculated.fromAction" id="fields.{{ $index }}.calculated.fromAction"
+                                            class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                                        <option value="0">{{ __('Current') }}</option>
+                                        @foreach($experiment->actions as $action)
+                                            <option value="{{ $action->id }}">{{ $action->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            @endforeach
+                                <div>
+                                    <x-input-label for="fields.{{ $index }}.calculated.fromField" :value="__('Field from')" />
+                                    <select wire:model.lazy="fields.{{ $index }}.calculated.fromField" id="fields.{{ $index }}.calculated.fromField"
+                                            class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                                        <option value>{{ __('Select field') }}</option>
+                                        @foreach($availableFieldsFrom[$index] as $afield)
+                                            <option value="{{ $afield }}">{{ $afield }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <x-input-label for="fields.{{ $index }}.calculated.operation" :value="__('Operation')" />
+                                    <select wire:model.lazy="fields.{{ $index }}.calculated.operation" id="fields.{{ $index }}.calculated.operation"
+                                            class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                                        <option value>{{ __('Select operation') }}</option>
+                                        @foreach($selectOperations as $value => $operation)
+                                            <option value="{{ $value }}">{{ $operation }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <x-input-label for="fields.{{ $index }}.calculated.action" :value="__('Action')" />
+                                    <select wire:model.lazy="fields.{{ $index }}.calculated.action" id="fields.{{ $index }}.calculated.action"
+                                            class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                                        <option value="0">{{ __('Current') }}</option>
+                                        @foreach($experiment->actions as $action)
+                                            <option value="{{ $action->id }}">{{ $action->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <x-input-label for="fields.{{ $index }}.calculated.field" :value="__('Field from')" />
+                                    <select wire:model.lazy="fields.{{ $index }}.calculated.field" id="fields.{{ $index }}.calculated.field"
+                                            class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                                        <option >{{ __('Select field') }}</option>
+                                        @foreach($availableFields[$index] as $afield)
+                                            <option value="{{ $afield }}">{{ $afield }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         @endif
                         </div>
                     </div>

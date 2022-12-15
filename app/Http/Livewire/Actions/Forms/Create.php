@@ -34,13 +34,14 @@ class Create extends Component
         'action.name' => 'sometimes|required|string|max:255',
         'fields' => 'sometimes|array',
         'fields.*.name' => 'sometimes|required|string|max:255',
-        'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,operation',
+        'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,calculated',
         'fields.*.options' => 'sometimes|array',
         'fields.*.options.*.option' => 'sometimes|required|string|max:255',
-        'fields.*.operations' => 'sometimes|array',
-        'fields.*.operations.*.operation' => 'sometimes|required|in:subtract,add,multiple,division',
-        'fields.*.operations.*.fromField' => 'sometimes|required|string|max:255',
-        'fields.*.operations.*.field' => 'sometimes|required|string|max:255',
+        'fields.*.calculated.operation' => 'sometimes|in:subtract,add,multiple,division',
+        'fields.*.calculated.actionFrom' => 'sometimes|integer',
+        'fields.*.calculated.fromField' => 'sometimes|string|max:255',
+        'fields.*.calculated.action' => 'sometimes|integer',
+        'fields.*.calculated.field' => 'sometimes|string|max:255',
         'notifications' => 'sometimes|array',
         'notifications.*.days' => 'sometimes|required|int|min:1',
     ];
@@ -54,7 +55,8 @@ class Create extends Component
     {
         $data = [
             'selectOperations' => self::SELECT_OPERATIONS,
-            'availableFields' => $this->resolveAvailableFields($actionTransformer),
+            'availableFieldsFrom' => $this->resolveAvailableFields($actionTransformer, 'fromAction'),
+            'availableFields' => $this->resolveAvailableFields($actionTransformer, 'action'),
         ];
 
         return view('livewire.actions.forms.create', $data);
@@ -76,28 +78,5 @@ class Create extends Component
         ));
 
         return redirect()->route('experiment.edit', [$this->experiment->project, $this->experiment]);
-    }
-
-    private function resolveAvailableFields(ActionTransformer $actionTransformer): array
-    {
-        $availableFields = [];
-        foreach ($this->fields as $field) {
-            if ($field['type'] === 'number') {
-                $availableFields[$field['name']] = $field['name'];
-            }
-        }
-
-        if ($this->parent === null) {
-            return $availableFields;
-        }
-
-        $transformedParent = $actionTransformer->transform($this->parent);
-        foreach ($transformedParent['fields'] as $field) {
-            if ($field['type'] === 'number') {
-                $availableFields[$this->parent->id.$field['name']] = $this->parent->name.' - '.$field['name'];
-            }
-        }
-
-        return $availableFields;
     }
 }

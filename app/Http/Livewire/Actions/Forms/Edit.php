@@ -31,17 +31,17 @@ class Edit extends Component
     public ?Experiment\Action $parent;
 
     protected array $rules = [
-        'action.name' => 'required|string|max:255',
-        'action.parent_id' => 'nullable|exists:actions,id',
+        'action.name' => 'sometimes|required|string|max:255',
         'fields' => 'sometimes|array',
         'fields.*.name' => 'sometimes|required|string|max:255',
-        'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,operation',
+        'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,calculated',
         'fields.*.options' => 'sometimes|array',
         'fields.*.options.*.option' => 'sometimes|required|string|max:255',
-        'fields.*.operations' => 'sometimes|array',
-        'fields.*.operations.*.operation' => 'sometimes|required|in:subtract,add,multiple,division',
-        'fields.*.operations.*.fromField' => 'sometimes|required|string|max:255',
-        'fields.*.operations.*.field' => 'sometimes|required|string|max:255',
+        'fields.*.calculated.operation' => 'sometimes|in:subtract,add,multiple,division',
+        'fields.*.calculated.actionFrom' => 'sometimes|integer',
+        'fields.*.calculated.fromField' => 'sometimes|string|max:255',
+        'fields.*.calculated.action' => 'sometimes|integer',
+        'fields.*.calculated.field' => 'sometimes|string|max:255',
         'notifications' => 'sometimes|array',
         'notifications.*.days' => 'sometimes|required|int|min:1',
     ];
@@ -59,7 +59,8 @@ class Edit extends Component
     {
         $data = [
             'selectOperations' => self::SELECT_OPERATIONS,
-            'availableFields' => $this->resolveAvailableFields($actionTransformer),
+            'availableFieldsFrom' => $this->resolveAvailableFields($actionTransformer, 'fromAction'),
+            'availableFields' => $this->resolveAvailableFields($actionTransformer, 'action'),
         ];
 
         return view('livewire.actions.forms.edit', $data);
@@ -72,37 +73,26 @@ class Edit extends Component
     {
         $validatedData = $this->validate();
 
+        $fields = $this->resolveFields($validatedData['fields']);
+
         $action = $updateExperimentActionHandler->handle(new UpdateExperimentActionCommand(
             $this->experiment,
             $this->action,
-            json_encode($validatedData['fields'], JSON_THROW_ON_ERROR),
+            json_encode($fields, JSON_THROW_ON_ERROR),
             json_encode($validatedData['notifications'], JSON_THROW_ON_ERROR),
         ));
 
         return redirect()->route('experiment.edit', [$this->experiment->project, $this->experiment]);
     }
 
-    private function resolveAvailableFields(ActionTransformer $actionTransformer): array
+    private function resolveFields(array $fields)
     {
-        $availableFields = [];
-        foreach ($this->fields as $field) {
-            if ($field['type'] === 'number') {
-                $availableFields[$field['name']] = $field['name'];
+        foreach ($fields as $field) {
+            if ($field['type'] !== 'calculated') {
+                $field['calculated'] = [];
             }
         }
 
-        $parent = Experiment\Action::whereId($this->action->parent_id)->first();
-        if ($parent === null) {
-            return $availableFields;
-        }
-
-        $transformedParent = $actionTransformer->transform($parent);
-        foreach ($transformedParent['fields'] as $field) {
-            if ($field['type'] === 'number') {
-                $availableFields[$parent->id.$field['name']] = $parent->name.' - '.$field['name'];
-            }
-        }
-
-        return $availableFields;
+        return $fields;
     }
 }

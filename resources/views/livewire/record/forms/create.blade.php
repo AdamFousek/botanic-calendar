@@ -1,15 +1,17 @@
 <form wire:submit.prevent="create">
     @csrf
 
+    @if($errors->any())
+        @foreach($errors->all() as $message)
+            <x-input-error :messages="$message" class="mt-2" />
+        @endforeach
+    @endif
+
     <!-- Name -->
     <div class="mt-4">
         <x-input-label for="date" :value="__('Date')" />
 
         <x-text-input wire:model.lazy="date" id="date" class="block mt-1 w-full" type="date" name="date" />
-
-        @error('date')
-        <x-input-error :messages="$message" class="mt-2" />
-        @enderror
     </div>
 
 
@@ -18,17 +20,14 @@
 
         <select wire:model.lazy="record.action" id="record.action"
                 class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-            @foreach($transformedSettings->actions as $action)
-                <option value="{{ $action['name'] }}">{{ $action['name'] }}</option>
+            @foreach($experiment->actions as $action)
+                <option value="{{ $action->id }}">{{ $action->name  }}</option>
             @endforeach
         </select>
-
-        @error('record.action')
-        <x-input-error :messages="$message" class="mt-2" />
-        @enderror
     </div>
 
-    @foreach($transformedSettings->fields as $field)
+    @foreach($transformedAction['fields'] as $field)
+        @if($field['type'] === 'calculated') @continue @endif
         <div class="mt-4">
             <x-input-label for="values.{{ $field['name'] }}" :value="$field['name']" />
 
@@ -36,7 +35,7 @@
             <select wire:model.lazy="values.{{ $field['name'] }}.value" id="values.{{ $field['name'] }}"
                     class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
                     <option value="">{{ __('Select option') }}</option>
-                @foreach($field['fields'] as $option)
+                @foreach($field['options'] as $option)
                     <option value="{{ $option['option'] }}">{{ $option['option'] }}</option>
                 @endforeach
             </select>
