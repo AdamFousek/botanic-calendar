@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Actions\Forms;
 
-use App\Command\Experiment\Actions\InsertExperimentActionsCommand;
-use App\Command\Experiment\Actions\InsertExperimentActionsHandler;
+use App\Command\Experiment\Actions\UpdateExperimentActionCommand;
+use App\Command\Experiment\Actions\UpdateExperimentActionHandler;
 use App\Http\Livewire\Actions\Forms\Helpers\FieldsTrait;
 use App\Http\Livewire\Actions\Forms\Helpers\NotificationTrait;
 use App\Models\Experiment;
@@ -11,7 +11,7 @@ use App\Transformers\Models\ActionTransformer;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
-class Create extends Component
+class Edit extends Component
 {
     use AuthorizesRequests;
     use FieldsTrait;
@@ -28,10 +28,11 @@ class Create extends Component
 
     public Experiment\Action $action;
 
-    public ?Experiment\Action $parent = null;
+    public ?Experiment\Action $parent;
 
     protected array $rules = [
-        'action.name' => 'sometimes|required|string|max:255',
+        'action.name' => 'required|string|max:255',
+        'action.parent_id' => 'nullable|exists:actions,id',
         'fields' => 'sometimes|array',
         'fields.*.name' => 'sometimes|required|string|max:255',
         'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,operation',
@@ -45,9 +46,13 @@ class Create extends Component
         'notifications.*.days' => 'sometimes|required|int|min:1',
     ];
 
-    public function mount()
+    public function mount(ActionTransformer $actionTransformer)
     {
-        $this->action = new Experiment\Action();
+        $this->authorize('update', $this->action);
+
+        $transformedAction = $actionTransformer->transform($this->action);
+        $this->fields = $transformedAction['fields'];
+        $this->notifications = $transformedAction['notifications'];
     }
 
     public function render(ActionTransformer $actionTransformer)
@@ -57,22 +62,21 @@ class Create extends Component
             'availableFields' => $this->resolveAvailableFields($actionTransformer),
         ];
 
-        return view('livewire.actions.forms.create', $data);
+        return view('livewire.actions.forms.edit', $data);
     }
 
     /**
      * @throws \JsonException
      */
-    public function save(InsertExperimentActionsHandler $actionsHandler)
+    public function update(UpdateExperimentActionHandler $updateExperimentActionHandler)
     {
         $validatedData = $this->validate();
 
-        $action = $actionsHandler->handle(new InsertExperimentActionsCommand(
+        $action = $updateExperimentActionHandler->handle(new UpdateExperimentActionCommand(
             $this->experiment,
             $this->action,
             json_encode($validatedData['fields'], JSON_THROW_ON_ERROR),
             json_encode($validatedData['notifications'], JSON_THROW_ON_ERROR),
-            $this->parent ?? null,
         ));
 
         return redirect()->route('experiment.edit', [$this->experiment->project, $this->experiment]);
@@ -87,14 +91,15 @@ class Create extends Component
             }
         }
 
-        if ($this->parent === null) {
+        $parent = Experiment\Action::whereId($this->action->parent_id)->first();
+        if ($parent === null) {
             return $availableFields;
         }
 
-        $transformedParent = $actionTransformer->transform($this->parent);
+        $transformedParent = $actionTransformer->transform($parent);
         foreach ($transformedParent['fields'] as $field) {
             if ($field['type'] === 'number') {
-                $availableFields[$this->parent->id.$field['name']] = $this->parent->name.' - '.$field['name'];
+                $availableFields[$parent->id.$field['name']] = $parent->name.' - '.$field['name'];
             }
         }
 

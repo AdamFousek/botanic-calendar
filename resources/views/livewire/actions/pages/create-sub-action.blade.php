@@ -9,7 +9,7 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="w-full grid grid-cols-1 items-start gap-4 mb-4">
-            <livewire:actions.forms.create :experiment="$experiment"/>
+            <livewire:actions.forms.create :experiment="$experiment" :parent="$action"/>
         </div>
     </div>
 </main>

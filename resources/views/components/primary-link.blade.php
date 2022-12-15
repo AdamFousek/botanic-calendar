@@ -9,6 +9,7 @@
         'link-sm' => 'text-emerald-500 text-xs',
         'link' => 'text-emerald-500 hover:text-emerald-600',
         'link-red' => 'text-rose-500 hover:text-rose-600',
+        'link-yellow' => 'text-gold-500 hover:text-gold-600',
         default => 'text-emerald-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none ease-linear transition-all duration-150',
     }
 @endphp

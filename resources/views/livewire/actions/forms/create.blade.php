@@ -23,12 +23,12 @@
             <div class="mt-4">
                 <div class="flex flex-wrap items-center">
                     <h4 class="text-lg mr-1">{{ __('Fields') }}</h4>
-                    <x-primary-link wire:click="addField" class="text-sm cursor-pointer" type="link">{{ __('Add field') }}</x-primary-link>
+                    <x-icon-link wire:click="addField" title="{{ __('Add field') }}" name="plus" variant="mini" class="cursor-pointer hover:bg-emerald-500" />
                 </div>
 
                 @foreach($fields as $index => $field)
                     <div class="my-1">
-                        <div class="flex flex-wrap items-center">
+                        <div class="flex flex-wrap items-center align-middle">
                             <div>
                                 <x-input-label for="field.{{ $index }}.name" :value="__('Field name')" />
                                 <x-text-input wire:model.lazy="fields.{{ $index }}.name" id="field.{{ $index }}.name" class="inline-block mr-2 p-2" type="text" name="fields.{{ $index }}.name" />
@@ -44,8 +44,7 @@
                                     <option value="operation">{{ __('Calculated') }}</option>
                                 </select>
                             </div>
-
-                            <x-primary-link wire:click="removeField({{ $index }})" class="cursor-pointer" type="link-red">{{ __('Remove field') }}</x-primary-link>
+                            <x-icon-link wire:click="removeField({{ $index }})" title="{{ __('Remove field') }}" name="trash" variant="mini" class="self-end cursor-pointer hover:bg-red-500" />
                         </div>
                         <div class="my-2">
                         @if($field['type'] === 'select')
@@ -53,7 +52,7 @@
                             @foreach($field['options'] as $i => $option)
                                 <div class="flex flex-wrap items-center">
                                     <x-text-input wire:model.lazy="fields.{{ $index }}.options.{{ $i }}.option" id="field.{{ $index }}.options.{{ $i }}.option" class="inline-block mr-2 p-2" type="text" name="fields.{{ $index }}.options.{{ $i }}.option" />
-                                    <x-primary-link wire:click="removeSubfield({{ $index }}, {{ $i }})" class="cursor-pointer" type="link-red">{{ __('Remove field') }}</x-primary-link>
+                                    <x-icon-link wire:click="removeSubfield({{ $index }}, {{ $i }})" title="{{ __('Remove field') }}" name="trash" variant="mini" class="self-end cursor-pointer hover:bg-red-500" />
                                 </div>
                             @endforeach
                         @endif
@@ -65,7 +64,7 @@
                                         <x-input-label for="fields.{{ $index }}.operations.{{ $i }}.fromField" :value="__('Field from')" />
                                         <select wire:model.lazy="fields.{{ $index }}.operations.{{ $i }}.fromField" id="fields.{{ $index }}.operations.{{ $i }}.fromField"
                                                 class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                            <option >{{ __('Select field') }}</option>
+                                            <option value>{{ __('Select field') }}</option>
                                             @foreach($availableFields as $afield)
                                                 <option value="{{ $afield }}">{{ $afield }}</option>
                                             @endforeach
@@ -75,7 +74,7 @@
                                         <x-input-label for="fields.{{ $index }}.operations.{{ $i }}.operation" :value="__('Operation')" />
                                         <select wire:model.lazy="fields.{{ $index }}.operations.{{ $i }}.operation" id="fields.{{ $index }}.operations.{{ $i }}.operation"
                                                 class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                            <option >{{ __('Select operation') }}</option>
+                                            <option value>{{ __('Select operation') }}</option>
                                             @foreach($selectOperations as $value => $operation)
                                                 <option value="{{ $value }}">{{ $operation }}</option>
                                             @endforeach
@@ -104,7 +103,7 @@
             <div class="mt-4">
                 <div class="flex flex-wrap items-center">
                     <h4 class="text-lg mr-1">{{ __('Add notifications') }}</h4>
-                    <x-primary-link wire:click="addNotification" class="text-sm cursor-pointer" type="link">{{ __('Add notification') }}</x-primary-link>
+                    <x-icon-link wire:click="addNotification" title="{{ __('Add notification') }}" name="plus" variant="mini" class="cursor-pointer hover:bg-emerald-500" />
                 </div>
 
                 @foreach($notifications as $index => $notify)
@@ -113,8 +112,7 @@
                             <x-input-label for="notifications.{{ $index }}.days" :value="__('Number of days')" />
                             <x-text-input wire:model.lazy="notifications.{{ $index }}.days" id="notifications.{{ $index }}.days" class="inline-block mr-2 p-2" type="number" name="notifications.{{ $index }}.days" min="1" />
                         </div>
-
-                        <x-primary-link wire:click="removeNotification({{ $index }})" class="cursor-pointer" type="link-red">{{ __('Remove notification') }}</x-primary-link>
+                        <x-icon-link wire:click="removeNotification({{ $index }})" title="{{ __('Remove notification') }}" name="trash" variant="mini" class="self-end cursor-pointer hover:bg-red-500" />
                     </div>
                 @endforeach
             </div>

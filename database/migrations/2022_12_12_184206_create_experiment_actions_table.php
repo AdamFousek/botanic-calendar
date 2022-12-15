@@ -19,14 +19,13 @@ return new class() extends Migration {
             $table->string('name');
             $table->json('fields')->nullable();
             $table->json('notifications')->nullable();
+            $table->softDeletes();
         });
 
         Schema::table('actions', function (Blueprint $table) {
             $table->foreign('parent_id')
                 ->references('id')
-                ->on('actions')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->on('actions');
         });
     }
 

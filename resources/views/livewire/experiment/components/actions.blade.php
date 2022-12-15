@@ -17,6 +17,9 @@
                         {{ __('Action name') }}
                     </th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-2">
+                        {{ __('Parent') }}
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-2">
                         {{ __('Fields') }}
                     </th>
                     <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-2">
@@ -28,37 +31,7 @@
                 </thead>
                 <tbody>
                     @foreach($actions as $action)
-                    <tr class="bg-white border-b">
-                        <td class="px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $action['name'] }}
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-                            <ul>
-                            @foreach($action['fields'] as $field)
-                                <li>{{ $field['name'] }} <span class="text-sm">({{ $field['type'] }})</span>
-                                @if($field['type'] === 'select')
-                                    <ul class="px-2">
-                                        @foreach($field['options'] as $option)
-                                            <li>{{$option['option']}}</li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                                </li>
-                            @endforeach
-                            </ul>
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-                            {{ implode(', ', $action['notifications']) }}
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-2 whitespace-nowrap">
-                            <x-primary-link
-                                type="link"
-                                :href="route('experiment.actions.createSubAction', [$experiment->project, $experiment, $action['id']])">
-                                {{ __('Add sub action') }}
-                            </x-primary-link>
-                            <x-primary-button color="red">{{ __('Delete Action') }}</x-primary-button>
-                        </td>
-                    </tr>
+                        @include('livewire/experiment/components/part/action', ['action' => $action, 'layer' => 0])
                     @endforeach
                 </tbody>
             </table>

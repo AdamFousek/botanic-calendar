@@ -21,7 +21,7 @@ class Actions extends Component
     public function render(ActionTransformer $actionTransformer)
     {
         $data = [
-            'actions' => $actionTransformer->transformMulti($this->experiment->actions),
+            'actions' => $actionTransformer->transformMulti($this->experiment->actions()->whereNUll('parent_id')->get()),
         ];
 
         return view('livewire.experiment.components.actions', $data);

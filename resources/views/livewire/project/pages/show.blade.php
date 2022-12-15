@@ -7,10 +7,11 @@
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
-            <livewire:project.actions.favourite-project :project="$project"/>
+            @can('update', $project)
             <x-primary-link href="{{ route('projects.edit', $project->uuid) }}" type="button-outline-sm">
                 {{ __('Edit project') }}
             </x-primary-link>
+            @endcan
         </div>
     </x-slot>
 

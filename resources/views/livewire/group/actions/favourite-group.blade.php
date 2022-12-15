@@ -1,9 +1,5 @@
 @if (!$isFavourite)
-    <x-primary-button wire:click="toggleFavourite" color="primary-outline" class="mb-0">
-        {{ __('Mark as favourite') }}
-    </x-primary-button>
+    <x-icon-wrapper wire:click="toggleFavourite" name="star" variant="outline" class="cursor-pointer" title="{{ __('Mark as favourite') }}"/>
 @else
-    <x-primary-button wire:click="toggleFavourite" color="red-outline" class="mb-0">
-        {{ __('Remove from favourite') }}
-    </x-primary-button>
+    <x-icon-wrapper wire:click="toggleFavourite" name="star" variant="solid" class="cursor-pointer text-yellow-500" title="{{ __('Remove from favourite') }}" />
 @endif

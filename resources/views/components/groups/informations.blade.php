@@ -1,7 +1,10 @@
 @props(['group', 'members'])
 
 <div class="col-start-1 md:col-start-4 p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg border-b border-gray-200">
-    <h4 class="text-lg border-b mb-2">{{ __('Group information') }}</h4>
+    <div class="flex flex-wrap justify-between border-b mb-2">
+        <h4 class="text-lg">{{ __('Group information') }}</h4>
+        <livewire:group.actions.favourite-group :uuid="$group->uuid"/>
+    </div>
     <div class="flex flex-col">
         <div class="mb-2">
             <span class="text-sm font-bold mr-2">{{ __('Created at') }}: </span>

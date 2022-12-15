@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Transformers\Models;
 
 use App\Models\Experiment\Action;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 class ActionTransformer
 {
@@ -18,10 +18,13 @@ class ActionTransformer
     {
         $data = [
             'id' => $action->id,
+            'parent_id' => $action->action?->id,
+            'parent_name' => $action->action?->name,
             'name' => $action->name,
             'experiment_id' => $action->experiment_id,
             'fields' => $this->resolveFields($action->fields),
             'notifications' => $this->resolveNotifications($action->notifications),
+            'subActions' => $this->resolveSubActions($action->subActions),
         ];
 
         return $data;
@@ -75,7 +78,17 @@ class ActionTransformer
 
         $decodedNotifications = (array) json_decode($notifications, true, 512, JSON_THROW_ON_ERROR);
         foreach ($decodedNotifications as $notification) {
-            $result[] = $notification['days'];
+            $result[] = $notification;
+        }
+
+        return $result;
+    }
+
+    private function resolveSubActions(Collection $subActions): array
+    {
+        $result = [];
+        foreach ($subActions as $action) {
+            $result[] = $this->transform($action);
         }
 
         return $result;

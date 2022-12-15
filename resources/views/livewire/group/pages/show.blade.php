@@ -9,7 +9,6 @@
 
     <x-slot name="actions">
         <div class="flex flex-wrap justify-end">
-            <livewire:group.actions.favourite-group :uuid="$group->uuid"/>
             @can('update', $group)
                 <x-primary-link href="{{ route('groups.edit', $group->uuid) }}" type="button-outline-sm">
                     {{ __('Edit group') }}
