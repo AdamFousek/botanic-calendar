@@ -39,6 +39,24 @@ class Action extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public const TYPE_CALCULATED = 'calculated';
+
+    public const TYPE_TEXT = 'text';
+
+    public const TYPE_NUMBER = 'number';
+
+    public const TYPE_DATETIME = 'datetime';
+
+    public const TYPE_SELECT = 'select';
+
+    public const AVAILABLE_TYPES = [
+        self::TYPE_CALCULATED => 'Calculated',
+        self::TYPE_TEXT => 'Text',
+        self::TYPE_NUMBER => 'Number',
+        self::TYPE_DATETIME => 'Date and time',
+        self::TYPE_SELECT => 'Select',
+    ];
+
     protected $fillable = [
         'parent_id',
         'experiment_id',

@@ -50,7 +50,7 @@ trait FieldsTrait
     {
         $availableFields = [];
         foreach ($this->fields as $key => $f) {
-            if ($f['type'] === 'calculated') {
+            if ($f['type'] === Action::TYPE_CALCULATED) {
                 $availableFields[$key] = [];
                 $actionId = (int) $f['calculated'][$field];
                 if ($actionId === 0) {

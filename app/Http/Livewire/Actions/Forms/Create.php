@@ -38,7 +38,7 @@ class Create extends Component
         'fields.*.options' => 'sometimes|array',
         'fields.*.options.*.option' => 'sometimes|required|string|max:255',
         'fields.*.calculated.operation' => 'sometimes|in:subtract,add,multiple,division',
-        'fields.*.calculated.actionFrom' => 'sometimes|integer',
+        'fields.*.calculated.fromAction' => 'sometimes|integer',
         'fields.*.calculated.fromField' => 'sometimes|string|max:255',
         'fields.*.calculated.action' => 'sometimes|integer',
         'fields.*.calculated.field' => 'sometimes|string|max:255',

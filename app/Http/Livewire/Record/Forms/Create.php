@@ -19,7 +19,7 @@ class Create extends Component
 
     public string $date;
 
-    public array $values;
+    public array $values = [];
 
     protected $rules = [
         'date' => 'required|date',
@@ -40,6 +40,7 @@ class Create extends Component
     {
         $action = $this->resolveAction();
         if ($action !== null) {
+            // $this->values = $this->resolveValues($action);
             $transformedAction = $transformer->transform($action);
         }
 
@@ -54,7 +55,9 @@ class Create extends Component
     {
         $this->authorize('create', [Record::class, $this->experiment]);
 
-        $this->validate();
+        $validated = $this->validate();
+
+        dd($validated);
     }
 
     private function resolveAction(): ?Experiment\Action
@@ -70,5 +73,16 @@ class Create extends Component
         }
 
         return null;
+    }
+
+    private function resolveValues(Experiment\Action $action): array
+    {
+        foreach ($action->fields as $field) {
+            if ($field['type'] === Experiment\Action::TYPE_CALCULATED) {
+                continue;
+            }
+        }
+
+        return [];
     }
 }
