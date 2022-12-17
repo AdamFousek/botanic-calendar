@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Record\Forms;
 
+use App\Command\Record\InsertRecordCommand;
+use App\Command\Record\InsertRecordHandler;
 use App\Models\Experiment;
 use App\Models\Record;
 use App\Transformers\Models\ActionTransformer;
@@ -40,7 +42,7 @@ class Create extends Component
     {
         $action = $this->resolveAction();
         if ($action !== null) {
-            // $this->values = $this->resolveValues($action);
+            $this->values = $this->resolveValues($action);
             $transformedAction = $transformer->transform($action);
         }
 
@@ -51,13 +53,20 @@ class Create extends Component
         return view('livewire.record.forms.create', $data);
     }
 
-    public function create()
+    public function create(InsertRecordHandler $handler)
     {
         $this->authorize('create', [Record::class, $this->experiment]);
 
         $validated = $this->validate();
 
-        dd($validated);
+        $handler->handle(new InsertRecordCommand(
+            $this->experiment,
+            \DateTime::createFromFormat('Y-m-d', $validated['date']),
+            $validated['record']['action'],
+            $this->values,
+        ));
+
+        return redirect()->route('experiment.show', [$this->experiment->project, $this->experiment]);
     }
 
     private function resolveAction(): ?Experiment\Action
@@ -77,12 +86,15 @@ class Create extends Component
 
     private function resolveValues(Experiment\Action $action): array
     {
+        $result = [];
         foreach ($action->fields as $field) {
             if ($field['type'] === Experiment\Action::TYPE_CALCULATED) {
                 continue;
             }
+
+            $result[$field['name']] = $this->values[$field['name']] ?? null;
         }
 
-        return [];
+        return $result;
     }
 }

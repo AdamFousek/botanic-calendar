@@ -89,7 +89,12 @@ class Experiment extends Model
         return $this->hasMany(Action::class);
     }
 
-    public function records()
+    public function parentActions(): Collection
+    {
+        return $this->actions()->whereNull('parent_id')->get();
+    }
+
+    public function records(): \Jenssegers\Mongodb\Relations\HasMany
     {
         return $this->hasMany(Record::class);
     }

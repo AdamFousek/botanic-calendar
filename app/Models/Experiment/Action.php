@@ -3,11 +3,13 @@
 namespace App\Models\Experiment;
 
 use App\Models\Experiment;
+use App\Models\Record;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\HybridRelations;
 
 /**
  * App\Models\Experiment\Action.
@@ -38,6 +40,7 @@ class Action extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HybridRelations;
 
     public const TYPE_CALCULATED = 'calculated';
 
@@ -65,6 +68,11 @@ class Action extends Model
         'notifications',
     ];
 
+    public $casts = [
+        'fields' => 'array',
+        'notifications' => 'array',
+    ];
+
     public $timestamps = false;
 
     public function subActions(): HasMany
@@ -80,5 +88,10 @@ class Action extends Model
     public function experiment(): BelongsTo
     {
         return $this->belongsTo(Experiment::class);
+    }
+
+    public function records(): \Jenssegers\Mongodb\Relations\HasMany
+    {
+        return $this->hasMany(Record::class);
     }
 }

@@ -43,19 +43,13 @@ class ActionTransformer
     }
 
     /**
-     * @param string|null $fields
+     * @param array $fields
      * @return array<string, mixed>
-     * @throws \JsonException
      */
-    private function resolveFields(?string $fields): array
+    private function resolveFields(array $fields): array
     {
         $result = [];
-        if ($fields === null) {
-            return $result;
-        }
-
-        $decodedFields = (array) json_decode($fields, true, 512, JSON_THROW_ON_ERROR);
-        foreach ($decodedFields as $field) {
+        foreach ($fields as $field) {
             $result[] = $field;
         }
 
@@ -63,19 +57,14 @@ class ActionTransformer
     }
 
     /**
-     * @param string|null $notifications
+     * @param array $notifications
      * @return array
-     * @throws \JsonException
      */
-    private function resolveNotifications(?string $notifications)
+    private function resolveNotifications(array $notifications)
     {
         $result = [];
-        if ($notifications === null) {
-            return $result;
-        }
 
-        $decodedNotifications = (array) json_decode($notifications, true, 512, JSON_THROW_ON_ERROR);
-        foreach ($decodedNotifications as $notification) {
+        foreach ($notifications as $notification) {
             $result[] = $notification;
         }
 

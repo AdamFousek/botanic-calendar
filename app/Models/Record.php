@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Experiment\Action;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
@@ -13,7 +14,15 @@ class Record extends Model
 
     protected $connection = 'mongodb';
 
+    protected $fillable = [
+        'date',
+        'actionId',
+        'experimentId',
+        'data',
+    ];
+
     protected $dates = [
+        'date',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -22,5 +31,10 @@ class Record extends Model
     public function experiment()
     {
         return $this->belongsTo(Experiment::class);
+    }
+
+    public function action()
+    {
+        return $this->belongsTo(Action::class);
     }
 }

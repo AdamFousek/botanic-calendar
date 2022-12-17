@@ -28,7 +28,16 @@
                     <x-icon-link title="{{ __('Add record') }}" name="plus" variant="outline" class="cursor-pointer bg-emerald-500 hover:bg-emerald-600" type="link" data-bs-toggle="modal" data-bs-target="#createRecord" />
                 @endcan
             </div>
-            <div class="w-full bg-white"></div>
+            <div class="w-full bg-white">
+                @foreach($experiment->parentActions() as $action)
+                    @foreach($action->records as $record)
+                        <div class="">{{ $action->name }}</div>
+                        @foreach($action->fields as $field)
+                            <div>{{ $field['name'] }}: </div> {{ $record->data[$field['name']] }}
+                        @endforeach
+                    @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
 

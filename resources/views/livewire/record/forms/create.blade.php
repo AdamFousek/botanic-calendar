@@ -32,7 +32,7 @@
             <x-input-label for="values.{{ $field['name'] }}" :value="$field['name']" />
 
             @if($field['type'] === 'select')
-            <select wire:model.lazy="values.{{ $field['name'] }}.value" id="values.{{ $field['name'] }}"
+            <select wire:model.lazy="values.{{ $field['name'] }}" id="values.{{ $field['name'] }}"
                     class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
                     <option value="">{{ __('Select option') }}</option>
                 @foreach($field['options'] as $option)
@@ -40,7 +40,7 @@
                 @endforeach
             </select>
             @else
-                <x-text-input wire:model.lazy="values.{{ $field['name'] }}.value" id="values.{{ $field['name'] }}" class="block mt-1 w-full" type="{{ $field['type'] }}" name="values.{{ $field['name'] }}" />
+                <x-text-input wire:model.lazy="values.{{ $field['name'] }}" id="values.{{ $field['name'] }}" class="block mt-1 w-full" type="{{ $field['type'] }}" name="values.{{ $field['name'] }}" />
             @endif
 
             @error('record.action')
