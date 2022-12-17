@@ -19,13 +19,15 @@ class Create extends Component
 
     public Record $record;
 
+    public ?int $actionId;
+
     public string $date;
 
     public array $values = [];
 
     protected $rules = [
         'date' => 'required|date',
-        'record.action' => 'required|integer',
+        'actionId' => 'required|integer',
     ];
 
     public function mount(Experiment $experiment)
@@ -35,7 +37,7 @@ class Create extends Component
         $this->experiment = $experiment;
         $this->date = (new Carbon())->format('Y-m-d');
         $this->record = new Record();
-        $this->record->action = $this->experiment->actions->first()->id;
+        $this->actionId = $this->experiment->actions->first()->id;
     }
 
     public function render(ActionTransformer $transformer)
@@ -62,7 +64,7 @@ class Create extends Component
         $handler->handle(new InsertRecordCommand(
             $this->experiment,
             \DateTime::createFromFormat('Y-m-d', $validated['date']),
-            $validated['record']['action'],
+            $validated['actionId'],
             $this->values,
         ));
 
@@ -71,12 +73,12 @@ class Create extends Component
 
     private function resolveAction(): ?Experiment\Action
     {
-        if ($this->record->action === null) {
+        if ($this->actionId === null) {
             return null;
         }
 
         foreach ($this->experiment->actions as $action) {
-            if ((int) $this->record->action === $action->id) {
+            if ((int) $this->actionId === $action->id) {
                 return $action;
             }
         }
