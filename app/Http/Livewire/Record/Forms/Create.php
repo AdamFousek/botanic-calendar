@@ -90,10 +90,6 @@ class Create extends Component
     {
         $result = [];
         foreach ($action->fields as $field) {
-            if ($field['type'] === Experiment\Action::TYPE_CALCULATED) {
-                continue;
-            }
-
             $result[$field['name']] = $this->values[$field['name']] ?? null;
         }
 

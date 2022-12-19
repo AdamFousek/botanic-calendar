@@ -60,6 +60,14 @@ class Action extends Model
         self::TYPE_SELECT => 'Select',
     ];
 
+    public const OPERATION_SUBTRACT = 'subtract';
+
+    public const OPERATION_ADD = 'add';
+
+    public const OPERATION_MULTIPLE = 'multiple';
+
+    public const OPERATION_DIVISION = 'division';
+
     protected $fillable = [
         'parent_id',
         'experiment_id',

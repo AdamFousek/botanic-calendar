@@ -18,10 +18,10 @@ class Create extends Component
     use NotificationTrait;
 
     private const SELECT_OPERATIONS = [
-        'subtract' => 'substract (-)',
-        'add' => 'add (+)',
-        'multiple' => 'multiple (*)',
-        'division' => 'division (/)',
+        Experiment\Action::OPERATION_SUBTRACT => 'substract (-)',
+        Experiment\Action::OPERATION_ADD => 'add (+)',
+        Experiment\Action::OPERATION_MULTIPLE => 'multiple (*)',
+        Experiment\Action::OPERATION_DIVISION => 'division (/)',
     ];
 
     public Experiment $experiment;
