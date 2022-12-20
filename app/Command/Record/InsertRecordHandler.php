@@ -12,7 +12,7 @@ class InsertRecordHandler
     public function handle(InsertRecordCommand $command): Record
     {
         $record = new Record();
-        $record->experimnet_id = $command->experiment;
+        $record->experiment_id = $command->experiment->id;
         $record->action_id = $command->actionId;
         $record->date = $command->date;
         $record->data = $this->resolveData($command);

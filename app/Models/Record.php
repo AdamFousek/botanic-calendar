@@ -19,8 +19,8 @@ class Record extends Model
     protected $fillable = [
         'date',
         'parent_id',
-        'actionId',
-        'experimentId',
+        'action_id',
+        'experiment_id',
         'data',
     ];
 
@@ -31,14 +31,14 @@ class Record extends Model
         'deleted_at',
     ];
 
-    public function experiment()
+    public function experiment(): Experiment
     {
-        return $this->belongsTo(Experiment::class);
+        return Experiment::whereId($this->experiment_id)->first();
     }
 
     public function action()
     {
-        return $this->belongsTo(Action::class);
+        return Action::whereId($this->action_id)->first();
     }
 
     public function parent()

@@ -102,4 +102,9 @@ class Action extends Model
     {
         return $this->hasMany(Record::class);
     }
+
+    public function newestRecords(): \Jenssegers\Mongodb\Relations\HasMany
+    {
+        return $this->hasMany(Record::class)->orderBy('date');
+    }
 }
