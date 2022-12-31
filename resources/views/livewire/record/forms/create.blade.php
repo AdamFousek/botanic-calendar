@@ -7,6 +7,13 @@
         @endforeach
     @endif
 
+    @if($parent !== null)
+        <div class="mt-4">
+            <h4 class="text-lg">{{ __('Creating subrecord for record') }} {{ $parent->action->name }}</h4>
+        </div>
+        <input wire:mode.lazy="parentId" type="hidden" value="{{ $parent->id }}">
+    @endif
+
     <!-- Name -->
     <div class="mt-4">
         <x-input-label for="date" :value="__('Date')" />
@@ -20,7 +27,7 @@
 
         <select wire:model.lazy="actionId" id="actionId"
                 class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-            @foreach($experiment->actions as $action)
+            @foreach($availableActions as $action)
                 <option value="{{ $action->id }}">{{ $action->name  }}</option>
             @endforeach
         </select>

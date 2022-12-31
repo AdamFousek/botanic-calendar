@@ -21,13 +21,13 @@ class ExperimentPolicy
         return Response::denyAsNotFound();
     }
 
-    public function view(User $user, Experiment $experiment, Project $project): Response
+    public function view(User $user, Experiment $experiment): Response
     {
         if ($experiment->user_id === $user->id) {
             return Response::allow();
         }
 
-        if ($project->members->contains($user->id)) {
+        if ($experiment->project->members->contains($user->id)) {
             return Response::allow();
         }
 

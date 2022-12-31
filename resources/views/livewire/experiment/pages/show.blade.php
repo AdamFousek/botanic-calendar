@@ -22,43 +22,13 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="w-full mb-2 border-b pb-2">
-            <div class="md:col-span-3 overflow-hidden min-h-0 flex flex-wrap justify-between">
+            <div class="px-2 overflow-hidden min-h-0 flex flex-wrap justify-between">
                 <h2 class="text-xl">{{ __('Records') }}</h2>
                 @can('create', [\App\Models\Record::class, $experiment])
                     <x-icon-link title="{{ __('Add record') }}" name="plus" variant="outline" class="cursor-pointer bg-emerald-500 hover:bg-emerald-600" type="link" data-bs-toggle="modal" data-bs-target="#createRecord" />
                 @endcan
             </div>
-            <div class="w-full my-2">
-                @foreach($experiment->parentActions() as $action)
-                    @foreach($action->newestRecords as $record)
-                        <div class="flex flex-wrap justify-between rounded-lg p-2 my-2 bg-white shadow-lg">
-                            <div class="flex flex-wrap justify-start ">
-                                <div class="font-bold mr-4">{{ $record->date->format('j.n.Y') }}</div>
-                                <div class="font-bold mr-4">{{ $action->name }}</div>
-                                @foreach($action->fields as $field)
-                                    <div class="mr-4">
-                                        {{ $field['name'] }}:
-                                        <span class="font-bold">
-                                            {{ $record->data[$field['name']] }}
-                                        </span>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="flex flex-wrap">
-                                @can('create', [\App\Models\Record::class, $experiment])
-                                    <x-icon-link title="{{ __('Add record') }}" name="plus" variant="mini" class="cursor-pointer hover:bg-emerald-300 mr-1" type="link" data-bs-toggle="modal" data-bs-target="#createRecord" />
-                                @endcan
-                                @can('update', [$record, $experiment])
-                                    <x-icon-link title="{{ __('Edit record') }}" name="pencil" variant="mini" class="cursor-pointer hover:bg-amber-300 mr-1" type="link" data-bs-toggle="modal" data-bs-target="#editRecord" />
-                                @endcan
-                                @can('delete', [$record, $experiment])
-                                    <x-icon-link title="{{ __('Delete record') }}" name="trash" variant="mini" class="cursor-pointer hover:bg-red-400" type="link" data-bs-toggle="modal" data-bs-target="#deleteRecord" />
-                                @endcan
-                            </div>
-                        </div>
-                    @endforeach
-                @endforeach
-            </div>
+            <livewire:experiment.components.records :experiment="$experiment" />
         </div>
     </div>
 

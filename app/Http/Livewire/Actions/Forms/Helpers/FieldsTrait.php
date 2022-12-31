@@ -17,7 +17,7 @@ trait FieldsTrait
             'name' => '',
             'type' => 'number',
             'options' => [],
-            'calculated' => [
+            'calculating' => [
                 'operation' => 'subtract',
                 'fromAction' => 0,
                 'fromField' => '',
@@ -52,7 +52,7 @@ trait FieldsTrait
         foreach ($this->fields as $key => $f) {
             if ($f['type'] === Action::TYPE_CALCULATED) {
                 $availableFields[$key] = [];
-                $actionId = (int) $f['calculated'][$field];
+                $actionId = (int) $f['calculating'][$field];
                 if ($actionId === 0) {
                     foreach ($this->fields as $thisField) {
                         if ($thisField['type'] === 'number') {
@@ -74,5 +74,16 @@ trait FieldsTrait
         }
 
         return $availableFields;
+    }
+
+    private function resolveFields(array $fields)
+    {
+        foreach ($fields as $field) {
+            if ($field['type'] !== Action::TYPE_CALCULATED) {
+                $field['calculating'] = [];
+            }
+        }
+
+        return $fields;
     }
 }

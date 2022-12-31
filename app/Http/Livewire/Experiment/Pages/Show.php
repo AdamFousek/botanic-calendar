@@ -17,13 +17,15 @@ class Show extends Component
 
     public function mount(Project $project, Experiment $experiment)
     {
+        $this->authorize('view', $this->experiment);
+
         $this->project = $project;
         $this->experiment = $experiment;
     }
 
     public function render()
     {
-        $this->authorize('view', [$this->experiment, $this->project]);
+        $this->authorize('view', $this->experiment);
 
         return view('livewire.experiment.pages.show');
     }

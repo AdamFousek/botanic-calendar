@@ -37,11 +37,11 @@ class Create extends Component
         'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,calculated',
         'fields.*.options' => 'sometimes|array',
         'fields.*.options.*.option' => 'sometimes|required|string|max:255',
-        'fields.*.calculated.operation' => 'sometimes|in:subtract,add,multiple,division',
-        'fields.*.calculated.fromAction' => 'sometimes|integer',
-        'fields.*.calculated.fromField' => 'sometimes|string|max:255',
-        'fields.*.calculated.action' => 'sometimes|integer',
-        'fields.*.calculated.field' => 'sometimes|string|max:255',
+        'fields.*.calculating.operation' => 'sometimes|in:subtract,add,multiple,division',
+        'fields.*.calculating.fromAction' => 'sometimes|integer',
+        'fields.*.calculating.fromField' => 'sometimes|string|max:255',
+        'fields.*.calculating.action' => 'sometimes|integer',
+        'fields.*.calculating.field' => 'sometimes|string|max:255',
         'notifications' => 'sometimes|array',
         'notifications.*.days' => 'sometimes|required|int|min:1',
     ];
@@ -69,11 +69,13 @@ class Create extends Component
     {
         $validatedData = $this->validate();
 
+        $fields = $this->resolveFields($validatedData['fields']);
+
         $action = $actionsHandler->handle(new InsertExperimentActionsCommand(
             $this->experiment,
             $this->action,
-            json_encode($validatedData['fields'], JSON_THROW_ON_ERROR),
-            json_encode($validatedData['notifications'], JSON_THROW_ON_ERROR),
+            $fields,
+            $validatedData['notifications'],
             $this->parent ?? null,
         ));
 

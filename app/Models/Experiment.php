@@ -58,6 +58,8 @@ class Experiment extends Model
     use SoftDeletes;
     use HybridRelations;
 
+    protected $connection = 'mysql';
+
     protected $fillable = [
         'name',
         'user_id',

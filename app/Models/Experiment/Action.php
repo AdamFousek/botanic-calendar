@@ -35,12 +35,24 @@ use Jenssegers\Mongodb\Eloquent\HybridRelations;
  * @method static \Illuminate\Database\Eloquent\Builder|Action whereOperations($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Action whereParentId($value)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|Record[] $newestRecords
+ * @property-read int|null $newest_records_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Record[] $records
+ * @property-read int|null $records_count
+ * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Action addHybridHas(\Illuminate\Database\Eloquent\Relations\Relation $relation, $operator = '>=', $count = 1, $boolean = 'and', ?\Closure $callback = null)
+ * @method static \Illuminate\Database\Query\Builder|Action onlyTrashed()
+ * @method static \Jenssegers\Mongodb\Helpers\EloquentBuilder|Action whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Action withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Action withoutTrashed()
  */
 class Action extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use HybridRelations;
+
+    protected $connection = 'mysql';
 
     public const TYPE_CALCULATED = 'calculated';
 
@@ -106,5 +118,16 @@ class Action extends Model
     public function newestRecords(): \Jenssegers\Mongodb\Relations\HasMany
     {
         return $this->hasMany(Record::class)->orderBy('date');
+    }
+
+    public function hasCalculated(): bool
+    {
+        foreach ($this->fields as $field) {
+            if ($field['type'] === self::TYPE_CALCULATED) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

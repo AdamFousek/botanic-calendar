@@ -35,12 +35,7 @@
                             </div>
                             <div>
                                 <x-input-label for="field.{{ $index }}.type" :value="__('Type of Field')" />
-                                <select wire:model.lazy="fields.{{ $index }}.type" id="field.{{ $index }}.type"
-                                        class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
-                                    @foreach(\App\Models\Experiment\Action::AVAILABLE_TYPES as $key => $type)
-                                        <option value="{{ $key }}" >{{ __($type) }}</option>
-                                    @endforeach
-                                </select>
+                                <x-select-input  wire:model.lazy="fields.{{ $index }}.type" id="field.{{ $index }}.type" :options="\App\Models\Experiment\Action::AVAILABLE_TYPES" />
                             </div>
                             <x-icon-link wire:click="removeField({{ $index }})" title="{{ __('Remove field') }}" name="trash" variant="mini" class="self-end cursor-pointer hover:bg-red-500" />
                         </div>

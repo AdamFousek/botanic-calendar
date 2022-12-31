@@ -33,6 +33,9 @@ class InsertRecordHandler
             if ($field['type'] === Experiment\Action::TYPE_CALCULATED) {
                 $result[$field['name']] = $this->calculateResult($data->experiment, $data->data, $field[Experiment\Action::TYPE_CALCULATED]);
             }
+            if ($field['type'] === Experiment\Action::TYPE_NUMBER) {
+                $result[$field['name']] = (int) $result[$field['name']];
+            }
         }
 
         return $result;

@@ -1,108 +1,28 @@
-<div class="overflow-y-auto">
-    <table class="min-w-full">
-        <thead class="bg-white border-b">
-        <tr>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Date
-            </th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Action
-            </th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Number
-            </th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Note
-            </th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                Another field
-            </th>
-            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                User
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100" data-bs-toggle="collapse" href="#collapseExample">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                10.11.2022
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Záznam květu
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                10
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                poznámka
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                další pole
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Fousek Adam
-            </td>
-        </tr>
-        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100 collapse" id="collapseExample">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                17.11.2022
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Sběr pludů
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                10
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                poznámka
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                další pole
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Fousek Adam
-            </td>
-        </tr>
-        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                10.11.2022
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Záznam květu
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                10
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                poznámka
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                další pole
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Fousek Adam
-            </td>
-        </tr>
-        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                10.11.2022
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Záznam květu
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                10
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                poznámka
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                další pole
-            </td>
-            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                Fousek Adam
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div>
+    <div class="p-2 flex flex-wrap justify-between">
+        <div class="flex flex-wrap justify-start">
+            <div class="">
+
+            </div>
+            <div class="mb-2 mr-3">
+                <x-input-label for="date" :value="__('Date')" />
+                <x-text-input wire:model.lazy="date" id="date" class="" type="date" name="date" />
+            </div>
+            <div class="mb-2 mr-3">
+                <x-input-label for="action" :value="__('Action')" />
+                <select wire:model.lazy="actionId" id="actionId"
+                        class="mr-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-2.5 w-56">
+                    <option value="0">{{ __('All') }}</option>
+                    @foreach($experiment->actions as $action)
+                        <option value="{{ $action->id }}">{{ $action->name  }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="w-full my-2">
+        @foreach($records as $record)
+            @include('livewire/experiment/components/part/record', ['record' => $record])
+        @endforeach
+    </div>
 </div>

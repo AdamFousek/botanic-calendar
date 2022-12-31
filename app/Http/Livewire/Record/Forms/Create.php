@@ -19,13 +19,18 @@ class Create extends Component
 
     public Record $record;
 
+    public ?Record $parent = null;
+
     public ?int $actionId;
 
     public string $date;
 
     public array $values = [];
 
+    public int $parentId = 0;
+
     protected $rules = [
+        'parentId' => 'sometimes|integer',
         'date' => 'required|date',
         'actionId' => 'required|integer',
     ];
@@ -37,7 +42,9 @@ class Create extends Component
         $this->experiment = $experiment;
         $this->date = (new Carbon())->format('Y-m-d');
         $this->record = new Record();
-        $this->actionId = $this->experiment->actions->first()->id;
+        $this->actionId = $this->parent !== null ?
+            $this->parent->action->subActions->first()?->id :
+            $this->experiment->actions->first()?->id;
     }
 
     public function render(ActionTransformer $transformer)
@@ -50,6 +57,7 @@ class Create extends Component
 
         $data = [
             'transformedAction' => $transformedAction ?? [],
+            'availableActions' => $this->parent !== null ? $this->parent->action->subActions : $this->experiment->actions,
         ];
 
         return view('livewire.record.forms.create', $data);
@@ -66,6 +74,7 @@ class Create extends Component
             \DateTime::createFromFormat('Y-m-d', $validated['date']),
             $validated['actionId'],
             $this->values,
+            $this->parent ?? null,
         ));
 
         return redirect()->route('experiment.show', [$this->experiment->project, $this->experiment]);

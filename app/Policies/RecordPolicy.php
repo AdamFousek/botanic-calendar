@@ -43,7 +43,7 @@ class RecordPolicy
      */
     public function update(User $user, Record $record)
     {
-        if ($record->experiment()->project->user_id === $user->id) {
+        if ($record->experiment->project->user_id === $user->id) {
             return Response::allow();
         }
 
@@ -52,7 +52,7 @@ class RecordPolicy
 
     public function delete(User $user, Record $record): Response
     {
-        if ($record->experiment()->project->user_id === $user->id) {
+        if ($record->experiment->project->user_id === $user->id) {
             return Response::allow();
         }
 

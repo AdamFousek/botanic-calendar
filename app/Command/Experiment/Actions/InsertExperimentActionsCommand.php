@@ -11,8 +11,8 @@ class InsertExperimentActionsCommand
     public function __construct(
         public readonly Experiment $experiment,
         public readonly Experiment\Action $action,
-        public readonly string $fields,
-        public readonly string $notifications,
+        public readonly array $fields,
+        public readonly array $notifications,
         public readonly ?Experiment\Action $parent = null,
     ) {
     }

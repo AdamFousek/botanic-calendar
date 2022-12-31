@@ -31,14 +31,14 @@ class Record extends Model
         'deleted_at',
     ];
 
-    public function experiment(): Experiment
+    public function experiment()
     {
-        return Experiment::whereId($this->experiment_id)->first();
+        return $this->belongsTo(Experiment::class);
     }
 
     public function action()
     {
-        return Action::whereId($this->action_id)->first();
+        return $this->belongsTo(Action::class);
     }
 
     public function parent()

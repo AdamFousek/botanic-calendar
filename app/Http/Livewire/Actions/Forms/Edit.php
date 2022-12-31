@@ -37,11 +37,11 @@ class Edit extends Component
         'fields.*.type' => 'sometimes|required|in:text,datetime,number,select,calculated',
         'fields.*.options' => 'sometimes|array',
         'fields.*.options.*.option' => 'sometimes|required|string|max:255',
-        'fields.*.calculated.operation' => 'sometimes|in:subtract,add,multiple,division',
-        'fields.*.calculated.fromAction' => 'sometimes|integer',
-        'fields.*.calculated.fromField' => 'sometimes|string|max:255',
-        'fields.*.calculated.action' => 'sometimes|integer',
-        'fields.*.calculated.field' => 'sometimes|string|max:255',
+        'fields.*.calculating.operation' => 'sometimes|in:subtract,add,multiple,division',
+        'fields.*.calculating.fromAction' => 'sometimes|integer',
+        'fields.*.calculating.fromField' => 'sometimes|string|max:255',
+        'fields.*.calculating.action' => 'sometimes|integer',
+        'fields.*.calculating.field' => 'sometimes|string|max:255',
         'notifications' => 'sometimes|array',
         'notifications.*.days' => 'sometimes|required|int|min:1',
     ];
@@ -83,16 +83,5 @@ class Edit extends Component
         ));
 
         return redirect()->route('experiment.edit', [$this->experiment->project, $this->experiment]);
-    }
-
-    private function resolveFields(array $fields)
-    {
-        foreach ($fields as $field) {
-            if ($field['type'] !== 'calculated') {
-                $field['calculated'] = [];
-            }
-        }
-
-        return $fields;
     }
 }
